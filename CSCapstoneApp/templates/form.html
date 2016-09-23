@@ -48,19 +48,29 @@
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
-					<li class="active"><a href="#">Home</a></li>
+					<li><a href="/">Home</a></li>
 					<li><a href="/table">Table</a></li>
-					<li><a href="/form">Form</a></li>
+					<li class="active"><a href="#">Form</a></li>
 				</ul>
 			</div>
 		</div>
     </nav>
 	
 	<!-- Content -->
-    <div class="container theme-showcase" role="main">
-		<div class="jumbotron">
-			<h1>CS Capstone Marketplace</h1>
-			<p>Hello World!</p>
+	<div class="container" role="main">
+		<div class="panel panel-default">
+			<form method="post" action="/form.html" class="panel-body validate">
+				<label for="name">Name</label>
+				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required">
+				<br>
+				<label for="email">Email</label>
+				<input type="text" name="email" id="email" placeholder="Email" class="form-control" data-bvalidator="required,email" data-bvalidator-msg="Email Required">
+				<br>
+				<label for="date">Date</label>
+				<input type="text" name="date" id="date" placeholder="Date" class="form-control datepicker" data-bvalidator="required,date[yyyy-mm-dd]" data-bvalidator-msg="Date Required">
+				<br>
+				<input type="submit" value="Submit" class="btn btn-primary">
+			</form>
 		</div>
     </div>
 

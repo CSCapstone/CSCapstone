@@ -12,5 +12,7 @@ from CSCapstoneApp import views
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', views.index, name='index'),
+    url(r'^$', views.getIndex, name='index'),
+    url(r'^table$', views.getTable, name='table'),
+    url(r'^form$', views.getForm, name='form'),
 ]
