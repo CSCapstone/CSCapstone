@@ -6,14 +6,23 @@ A marketplace for students/groups to find creative and challenging projects to w
 
 ## Features
 
-- [ ] Member - Register/Login
-- [ ] Member - Change Password
-- [ ] Member - Reset Password
+- [ ] Authentication Module (Naman)
+	- [ ] Create (Register) User
+	- [ ] Login
+	- [ ] Change Password
+	- [ ] Password Reset
+- [ ] Project Module (Harris)
+	- [ ] View Projects List
+	- [ ] View Project
+	- [ ] Create Project (Name, Description)
+- [ ] Company Module (Jacob)
+	- [ ] View Company List
+	- [ ] View Company
+	- [ ] Create Company (Name, Description)
 - [ ] Member - Profile (Major, Year, Skills, Experience, Resume, etc)
-- [ ] Admin - Dashboard
-	- # Users Registered
 
 ## Contributors
 
-@harrischristiansen (http://www.harrischristiansen.com)
-@thenamanpat
+@harrischristiansen (http://www.harrischristiansen.com)  
+@thenamanpat  
+@dunbarj
