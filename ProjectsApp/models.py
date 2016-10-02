@@ -9,3 +9,6 @@ class Project(models.Model):
     description = models.CharField(max_length=10000)
     created_at = models.DateTimeField('date created')
     updated_at = models.DateTimeField('date updated')
+
+    def __str__(self):
+        return self.name
