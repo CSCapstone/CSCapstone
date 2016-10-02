@@ -12,7 +12,7 @@ A marketplace for students/groups to find creative and challenging projects to w
 	- [ ] Change Password
 	- [ ] Password Reset
 - [ ] Project Module (Harris)
-	- [ ] View Projects List
+	- [X] View Projects List
 	- [ ] View Project
 	- [ ] Create Project (Name, Description)
 - [ ] Company Module (Jacob)
