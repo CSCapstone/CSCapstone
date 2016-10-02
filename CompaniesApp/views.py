@@ -5,13 +5,13 @@ Created by Jacob Dunbar on 10/2/2016.
 """
 from django.shortcuts import render
 
-def getIndex(request):
-	return render(request, 'index.html', {
+def getCompanies(request):
+	return render(request, 'companies.html', {
         'foo': 'bar',
     })
 
-def getTable(request):
-	return render(request, 'table.html')
+def getCompany(request):
+	return render(request, 'company.html')
 
-def getForm(request):
-	return render(request, 'form.html')
+def getCompanyForm(request):
+	return render(request, 'companyform.html')

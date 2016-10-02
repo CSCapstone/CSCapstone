@@ -59,15 +59,12 @@
 	<!-- Content -->
 	<div class="container" role="main">
 		<div class="panel panel-default">
-			<form method="post" action="/form.html" class="panel-body validate">
+			<form method="post" action="/companyform.html" class="panel-body validate">
 				<label for="name">Name</label>
 				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required">
 				<br>
-				<label for="email">Email</label>
-				<input type="text" name="email" id="email" placeholder="Email" class="form-control" data-bvalidator="required,email" data-bvalidator-msg="Email Required">
-				<br>
-				<label for="date">Date</label>
-				<input type="text" name="date" id="date" placeholder="Date" class="form-control datepicker" data-bvalidator="required,date[yyyy-mm-dd]" data-bvalidator-msg="Date Required">
+				<label for="description">Company Description</label>
+				<input type="text" name="description" id="description" placeholder="description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
 				<br>
 				<input type="submit" value="Submit" class="btn btn-primary">
 			</form>

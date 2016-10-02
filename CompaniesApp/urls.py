@@ -1,13 +1,13 @@
 """CSCapstoneApp URL Configuration
 
-Created by Harris Christiansen on 10/02/16.
+Created by Jacob Dunbar on 10/2/2016.
 """
 from django.conf.urls import url
 
 from . import views
 
 urlpatterns = [
-    url(r'^$', views.getIndex, name='Index'),
-    url(r'^table$', views.getTable, name='Table'),
-    url(r'^form$', views.getForm, name='Form'),
+    url(r'^companies$', views.getCompanies, name='Companies'),
+    url(r'^company$', views.getCompany, name='Company'),
+    url(r'^companyform$', views.getCompanyForm, name='CompanyForm'),
 ]
