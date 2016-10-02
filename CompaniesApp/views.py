@@ -5,10 +5,15 @@ Created by Jacob Dunbar on 10/2/2016.
 """
 from django.shortcuts import render
 
+from . import models
+
 def getCompanies(request):
-	return render(request, 'companies.html', {
-        'foo': 'bar',
-    })
+    companies_list = models.Company.objects.all()
+    context = {
+        'companies' : companies_list,
+        'i' : 1,
+    }
+    return render(request, 'companies.html', context)
 
 def getCompany(request):
 	return render(request, 'company.html')

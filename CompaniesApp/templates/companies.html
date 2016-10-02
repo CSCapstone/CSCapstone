@@ -68,11 +68,20 @@
 					</tr>
 				</thead>
 				<tbody>
+                    <!--
 					<tr>
 						<td>1</td>
 						<td>IBM</td>
 						<td>International Business Machines Corporation (commonly referred to as IBM) is an American multinational technology company headquartered in Armonk, New York, United States, with operations in over 170 countries. IBM manufactures and markets computer hardware, middleware and software, and offers hosting and consulting services in areas ranging from mainframe computers to nanotechnology.</td>
 					</tr>
+                    -->
+                    {% for item in companies %}
+                    <tr>
+                        <td>{{ i }}</td>
+                        <td>{{ item.name }}</td>
+                        <td>{{ item.description }}</td>
+                    </tr>
+                    {% endfor %}
 				</tbody>
 			</table>
 		</div>
