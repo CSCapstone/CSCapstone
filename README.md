@@ -25,4 +25,4 @@ A marketplace for students/groups to find creative and challenging projects to w
 
 @harrischristiansen (http://www.harrischristiansen.com)  
 @thenamanpat  
-@dunbarj
+@dunbarj (http://www.jacobfdunbar.com)
