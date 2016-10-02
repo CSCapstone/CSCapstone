@@ -1,7 +1,6 @@
-"""
-CompaniesApp URL Configuration
+"""CSCapstoneApp URL Configuration
 
-Created by Harris Christiansen on 10/02/2016.
+Created by Harris Christiansen on 10/02/16.
 """
 from django.conf.urls import url
 
