@@ -59,12 +59,14 @@
 	<!-- Content -->
 	<div class="container" role="main">
 		<div class="panel panel-default">
-			<form method="post" action="/companyform.html" class="panel-body validate">
+			<form method="post" action="/companyformsuccess" class="panel-body validate">
+                {% csrf_token %}
 				<label for="name">Name</label>
+                <h6 style="color:red">{{ error }}</h6>
 				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required">
 				<br>
 				<label for="description">Company Description</label>
-				<input type="text" name="description" id="description" placeholder="description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
+				<input type="text" name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
 				<br>
 				<input type="submit" value="Submit" class="btn btn-primary">
 			</form>
