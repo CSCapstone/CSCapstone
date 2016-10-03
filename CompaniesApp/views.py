@@ -16,7 +16,15 @@ def getCompanies(request):
     return render(request, 'companies.html', context)
 
 def getCompany(request):
-	return render(request, 'company.html')
+    dict = request.GET
+    in_name = dict.get('name', 'None');
+    models.Company.objects
+    in_description = models.Company.objects.get(name=in_name).description
+    context = {
+        'name' : in_name,
+        'description' : in_description,
+    }
+    return render(request, 'company.html', context)
 
 def getCompanyForm(request):
 	return render(request, 'companyform.html')

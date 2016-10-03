@@ -76,7 +76,7 @@
                     -->
                     {% for item in companies %}
                     <tr>
-                        <td>{{ item.name }}</td>
+                        <td><a href="/company?name={{ item.name }}">{{ item.name }}</a></td>
                         <td>{{ item.description }}</td>
                     </tr>
                     {% endfor %}
