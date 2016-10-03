@@ -16,7 +16,7 @@ A marketplace for students/groups to find creative and challenging projects to w
 	- [ ] View Project
 	- [ ] Create Project (Name, Description)
 - [ ] Company Module (Jacob)
-	- [ ] View Company List
+	- [X] View Company List
 	- [ ] View Company
 	- [ ] Create Company (Name, Description)
 - [ ] Member - Profile (Major, Year, Skills, Experience, Resume, etc)
