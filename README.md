@@ -8,9 +8,12 @@ A marketplace for students/groups to find creative and challenging projects to w
 
 - [ ] Authentication Module (Naman)
 	- [X] Create (Register) User
+		- [ ] Add Form Styling
+		- [ ] Seperate Login/Register/Profile Template Files
 	- [X] Login
+		- [ ] Integrate with Django Authentication System
 	- [ ] Change Password
-	- [ ] Password Reset
+	- [ ] Password Reset (sending email)
 - [ ] Project Module (Harris)
 	- [X] View Projects List
 	- [ ] View Project
@@ -18,7 +21,15 @@ A marketplace for students/groups to find creative and challenging projects to w
 - [X] Company Module (Jacob)
 	- [X] View Company List
 	- [X] View Company
+		- [ ] Show Users in Company
 	- [X] Create Company (Name, Description)
+	- [ ] Many-To-Many Relationship w/ User Model
+	- [ ] Advanced Company Profiles (Picture, Website)
+- [ ] Groups Module
+	- [ ] Create Groups
+	- [ ] Add Users to Groups
+	- [ ] List Groups your in
+	- [ ] List members in group
 - [ ] Member - Profile (Major, Year, Skills, Experience, Resume, etc)
 
 ## Contributors

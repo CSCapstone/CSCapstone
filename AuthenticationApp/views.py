@@ -14,10 +14,13 @@ from .models import MyUser
 
 # Create your views here.
 
-@login_required
 def home(request):	
-	context = {"user_name": request.user.first_name,}
-	return render(request, 'home.html', context)
+	if request.user.is_authenticated():	
+		context = {"user_name": request.user.first_name,}
+		return render(request, 'home.html', context)
+	return render(request, 'welcome.html', {})
+
+
 
 def auth_login(request):
 	form = LoginForm(request.POST or None)
@@ -33,9 +36,12 @@ def auth_login(request):
 			return HttpResponseRedirect(next_url)
 			
 	context = {
-		"form" : form
+		"form": form,
+		"page_name" : "Login",
+		"button_value" : "Login",
+		"links" : ["register"],
 	}
-	return render(request, 'login.html', context)
+	return render(request, 'auth_form.html', context)
 
 def auth_logout(request):
 	logout(request);
@@ -59,8 +65,9 @@ def auth_register(request):
 		"form": form,
 		"page_name" : "Register",
 		"button_value" : "Register",
+		"links" : ["login"],
 	}
-	return render(request, 'register.html', context)
+	return render(request, 'auth_form.html', context)
 
 @login_required
 def update_profile(request):
@@ -73,5 +80,6 @@ def update_profile(request):
 		"form": form,
 		"page_name" : "Update",
 		"button_value" : "Update",
+		"links" : ["logout"],
 	}
-	return render(request, 'register.html', context)
+	return render(request, 'auth_form.html', context)

@@ -29,11 +29,11 @@ class MyUserManager(BaseUserManager):
         	#hack to set Admin using forms
         	user.is_admin = True
        	elif is_student == True:
-       		user.is_student = is_student
+       		user.is_student = True
        	elif is_professor == True:
-       		user.is_professor = is_professor
+       		user.is_professor = True
        	elif is_engineer == True:
-       		user.is_engineer = is_engineer
+       		user.is_engineer = True
        	else:
        		user.is_admin = True
         
@@ -116,7 +116,8 @@ class MyUser(AbstractBaseUser):
     
 #     def new_user_reciever(sender, instance, created, *args, **kwargs):
 #     	if created:   
-        	
+     
+# Going to use signals to send emails
 # post_save.connect(new_user_reciever, sender=MyUser)
              
 
