@@ -56,8 +56,8 @@ class UpdateForm(forms.ModelForm):
         fields = ('email', 'password', 'first_name', 'last_name',
             'is_student', 'is_professor', 'is_engineer')
 
-    def clean_password(self):
-        return self.initial["password"]
+    def clean_password(self):            
+        return self.initial["password"]        
 
     def clean_email(self):
         email = self.cleaned_data.get("email")

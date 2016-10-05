@@ -1,6 +1,14 @@
 {% extends "base.html" %}
 
-{% block head_title %}Register | {% endblock %}
+{% block head_title %}{{ page_name }} | {% endblock %}
+
+
+
+{% block navbar %}				
+	<li><a href="/logout">Logout</a></li>	
+{% endblock %}
+
+
 
 {% block content %}
 
@@ -10,7 +18,7 @@
 
 {{ form.as_p }}
 
-<input type="submit" class='btn btn-default' value="Register">
+<input type="submit" class='btn btn-default' value="{{ button_value }}">
 </form>
 </div>
 

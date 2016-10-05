@@ -55,18 +55,23 @@ def auth_register(request):
 		new_user.save()		
 		return HttpResponseRedirect("/login")
 
-	context = {"form": form,}
+	context = {
+		"form": form,
+		"page_name" : "Register",
+		"button_value" : "Register",
+	}
 	return render(request, 'register.html', context)
 
+@login_required
 def update_profile(request):
-	#TODO : Make new form and start editing information
-	if not request.user.is_authenticated():
-		return HttpResponseRedirect("/")
-
 	form = UpdateForm(request.POST or None, instance=request.user)
 	if form.is_valid():
 		form.save()
 		return HttpResponseRedirect("/")
 
-	context = {"form": form,}
+	context = {
+		"form": form,
+		"page_name" : "Update",
+		"button_value" : "Update",
+	}
 	return render(request, 'register.html', context)
