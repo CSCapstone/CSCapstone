@@ -9,7 +9,7 @@ from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
 
 
-from .forms import LoginForm, RegisterForm
+from .forms import LoginForm, RegisterForm, UpdateForm
 from .models import MyUser
 
 # Create your views here.
@@ -47,35 +47,26 @@ def auth_register(request):
 	
 	form = RegisterForm(request.POST or None)
 	if form.is_valid():
-		email = form.cleaned_data['email']
-		password = form.cleaned_data["password2"]
-		new_user = MyUser.objects.create_user(email=email, password=password)
-		new_user.save()
-		login(request, new_user)
-		return HttpResponseRedirect("/")
+		new_user = MyUser.objects.create_user(email=form.cleaned_data['email'], 
+			password=form.cleaned_data["password2"], 
+			first_name=form.cleaned_data['firstname'], last_name=form.cleaned_data['lastname'],
+    		is_student=form.cleaned_data['student'], is_professor=form.cleaned_data['professor'], 
+    		is_engineer=form.cleaned_data['engineer'])
+		new_user.save()		
+		return HttpResponseRedirect("/login")
 
 	context = {"form": form,}
 	return render(request, 'register.html', context)
 
+def update_profile(request):
+	#TODO : Make new form and start editing information
+	if not request.user.is_authenticated():
+		return HttpResponseRedirect("/")
 
-	# email = form.cleaned_data['email']
- #    password1 = form.cleaned_data['password1']
- #    password2 = form.cleaned_data['email']
- 
- #    firstname = form.cleaned_data['firstname'] lastname =
- #    form.cleaned_data['lastname']
+	form = UpdateForm(request.POST or None, instance=request.user)
+	if form.is_valid():
+		form.save()
+		return HttpResponseRedirect("/")
 
- #    student = form.cleaned_data['student']
- #    professor = form.cleaned_data['professor']
- #    engineer = form.cleaned_data['engineer']
-
-    # email = forms.CharField(label='Email', widget=forms.EmailInput)
-    # password1 = forms.CharField(label='Password', widget=forms.PasswordInput)
-    # password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput)    
-    
-    # firstname = forms.CharField(label="First name", widget=forms.TextInput)
-    # lastname = forms.CharField(label="Last name", widget=forms.TextInput)
-
-    # student = forms.NullBooleanField(label="Is student?", widget=forms.NullBooleanSelect)
-    # professor = forms.NullBooleanField(label="Is professor?", widget=forms.NullBooleanSelect)
-    # engineer = forms.NullBooleanField(label="Is engineer?", widget=forms.NullBooleanSelect) 
+	context = {"form": form,}
+	return render(request, 'register.html', context)

@@ -7,8 +7,8 @@ A marketplace for students/groups to find creative and challenging projects to w
 ## Features
 
 - [ ] Authentication Module (Naman)
-	- [ ] Create (Register) User
-	- [ ] Login
+	- [X] Create (Register) User
+	- [X] Login
 	- [ ] Change Password
 	- [ ] Password Reset
 - [ ] Project Module (Harris)

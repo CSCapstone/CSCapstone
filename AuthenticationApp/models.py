@@ -4,10 +4,9 @@ Created by Naman Patwari on 10/4/2016.
 """
 
 from __future__ import unicode_literals
-
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
-#from django.db.models.signals
+from django.db.models.signals import post_save
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
@@ -22,7 +21,7 @@ class MyUserManager(BaseUserManager):
         user.set_password(password)
 
         #If first_name is not present, set it as email's username by default
-        if first_name is None:                                  
+        if first_name is None or first_name == "" or first_name == '':                                
             user.first_name = email[:email.find("@")]            
 
         #Classify the Users as Students, Professors, Engineers
@@ -114,16 +113,10 @@ class MyUser(AbstractBaseUser):
     @property
     def is_staff(self):
         return self.is_admin
-
-    # @property
-    # def is_student(self):
-    #     return self.is_student
-
-    # @property
-    # def is_professor(self):
-    #     return self.is_professor
-
-    # @property
-    # def is_engineer(self):
-    #     return self.is_engineer              
+    
+#     def new_user_reciever(sender, instance, created, *args, **kwargs):
+#     	if created:   
+        	
+# post_save.connect(new_user_reciever, sender=MyUser)
+             
 
