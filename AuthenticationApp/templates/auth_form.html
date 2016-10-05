@@ -2,10 +2,10 @@
 
 {% block head_title %}{{ page_name }} | {% endblock %}
 
-
-
-{% block navbar %}				
-	<li><a href="/logout">Logout</a></li>	
+{% block navbar %}		
+    {% for item in links %}
+    	<li><a href="/{{ item }}">{{ item }}</a></li>
+    {% endfor %}							
 {% endblock %}
 
 
