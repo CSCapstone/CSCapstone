@@ -128,3 +128,6 @@ STATICFILES_DIRS = [
 ]
 
 AUTH_USER_MODEL = 'AuthenticationApp.MyUser'
+
+#Use @login_required for functions that require authenticated users
+LOGIN_URL = "/login"

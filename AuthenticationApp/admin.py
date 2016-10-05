@@ -8,12 +8,12 @@ from django.contrib.auth.models import Group
 from django.contrib.auth.admin import UserAdmin as BaseUserAdmin
 
 from .models import MyUser
-from .forms import UserCreationForm, UserChangeForm
+from .forms import AdminUserCreationForm, UserChangeForm
 
 class UserAdmin(BaseUserAdmin):
     # The forms to add and change user instances
     form = UserChangeForm
-    add_form = UserCreationForm
+    add_form = AdminUserCreationForm
 
     # The fields to be used in displaying the User model.
     # These override the definitions on the base UserAdmin
@@ -33,8 +33,7 @@ class UserAdmin(BaseUserAdmin):
         (None, {
             'classes': ('wide',),
             #'fields': ('email', 'first_name', 'last_name', 'password1', 'password2')
-            'fields': ('email', 'first_name', 'last_name', 'password1', 'password2',
-            	'is_student', 'is_professor', 'is_engineer')}
+            'fields': ('email', 'password1', 'password2')}
         ),
     )
     search_fields = ('email', 'first_name', 'last_name')

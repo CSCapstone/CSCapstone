@@ -9,7 +9,7 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.home, name='Home'),
-    url(r'^login$', views.login, name='Login'),
-    url(r'^logout$', views.logout, name='Logout'),
-    url(r'^register$', views.register, name='Register'),    
+    url(r'^login$', views.auth_login, name='Login'),
+    url(r'^logout$', views.auth_logout, name='Logout'),
+    url(r'^register$', views.auth_register, name='Register'),    
 ]

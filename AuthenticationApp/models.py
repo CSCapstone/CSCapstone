@@ -7,6 +7,7 @@ from __future__ import unicode_literals
 
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
+#from django.db.models.signals
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
@@ -21,11 +22,8 @@ class MyUserManager(BaseUserManager):
         user.set_password(password)
 
         #If first_name is not present, set it as email's username by default
-        if first_name is None:
-        	user.first_name = self.normalize_email(email)
-        	print(user.first_name)
-        	user.first_name = user.first_name[:user.first_name.find("@")]
-        	print(user.first_name)
+        if first_name is None:                                  
+            user.first_name = email[:email.find("@")]            
 
         #Classify the Users as Students, Professors, Engineers
         if is_student == True and is_professor == True and is_engineer == True:
@@ -50,17 +48,17 @@ class MyUserManager(BaseUserManager):
         user.save(using=self._db)
         return user
 
-    def create_student(self, email=None, password=None):
-        return self.create_user(email, password=password,first_name=None, last_name=None,
-    	is_student=True, is_professor=None, is_engineer=None)
+    def create_student(self, email=None, password=None,first_name=None, last_name=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+    	is_student=True, is_professor=False, is_engineer=False)
 
-    def create_professor(self, email=None, password=None):
-        return self.create_user(email, password=password,first_name=None, last_name=None,
-    	is_student=None, is_professor=True, is_engineer=None)
+    def create_professor(self, email=None, password=None,first_name=None, last_name=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+    	is_student=False, is_professor=True, is_engineer=False)
 
-    def create_engineer(self, email=None, password=None):
-        return self.create_user(email, password=password,first_name=None, last_name=None,
-    	is_student=None, is_professor=None, is_engineer=True)
+    def create_engineer(self, email=None, password=None,first_name=None, last_name=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+    	is_student=False, is_professor=False, is_engineer=True)
 
 
 class MyUser(AbstractBaseUser):
@@ -84,14 +82,16 @@ class MyUser(AbstractBaseUser):
 
     is_active = models.BooleanField(default=True,)
     is_admin = models.BooleanField(default=False,)
+
+    #New fields added
     is_student = models.BooleanField(default=False,)
     is_professor = models.BooleanField(default=False,)
-    is_engineer = models.BooleanField(default=False,)
+    is_engineer = models.BooleanField(default=False,)    
 
     objects = MyUserManager()
 
     USERNAME_FIELD = 'email'
-    REQUIRED_FIELDS = ['first_name']
+    REQUIRED_FIELDS = []
 
     def get_full_name(self):        
         return "%s %s" %(self.first_name, self.last_name)
