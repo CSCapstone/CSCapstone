@@ -55,6 +55,14 @@
 					<li><a href="/table">Table</a></li>
 					<li><a href="/form">Form</a></li>
 					{% endblock %}
+                    {% block authnavbar %}
+                    <li><a href="/logout">Logout</a></li>
+	                <li><a href="/update">Update Profile</a></li>
+                    {% endblock %}
+                    {% block companynavbar %}
+                    <li><a href="/companies">Companies</a></li>
+                    <li><a href="/companyform">Create Company</a></li>
+                    {% endblock %}
 				</ul>
 			</div>
 		</div>
