@@ -22,7 +22,7 @@ def getCompany(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_company = models.Company.objects.get(name__exact=in_name)
-        is_member = models.Company.objects.filter(members__email__exact=request.user.email).exists()
+        is_member = in_company.members.filter(email__exact=request.user.email)
         context = {
             'company' : in_company,
             'userIsMember': is_member,
@@ -62,7 +62,8 @@ def join(request):
         in_company = models.Company.objects.get(name__exact=in_name)
         in_company.members.add(request.user)
         in_company.save();
-        #is_member = models.Company.objects.filter(members__email__exact=request.user.email).exists()
+        request.user.company_set.add(in_company)
+        request.user.save()
         context = {
             'company' : in_company,
             'userIsMember': True,
@@ -76,7 +77,8 @@ def unjoin(request):
         in_company = models.Company.objects.get(name__exact=in_name)
         in_company.members.remove(request.user)
         in_company.save();
-        #is_member = models.Company.objects.filter(members__email__exact=request.user.email).exists()
+        request.user.company_set.remove(in_company)
+        request.user.save()
         context = {
             'company' : in_company,
             'userIsMember': False,
