@@ -9,37 +9,78 @@ from . import models
 from . import forms
 
 def getCompanies(request):
-    companies_list = models.Company.objects.all()
-    context = {
-        'companies' : companies_list,
-        'i' : 1,
-    }
-    return render(request, 'companies.html', context)
+    if request.user.is_authenticated():
+        companies_list = models.Company.objects.all()
+        context = {
+            'companies' : companies_list,
+        }
+        return render(request, 'companies.html', context)
+    # render error page if user is not logged in
+    return render(request, 'autherror.html')
 
 def getCompany(request):
-    in_name = request.GET.get('name', 'None')
-    in_company = models.Company.objects.get(name__exact=in_name)
-    context = {
-        'company' : in_company,
-    }
-    return render(request, 'company.html', context)
+    if request.user.is_authenticated():
+        in_name = request.GET.get('name', 'None')
+        in_company = models.Company.objects.get(name__exact=in_name)
+        is_member = models.Company.objects.filter(members__email__exact=request.user.email).exists()
+        context = {
+            'company' : in_company,
+            'userIsMember': is_member,
+        }
+        return render(request, 'company.html', context)
+    # render error page if user is not logged in
+    return render(request, 'autherror.html')
 
 def getCompanyForm(request):
-	return render(request, 'companyform.html')
+    if request.user.is_authenticated():
+        return render(request, 'companyform.html')
+    # render error page if user is not logged in
+    return render(request, 'autherror.html')
 
 def getCompanyFormSuccess(request):
-    if request.method == 'POST':
-        form = forms.CompanyForm(request.POST)
-        if form.is_valid():
-            if models.Company.objects.filter(name__exact=form.cleaned_data['name']).exists():
-                return render(request, 'companyform.html', {'error' : 'Error: That company name already exists!'})
-            new_company = models.Company(name=form.cleaned_data['name'], description=form.cleaned_data['description'])
-            new_company.save()
-            context = {
-                 'name' : form.cleaned_data['name'],
-            }
-            return render(request, 'companyformsuccess.html', context)
-    else:
-        form = forms.CompanyForm()
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            form = forms.CompanyForm(request.POST)
+            if form.is_valid():
+                if models.Company.objects.filter(name__exact=form.cleaned_data['name']).exists():
+                    return render(request, 'companyform.html', {'error' : 'Error: That company name already exists!'})
+                new_company = models.Company(name=form.cleaned_data['name'], description=form.cleaned_data['description'])
+                new_company.save()
+                context = {
+                    'name' : form.cleaned_data['name'],
+                }
+                return render(request, 'companyformsuccess.html', context)
+        else:
+            form = forms.CompanyForm()
+        return render(request, 'companyform.html')
+    # render error page if user is not logged in
+    return render(request, 'autherror.html')
+
+def join(request):
+    if request.user.is_authenticated():
+        in_name = request.GET.get('name', 'None')
+        in_company = models.Company.objects.get(name__exact=in_name)
+        in_company.members.add(request.user)
+        in_company.save();
+        #is_member = models.Company.objects.filter(members__email__exact=request.user.email).exists()
+        context = {
+            'company' : in_company,
+            'userIsMember': True,
+        }
+        return render(request, 'company.html', context)
+    return render(request, 'autherror.html')
     
-    return render(request, 'companyform.html')
+def unjoin(request):
+    if request.user.is_authenticated():
+        in_name = request.GET.get('name', 'None')
+        in_company = models.Company.objects.get(name__exact=in_name)
+        in_company.members.remove(request.user)
+        in_company.save();
+        #is_member = models.Company.objects.filter(members__email__exact=request.user.email).exists()
+        context = {
+            'company' : in_company,
+            'userIsMember': False,
+        }
+        return render(request, 'company.html', context)
+    return render(request, 'autherror.html')
+    

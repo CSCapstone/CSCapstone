@@ -18,12 +18,12 @@ A marketplace for students/groups to find creative and challenging projects to w
 	- [X] View Projects List
 	- [ ] View Project
 	- [ ] Create Project (Name, Description)
-- [X] Company Module (Jacob)
+- [ ] Company Module (Jacob)
 	- [X] View Company List
 	- [X] View Company
-		- [ ] Show Users in Company
+		- [X] Show Users in Company
 	- [X] Create Company (Name, Description)
-	- [ ] Many-To-Many Relationship w/ User Model
+	- [X] Many-To-Many Relationship w/ User Model
 	- [ ] Advanced Company Profiles (Picture, Website)
 - [ ] Groups Module
 	- [ ] Create Groups

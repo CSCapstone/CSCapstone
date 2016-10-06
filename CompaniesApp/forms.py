@@ -1,3 +1,8 @@
+"""
+CompaniesApp Forms
+
+Created by Jacob Dunbar on 10/3/2016.
+"""
 from django import forms
 
 class CompanyForm(forms.Form):
