@@ -14,4 +14,5 @@ urlpatterns = [
 	url(r'^', include('CSCapstoneApp.urls')),
 	url(r'^', include('ProjectsApp.urls')),
     url(r'^', include('CompaniesApp.urls')),
+    url(r'^', include('GroupsApp.urls')),
 ]

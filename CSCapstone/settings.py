@@ -41,6 +41,7 @@ INSTALLED_APPS = [
     'ProjectsApp',
     'CompaniesApp',
     'AuthenticationApp',
+    'GroupsApp',
 ]
 
 MIDDLEWARE = [
