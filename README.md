@@ -11,8 +11,8 @@ A marketplace for students/groups to find creative and challenging projects to w
 		- [ ] Add Form Styling
 		- [ ] Seperate Login/Register/Profile Template Files
 	- [X] Login
-		- [ ] Integrate with Django Authentication System
-	- [ ] Change Password
+		- [X] Integrate with Django Authentication System
+	- [ ] Change Password (sending email)
 	- [ ] Password Reset (sending email)
 - [ ] Project Module (Harris)
 	- [X] View Projects List
@@ -26,10 +26,11 @@ A marketplace for students/groups to find creative and challenging projects to w
 	- [X] Many-To-Many Relationship w/ User Model
 	- [ ] Advanced Company Profiles (Picture, Website)
 - [ ] Groups Module
-	- [ ] Create Groups
-	- [ ] Add Users to Groups
-	- [ ] List Groups your in
-	- [ ] List members in group
+	- [X] Create Groups
+	- [X] Add Users to Groups
+	- [X] List Groups your in
+	- [X] List members in group
+	- [ ] Advanced Group Profiles (Strngths, Weaknesses)
 - [ ] Member - Profile (Major, Year, Skills, Experience, Resume, etc)
 
 ## Contributors
