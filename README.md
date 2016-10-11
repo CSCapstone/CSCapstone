@@ -18,19 +18,19 @@ A marketplace for students/groups to find creative and challenging projects to w
 	- [X] View Projects List
 	- [ ] View Project
 	- [ ] Create Project (Name, Description)
-- [ ] Company Module (Jacob)
+- [X] Company Module (Jacob)
 	- [X] View Company List
 	- [X] View Company
 		- [X] Show Users in Company
 	- [X] Create Company (Name, Description)
 	- [X] Many-To-Many Relationship w/ User Model
-	- [ ] Advanced Company Profiles (Picture, Website)
+	- [X] Advanced Company Profiles (Picture, Website)
 - [ ] Groups Module
 	- [X] Create Groups
 	- [X] Add Users to Groups
 	- [X] List Groups your in
 	- [X] List members in group
-	- [ ] Advanced Group Profiles (Strngths, Weaknesses)
+	- [ ] Advanced Group Profiles (Strengths, Weaknesses)
 - [ ] Member - Profile (Major, Year, Skills, Experience, Resume, etc)
 
 ## Contributors

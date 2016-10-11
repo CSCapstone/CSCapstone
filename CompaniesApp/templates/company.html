@@ -4,8 +4,10 @@
 	<!-- Content -->
     <div class="container theme-showcase" role="main">
 		<div class="jumbotron">
-			<h1>{{ company.name }}</h1>
+            <img src="{{ company.photo }}" alt="Company Image" width=150/>
+			<h3>{{ company.name }}</h3>
 			<p>{{ company.description }}</p>
+            <h5><a href="{{ company.website }}">Website</a></h5>
             {% if userIsMember %}
             <a href="/unjoin?name={{ company.name }}" class="btn btn-default">Unjoin this Company</a>
             {% else %}

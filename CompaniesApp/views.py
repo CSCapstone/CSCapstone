@@ -40,16 +40,21 @@ def getCompanyForm(request):
 def getCompanyFormSuccess(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            form = forms.CompanyForm(request.POST)
+            form = forms.CompanyForm(request.POST, request.FILES)
             if form.is_valid():
                 if models.Company.objects.filter(name__exact=form.cleaned_data['name']).exists():
                     return render(request, 'companyform.html', {'error' : 'Error: That company name already exists!'})
-                new_company = models.Company(name=form.cleaned_data['name'], description=form.cleaned_data['description'])
+                new_company = models.Company(name=form.cleaned_data['name'], 
+                                             photo=request.FILES['photo'],  
+                                             description=form.cleaned_data['description'],
+                                             website=form.cleaned_data['website'])
                 new_company.save()
                 context = {
                     'name' : form.cleaned_data['name'],
                 }
                 return render(request, 'companyformsuccess.html', context)
+            else:
+                return render(request, 'companyform.html', {'error' : 'Error: Photo upload failed!'})
         else:
             form = forms.CompanyForm()
         return render(request, 'companyform.html')
