@@ -6,32 +6,40 @@ A marketplace for students/groups to find creative and challenging projects to w
 
 ## Features
 
+- [ ] Common Templating Source (Harris)
 - [ ] Authentication Module (Naman)
 	- [X] Create (Register) User
 		- [ ] Add Form Styling
 		- [ ] Seperate Login/Register/Profile Template Files
 	- [X] Login
 		- [X] Integrate with Django Authentication System
-	- [ ] Change Password (sending email)
+	- [ ] Change Password
 	- [ ] Password Reset (sending email)
+	- [ ] Student Model using OneToOneField
+	- [ ] Teacher Model using OneToOneField
+	- [ ] Engineer Model using OneToOneField
 - [ ] Project Module (Harris)
 	- [X] View Projects List
 	- [ ] View Project
 	- [ ] Create Project (Name, Description)
 - [X] Company Module (Jacob)
-	- [X] View Company List
-	- [X] View Company
-		- [X] Show Users in Company
-	- [X] Create Company (Name, Description)
-	- [X] Many-To-Many Relationship w/ User Model
-	- [X] Advanced Company Profiles (Picture, Website)
+- [ ] University Model
+- [ ] Class Model (belongs to University)
 - [ ] Groups Module
 	- [X] Create Groups
 	- [X] Add Users to Groups
 	- [X] List Groups your in
 	- [X] List members in group
 	- [ ] Advanced Group Profiles (Strengths, Weaknesses)
-- [ ] Member - Profile (Major, Year, Skills, Experience, Resume, etc)
+- [ ] Student Profile (Major, Year, Skills, Experience Resume, etc)
+- [ ] Teacher Profile (Contact Info)
+- [ ] Engineer Profile (Alma Mater, About, Contact Info, etc)
+- [ ] Inter-Model Associations
+	- [ ] Student + Group (Student manytomany Group)
+	- [ ] Group + Project (Group manytoone Project)
+	- [ ] Student + University (Student belongsTo University)
+	- [ ] University + Class (Class belongsTo University)
+	- [ ] Engineer + Company (Engineer manytomany Company)
 
 ## Contributors
 
