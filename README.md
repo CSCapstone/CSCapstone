@@ -6,18 +6,15 @@ A marketplace for students/groups to find creative and challenging projects to w
 
 ## Features
 
-- [ ] Common Templating Source (Harris)
+- [ ] Common Forms/Styling Across Site (Harris)
+- [X] Alert Messages
+	- [ ] Alert Messages for non-authentication modules (Harris)
 - [ ] Authentication Module (Naman)
-	- [X] Create (Register) User
-		- [ ] Add Form Styling
-		- [ ] Seperate Login/Register/Profile Template Files
-	- [X] Login
-		- [X] Integrate with Django Authentication System
 	- [ ] Change Password
 	- [ ] Password Reset (sending email)
-	- [ ] Student Model using OneToOneField
-	- [ ] Teacher Model using OneToOneField
-	- [ ] Engineer Model using OneToOneField
+	- [ ] Student Model
+	- [ ] Teacher Model
+	- [ ] Engineer Model
 - [ ] Project Module (Harris)
 	- [X] View Projects List
 	- [ ] View Project
