@@ -7,6 +7,7 @@ from django.contrib.auth import authenticate, login, logout
 from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.contrib import messages
 
 
 from .forms import LoginForm, RegisterForm, UpdateForm
@@ -24,8 +25,11 @@ def auth_login(request):
 		password = form.cleaned_data['password']
 		user = authenticate(email=email, password=password)
 		if user is not None:
+			messages.success(request, 'Success! Welcome, '+(user.first_name or ""))
 			login(request, user)
 			return HttpResponseRedirect(next_url)
+		else:
+			messages.warning(request, 'Invalid username or password.')
 			
 	context = {
 		"form": form,
@@ -37,6 +41,7 @@ def auth_login(request):
 
 def auth_logout(request):
 	logout(request)
+	messages.success(request, 'Success, you are now logged out')
 	return render(request, 'index.html')
 
 def auth_register(request):
@@ -50,8 +55,10 @@ def auth_register(request):
 			first_name=form.cleaned_data['firstname'], last_name=form.cleaned_data['lastname'],
     		is_student=form.cleaned_data['student'], is_professor=form.cleaned_data['professor'], 
     		is_engineer=form.cleaned_data['engineer'])
-		new_user.save()		
-		return HttpResponseRedirect("/login")
+		new_user.save()	
+		login(request, new_user);	
+		messages.success(request, 'Success! Your account was created.')
+		return render(request, 'index.html')
 
 	context = {
 		"form": form,
@@ -66,7 +73,7 @@ def update_profile(request):
 	form = UpdateForm(request.POST or None, instance=request.user)
 	if form.is_valid():
 		form.save()
-		return HttpResponseRedirect("/")
+		messages.success(request, 'Success, your profile was saved!')
 
 	context = {
 		"form": form,

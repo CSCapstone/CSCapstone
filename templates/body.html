@@ -33,11 +33,13 @@
 	</nav>
 
 
-	<!-- Alert -->
-	{% if False %}
+	<!-- Alerts -->
+	{% if messages %}
 	<div class='section container'>
 		<div class='section-container'>
-			<div class="alert alert-success" role="alert">Alert Message!</div>
+			{% for message in messages %}
+			<div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+			{% endfor %}
 		</div>
 	</div>
 	{% endif %}
