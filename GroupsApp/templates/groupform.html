@@ -1,13 +1,14 @@
-{% extends "base.html" %}
+{% extends "body.html" %}
 
 {% block content %}
+
 	<!-- Content -->
 	<div class="container" role="main">
 		<div class="panel panel-default">
 			<form method="post" action="/groupformsuccess" class="panel-body validate">
-                {% csrf_token %}
+				{% csrf_token %}
 				<label for="name">Name</label>
-                <h6 style="color:red">{{ error }}</h6>
+				<h6 style="color:red">{{ error }}</h6>
 				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required">
 				<br>
 				<label for="description">Group Description</label>
@@ -16,5 +17,6 @@
 				<input type="submit" value="Submit" class="btn btn-primary">
 			</form>
 		</div>
-    </div>
+	</div>
+	
 {% endblock %}

@@ -1,16 +1,15 @@
 /*
 	@ Harris Christiansen (Harris@HarrisChristiansen.com)
 	2016-09-18
-	Project: HTML5 Boilerplate
+	Project: CSCapstone Marketplace
 */
 
 
 $(document).ready(function() { 
-	$(".sortable").tablesorter(); 
-});
+	$(".sortable").tablesorter();
+	$('.validate').bValidator();
 
-$('.validate').bValidator();
-
-$(".datepicker").datepicker({
-	dateFormat: 'yy-mm-dd',
+	$(".datepicker").datepicker({
+		dateFormat: 'yy-mm-dd',
+	});
 });

@@ -12,15 +12,7 @@ from django.shortcuts import render
 from .forms import LoginForm, RegisterForm, UpdateForm
 from .models import MyUser
 
-# Create your views here.
-
-def home(request):	
-	if request.user.is_authenticated():	
-		context = {"user_name": request.user.first_name,}
-		return render(request, 'home.html', context)
-	return render(request, 'welcome.html', {})
-
-
+# Auth Views
 
 def auth_login(request):
 	form = LoginForm(request.POST or None)
@@ -44,8 +36,8 @@ def auth_login(request):
 	return render(request, 'auth_form.html', context)
 
 def auth_logout(request):
-	logout(request);
-	return HttpResponseRedirect("/")
+	logout(request)
+	return render(request, 'index.html')
 
 def auth_register(request):
 	if request.user.is_authenticated():

@@ -1,9 +1,9 @@
-{% extends "base.html" %}
+{% extends "body.html" %}
 
 {% block content %}
 
-    <!-- Content -->
-    <div class="container" role="main">
+	<!-- Content -->
+	<div class="container" role="main">
 		<div class="table-responsive">
 			<table class="table table-striped sortable">
 				<thead>
@@ -13,15 +13,15 @@
 					</tr>
 				</thead>
 				<tbody>
-                    {% for item in groups %}
-                    <tr>
-                        <td><a href="/group?name={{ item.name }}">{{ item.name }}</a></td>
-                        <td>{{ item.description }}</td>
-                    </tr>
-                    {% endfor %}
+					{% for item in groups %}
+					<tr>
+						<td><a href="/group?name={{ item.name }}">{{ item.name }}</a></td>
+						<td>{{ item.description }}</td>
+					</tr>
+					{% endfor %}
 				</tbody>
 			</table>
 		</div>
-    </div>
+	</div>
 
 {% endblock %}
