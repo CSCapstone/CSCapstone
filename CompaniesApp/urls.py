@@ -11,6 +11,6 @@ urlpatterns = [
     url(r'^company$', views.getCompany, name='Company'),
     url(r'^companyform$', views.getCompanyForm, name='CompanyForm'),
     url(r'^companyformsuccess$', views.getCompanyFormSuccess, name='CompanyFormSuccess'),
-    url(r'^join$', views.join, name='Join'),
-    url(r'^unjoin$', views.unjoin, name='Unjoin'),
+    url(r'^joincompany$', views.joinCompany, name='JoinCompany'),
+    url(r'^unjoincompany$', views.unjoinCompany, name='UnjoinCompany'),
 ]

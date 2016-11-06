@@ -48,7 +48,7 @@ def getUniversityFormSuccess(request):
                                              photo=request.FILES['photo'],  
                                              description=form.cleaned_data['description'],
                                              website=form.cleaned_data['website'])
-                new_company.save()
+                new_university.save()
                 context = {
                     'name' : form.cleaned_data['name'],
                 }
@@ -82,7 +82,7 @@ def unjoinUniversity(request):
         in_university = models.University.objects.get(name__exact=in_name)
         in_university.members.remove(request.user)
         in_university.save();
-        request.user.university_set.remove(in_company)
+        request.user.university_set.remove(in_university)
         request.user.save()
         context = {
             'university' : in_university,
