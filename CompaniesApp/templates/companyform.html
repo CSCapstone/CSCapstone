@@ -3,6 +3,9 @@
 {% block content %}
 	<!-- Content -->
 	<div class="container" role="main">
+		<div class="jumbotron">
+			<h3 style="margin: 0px; padding: 0px;">Create Company</h3>
+		</div>
 		<div class="panel panel-default">
 			<form method="post" enctype="multipart/form-data" action="/company/formsuccess" class="panel-body validate">
                 {% csrf_token %}
