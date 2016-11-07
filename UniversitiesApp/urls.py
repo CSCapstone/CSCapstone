@@ -8,10 +8,10 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^universities$', views.getUniversities, name='Universities'),
+    url(r'^university/all$', views.getUniversities, name='Universities'),
     url(r'^university$', views.getUniversity, name='University'),
-    url(r'^universityform$', views.getUniversityForm, name='UniversityForm'),
-    url(r'^universityformsuccess$', views.getUniversityFormSuccess, name='UniversityFormSuccess'),
-    url(r'^joinuniversity$', views.joinUniversity, name='JoinUniversity'),
-    url(r'^unjoinuniversity$', views.unjoinUniversity, name='UnjoinUniversity'),
+    url(r'^university/form$', views.getUniversityForm, name='UniversityForm'),
+    url(r'^university/formsuccess$', views.getUniversityFormSuccess, name='UniversityFormSuccess'),
+    url(r'^university/join$', views.joinUniversity, name='JoinUniversity'),
+    url(r'^university/unjoin$', views.unjoinUniversity, name='UnjoinUniversity'),
 ]
