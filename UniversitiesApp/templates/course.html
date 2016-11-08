@@ -1,0 +1,38 @@
+{% extends "body.html" %}
+
+{% block content %}
+	<!-- Content -->
+    <div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+            <img src="/{{ university.photo }}" alt="University Image" width=150/>
+			<h2>{{ course.tag }}</h2>
+			<h3>{{ course.name }}</h3>
+			<p>{{ course.description }}</p>
+            {% if userInCourse %}
+            <a href="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Unjoin this Course</a>
+            {% else %}
+            <a href="/university/course/join?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Join this Course</a>
+            {% endif %}
+			<a href="/university/course/remove?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Delete this Course</a>
+		</div>
+    </div>
+    <div class="container" role="main">
+		<div class="table-responsive">
+			<table class="table table-striped sortable">
+				<thead>
+					<tr>
+						<th>Students</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in course.members.all %}
+					<tr>
+						<td>{{ item.get_full_name }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+	
+{% endblock %}

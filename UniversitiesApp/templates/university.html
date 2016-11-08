@@ -16,21 +16,43 @@
 		</div>
     </div>
     <div class="container" role="main">
-            <div class="table-responsive">
-                <table class="table table-striped sortable">
-                    <thead>
-                        <tr>
-                            <th>Users</th>
-                        </tr>
-                    </thead>
-                    <tbody>
-                        {% for item in university.members.all %}
-                        <tr>
-                            <td>{{ item.get_full_name }}</td>
-                        </tr>
-                        {% endfor %}
-                    </tbody>
-                </table>
-            </div>
-        </div>
+		<div class="table-responsive">
+			<table class="table table-striped sortable">
+				<thead>
+					<tr>
+						<th>Users</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in university.members.all %}
+					<tr>
+						<td>{{ item.get_full_name }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped sortable">
+				<thead>
+					<tr>
+						<th>Courses</th>
+						<th>Name</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in university.course_set.all %}
+					<tr>
+						<td><a href="/university/course?name={{ university.name }}&course={{ item.tag }}">{{ item.tag }}</a></td>
+						<td><a href="/university/course?name={{ university.name }}&course={{ item.tag }}">{{ item.name }}</a></td>
+						<td>{{ item.description }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<a href="/university/course/form?name={{ university.name }}" class="btn btn-default">Add a course</a>
+	</div>
+	
 {% endblock %}
