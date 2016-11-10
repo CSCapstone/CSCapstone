@@ -16,11 +16,11 @@ class Migration(migrations.Migration):
 
     operations = [
         migrations.CreateModel(
-            name='Company',
+            name='University',
             fields=[
                 ('id', models.AutoField(auto_created=True, primary_key=True, serialize=False, verbose_name='ID')),
                 ('name', models.CharField(max_length=30)),
-                ('photo', models.ImageField(default=0, upload_to=b'static/companyimages')),
+                ('photo', models.ImageField(default=0, upload_to=b'static/universityimages')),
                 ('description', models.CharField(max_length=300)),
                 ('website', models.CharField(default=b'/', max_length=300)),
                 ('members', models.ManyToManyField(to=settings.AUTH_USER_MODEL)),

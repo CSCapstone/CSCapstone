@@ -61,7 +61,7 @@ def getCompanyFormSuccess(request):
     # render error page if user is not logged in
     return render(request, 'autherror.html')
 
-def join(request):
+def joinCompany(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_company = models.Company.objects.get(name__exact=in_name)
@@ -76,7 +76,7 @@ def join(request):
         return render(request, 'company.html', context)
     return render(request, 'autherror.html')
     
-def unjoin(request):
+def unjoinCompany(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_company = models.Company.objects.get(name__exact=in_name)

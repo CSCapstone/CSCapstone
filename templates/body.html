@@ -21,10 +21,26 @@
 					<li><a href="/register">Register</a></li>
 				{% else %}
 					<li><a href="/update">Update Profile</a></li>
-					<li><a href="/companies">Companies</a></li>
-					<li><a href="/companyform">Create Company</a></li>
-					<li><a href="/groups">Groups</a></li>
-					<li><a href="/groupform">Create Group</a></li>
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+						  Groups/Organizations <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/company/all">Companies</a></li>
+							<li><a href="/university/all">Universities</a></li>
+							<li><a href="/group/all">Groups</a></li>
+						</ul>
+					</li>
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+						  Create new Group/Organization <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/company/form">Create Company</a></li>
+							<li><a href="/university/form">Create University</a></li>
+							<li><a href="/group/form">Create Group</a></li>
+						</ul>
+					</li>
 					<li><a href="/logout">Logout</a></li>
 				{% endif %}
 				</ul>

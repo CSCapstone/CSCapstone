@@ -20,8 +20,8 @@ A marketplace for students/groups to find creative and challenging projects to w
 	- [ ] View Project
 	- [ ] Create Project (Name, Description)
 - [X] Company Module (Jacob)
-- [ ] University Model
-- [ ] Class Model (belongs to University)
+- [X] University Model (Jacob)
+- [X] Course Model (belongs to University)
 - [ ] Groups Module
 	- [X] Create Groups
 	- [X] Add Users to Groups

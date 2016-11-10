@@ -4,14 +4,14 @@
 	<!-- Content -->
     <div class="container theme-showcase" role="main">
 		<div class="jumbotron">
-            <img src="{{ company.photo }}" alt="Company Image" width=150/>
+            <img src="/{{ company.photo }}" alt="Company Image" width=150/>
 			<h3>{{ company.name }}</h3>
 			<p>{{ company.description }}</p>
             <h5><a href="{{ company.website }}">Website</a></h5>
             {% if userIsMember %}
-            <a href="/unjoin?name={{ company.name }}" class="btn btn-default">Unjoin this Company</a>
+            <a href="/company/unjoin?name={{ company.name }}" class="btn btn-default">Unjoin this Company</a>
             {% else %}
-            <a href="/join?name={{ company.name }}" class="btn btn-default">Join this Company</a>
+            <a href="/company/join?name={{ company.name }}" class="btn btn-default">Join this Company</a>
             {% endif %}
 		</div>
     </div>

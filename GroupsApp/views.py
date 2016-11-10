@@ -54,7 +54,7 @@ def getGroupFormSuccess(request):
     # render error page if user is not logged in
     return render(request, 'autherror.html')
 
-def join(request):
+def joinGroup(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_group = models.Group.objects.get(name__exact=in_name)
@@ -69,7 +69,7 @@ def join(request):
         return render(request, 'group.html', context)
     return render(request, 'autherror.html')
     
-def unjoin(request):
+def unjoinGroup(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_group = models.Group.objects.get(name__exact=in_name)
