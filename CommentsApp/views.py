@@ -13,7 +13,7 @@ def getComments(request):
     return render(request, 'comments.html', context)
 
 def getCommentForm(request):
-    return render(request, 'createComment.html')
+    return render(request, 'commentForm.html')
 
 def addComment(request):
     if request.method == 'POST':
