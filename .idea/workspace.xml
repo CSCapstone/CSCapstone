@@ -4,6 +4,7 @@
     <list default="true" id="a08261f3-e349-4010-b66f-270f1df588d2" name="Default" comment="" />
     <ignored path="CSCapstone.iws" />
     <ignored path=".idea/workspace.xml" />
+    <ignored path=".idea/dataSources.local.xml" />
     <option name="EXCLUDED_CONVERTED_TO_IGNORED" value="true" />
     <option name="TRACKING_ENABLED" value="true" />
     <option name="SHOW_DIALOG" value="false" />
