@@ -98,3 +98,5 @@ db.sqlite3
 # images
 .png
 .jpg
+
+bin/
