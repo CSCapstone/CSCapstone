@@ -43,11 +43,6 @@ CS390 Students: Please refer to the [grading form](https://docs.google.com/docum
 	- [ ] Advanced Group Profiles (Strengths, Weaknesses)
 - [ ] Student model
 	- [ ] Profile (Major, Year, Skills, Experience Resume, etc)
-- [ ] Inter-Model Associations
-	- [ ] Group + Project (Group manytoone Project)
-	- [ ] Student + University (Student belongsTo University)
-	- [ ] University + Class (Class belongsTo University)
-	- [ ] Engineer + Company (Engineer manytomany Company)
 
 ## Contributors
 
