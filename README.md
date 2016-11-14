@@ -26,7 +26,7 @@ CS390 Students: Please refer to the [grading form](https://docs.google.com/docum
 
 ## TA Features - Will not be provided
 
-- [ ] Common Forms/Styling Across Site (Harris)
+- [ ] Common Forms/Styling Across Site (Harris) 
 - [X] Alert Messages
 	- [ ] Alert Messages for non-authentication modules (Harris)
 - [ ] Authentication Module (Naman)
