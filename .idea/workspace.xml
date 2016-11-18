@@ -1,11 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project version="4">
   <component name="ChangeListManager">
-    <list default="true" id="85b0f2c7-e3eb-4d83-8d26-26df35dc7791" name="Default" comment="">
-      <change type="NEW" beforePath="" afterPath="$PROJECT_DIR$/.idea/vcs.xml" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CSCapstone/settings.py" afterPath="$PROJECT_DIR$/CSCapstone/settings.py" />
-      <change type="MODIFICATION" beforePath="$PROJECT_DIR$/CSCapstone/urls.py" afterPath="$PROJECT_DIR$/CSCapstone/urls.py" />
-    </list>
+    <list default="true" id="85b0f2c7-e3eb-4d83-8d26-26df35dc7791" name="Default" comment="" />
     <ignored path="CSCapstone.iws" />
     <ignored path=".idea/workspace.xml" />
     <ignored path=".idea/dataSources.local.xml" />
@@ -305,7 +301,7 @@
   </component>
   <component name="ToolWindowManager">
     <frame x="211" y="23" width="1260" height="691" extended-state="0" />
-    <editor active="true" />
+    <editor active="false" />
     <layout>
       <window_info id="Project" active="false" anchor="left" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="true" show_stripe_button="true" weight="0.25" sideWeight="0.5" order="0" side_tool="false" content_ui="combo" />
       <window_info id="TODO" active="false" anchor="bottom" auto_hide="false" internal_type="DOCKED" type="DOCKED" visible="false" show_stripe_button="true" weight="0.33" sideWeight="0.5" order="6" side_tool="false" content_ui="tabs" />
