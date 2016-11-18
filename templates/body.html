@@ -18,7 +18,7 @@
 				<ul class="nav navbar-nav">
 				{% if user.is_authenticated == False %}
 					<li><a href="/login">Login</a></li>
-					<li><a href="/register">Register</a></li>
+					<li><a href="{% url 'auth:Register' %}">Register</a></li>
 				{% else %}
 					<li><a href="/update">Update Profile</a></li>
 					<li role="presentation" class="dropdown">
@@ -41,7 +41,10 @@
 							<li><a href="/group/form">Create Group</a></li>
 						</ul>
 					</li>
-					<li><a href="/logout">Logout</a></li>
+					<li><a href="{%url 'auth:Logout' %}">Logout</a></li>
+					<!--<li><a href="/auth/logout">Logout</a></li>-->
+
+					<!--<li><a href="/logout">Logout</a></li>-->
 				{% endif %}
 				</ul>
 			</div>
