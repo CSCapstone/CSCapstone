@@ -1,14 +1,14 @@
 from . import forms
-from django.shortcuts import render
+from django.shortcuts import render,redirect
 from django.http import HttpResponse
-from . import models
+from .models import Comment,SubComment
 #from . import forms
-
+from django.core.urlresolvers import reverse_lazy
 
 
 # Create your views here.
 def getComments(request):
-    comment_list = models.Comment.objects.all()
+    comment_list = Comment.objects.all()
     context = {
         'comment' : comment_list,
     }
@@ -19,12 +19,13 @@ def getCommentForm(request):
     return render(request, 'commentForm.html')
 
 def addComment(request):
+    print("i am in addcomment")
     if request.method == 'POST':
         form = forms.CommentForm(request.POST)
         if form.is_valid():
-            new_comment = models.Comment(comment=form.cleaned_data['comment'])
+            new_comment = Comment(comment=form.cleaned_data['comment'])
             new_comment.save()
-            comments_list = models.Comment.objects.all()
+            comments_list = Comment.objects.all()
             context = {
                 'comment' : comments_list,
             }
@@ -32,3 +33,20 @@ def addComment(request):
         else:
             form = forms.CommentForm()
     return render(request, 'comments.html')
+
+def addSubComment(request,comment_id):
+    print(request.POST['subcomment'])
+    subcomment = request.POST['subcomment']
+
+    c = Comment.objects.get(pk=comment_id)
+    #parent_comment.subcomment_set.create(comment=subcomment)
+   # parent_comment.save()
+    new_subcomment = SubComment(parent_comment=c,comment=subcomment)
+    new_subcomment.save()
+    #parent_comment.subcomment_set.add(new_subcomment)
+    return redirect('comment:Comments')
+    #return render(request,'comments.html')
+    #new_subcomment = SubComment()
+
+    #return HttpResponse("i belive u just send this value " + request.POST['subcomment'])
+
