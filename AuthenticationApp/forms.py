@@ -19,7 +19,11 @@ class RegisterForm(forms.Form):
     password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput, required=True)    
 
     firstname = forms.CharField(label="First name", widget=forms.TextInput, required=False)
-    lastname = forms.CharField(label="Last name", widget=forms.TextInput, required=False)               
+    lastname = forms.CharField(label="Last name", widget=forms.TextInput, required=False)     
+
+    student = forms.NullBooleanField(label="Is student?", widget=forms.NullBooleanSelect, required=False)       
+    professor = forms.NullBooleanField(label="Is professor?", widget=forms.NullBooleanSelect, required=False)     
+    engineer = forms.NullBooleanField(label="Is engineer?", widget=forms.NullBooleanSelect, required=False)
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -49,7 +53,7 @@ class UpdateForm(forms.ModelForm):
 
     class Meta:
         model = MyUser        
-        fields = ('email', 'password', 'first_name', 'last_name')
+        fields = ('email', 'password', 'first_name', 'last_name','is_student', 'is_professor', 'is_engineer')
 
     def clean_password(self):            
         return self.initial["password"]        
@@ -74,8 +78,38 @@ class UpdateForm(forms.ModelForm):
         if first_name is None or first_name == "" or first_name == '':  
             email = self.cleaned_data.get("email")                               
             return email[:email.find("@")]      
-        return first_name
-   
+        return first_name 
+    def clean_is_student(self):
+        is_student = self.cleaned_data.get("is_student")
+        if is_student is not True:      
+            return False
+        return True 
+
+    def clean_is_professor(self):
+        is_professor = self.cleaned_data.get("is_professor")
+        if is_professor is not True:      
+            return False
+        return True 
+
+    def clean_is_engineer(self):
+        is_engineer = self.cleaned_data.get("is_engineer")
+        if is_engineer is not True:      
+            return False
+        return True                 
+
+    def clean(self):
+        is_student = self.cleaned_data.get("is_student")
+        is_professor = self.cleaned_data.get("is_professor")
+        is_engineer = self.cleaned_data.get("is_engineer")
+        #Classify the Users as Students, Professors, Engineers
+        if is_student == True and is_professor == True and is_engineer == True:
+            raise forms.ValidationError("User cannot be Student, Professor and Enginner at the same time!")
+        elif is_student == True and is_engineer == True:
+            raise forms.ValidationError("User cannot be Student and Enginner at the same time!")
+        elif is_student == True and is_professor == True:
+            raise forms.ValidationError("User cannot be Student and Professor at the same time!")
+        elif is_engineer == True and is_professor == True:
+            raise forms.ValidationError("User cannot be Professor and Enginner at the same time!")
 
 
 """Admin Forms"""
@@ -88,7 +122,7 @@ class AdminUserCreationForm(forms.ModelForm):
 
     class Meta:
         model = MyUser
-        fields = ('email', 'first_name', 'last_name')        
+        fields = ('email', 'first_name', 'last_name', 'is_student', 'is_professor', 'is_engineer')        
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -117,7 +151,7 @@ class UserChangeForm(forms.ModelForm):
     class Meta:
         model = MyUser
         #fields = ('email', 'password', 'first_name', 'last_name', 'is_active', 'is_admin')
-        fields = ('email', 'password', 'first_name', 'last_name', 'is_active', 'is_admin')
+        fields = ('email', 'password', 'first_name', 'last_name', 'is_active', 'is_admin', 'is_student', 'is_professor', 'is_engineer')
 
     def clean_password(self):
         # Regardless of what the user provides, return the initial value.

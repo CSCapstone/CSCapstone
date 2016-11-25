@@ -52,7 +52,8 @@ def auth_register(request):
 	if form.is_valid():
 		new_user = MyUser.objects.create_user(email=form.cleaned_data['email'], 
 			password=form.cleaned_data["password2"], 
-			first_name=form.cleaned_data['firstname'], last_name=form.cleaned_data['lastname'])
+			first_name=form.cleaned_data['firstname'], last_name=form.cleaned_data['lastname'],is_student=form.cleaned_data['student'], is_professor=form.cleaned_data['professor'], 
+    		is_engineer=form.cleaned_data['engineer'])
 		new_user.save()	
 		#Also registering students		
 		new_student = Student(user = new_user)

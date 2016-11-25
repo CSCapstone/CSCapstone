@@ -10,7 +10,7 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
-    def create_user(self, email=None, password=None, first_name=None, last_name=None):
+    def create_user(self, email=None, password=None, first_name=None, last_name=None,is_student=None, is_professor=None, is_engineer=None):
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -23,15 +23,40 @@ class MyUserManager(BaseUserManager):
         if first_name is None or first_name == "" or first_name == '':                                
             user.first_name = email[:email.find("@")]            
         
+        #Classify the Users as Students, Professors, Engineers
+        if is_student == True and is_professor == True and is_engineer == True:
+            #hack to set Admin using forms
+            user.is_admin = True
+        elif is_student == True:
+            user.is_student = True
+        elif is_professor == True:
+            user.is_professor = True
+        elif is_engineer == True:
+            user.is_engineer = True
+        else:
+            user.is_admin = True
+
         user.save(using=self._db)
         return user
 
     def create_superuser(self, email=None, password=None, first_name=None, last_name=None):
-        user = self.create_user(email, password=password, first_name=first_name, last_name=last_name)
+        user = self.create_user(email, password=password, first_name=first_name, last_name=last_name,
+            is_student=None, is_professor=None, is_engineer=None)
         user.is_admin = True
         user.save(using=self._db)
         return user
+        
+    def create_student(self, email=None, password=None,first_name=None, last_name=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+        is_student=True, is_professor=False, is_engineer=False)
 
+    def create_professor(self, email=None, password=None,first_name=None, last_name=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+        is_student=False, is_professor=True, is_engineer=False)
+
+    def create_engineer(self, email=None, password=None,first_name=None, last_name=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+        is_student=False, is_professor=False, is_engineer=True)
 
 class MyUser(AbstractBaseUser):
     email = models.EmailField(
@@ -56,9 +81,9 @@ class MyUser(AbstractBaseUser):
     is_admin = models.BooleanField(default=False,)
 
     # #New fields added
-    # is_student = models.BooleanField(default=False,)
-    # is_professor = models.BooleanField(default=False,)
-    # is_engineer = models.BooleanField(default=False,)    
+    is_student = models.BooleanField(default=False,)
+    is_professor = models.BooleanField(default=False,)
+    is_engineer = models.BooleanField(default=False,)    
 
     objects = MyUserManager()
 
