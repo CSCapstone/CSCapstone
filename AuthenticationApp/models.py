@@ -134,7 +134,8 @@ class Student(models.Model):
         MyUser,
         on_delete=models.CASCADE,
         primary_key=True)
-
+    courses = models.ForeignKey('UniversitiesApp.Course',default=None)
+    university = models.OneToOneField('UniversitiesApp.University',default=None)
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
 
@@ -163,7 +164,8 @@ class Professor(models.Model):
         MyUser,
         on_delete=models.CASCADE,
         primary_key=True)
-
+    courses = models.ForeignKey('UniversitiesApp.Course',default=None)
+    university = models.OneToOneField('UniversitiesApp.University',default=None)
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
 

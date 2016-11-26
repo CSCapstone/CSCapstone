@@ -12,7 +12,7 @@ CS390 Students: Please refer to the [grading form](https://docs.google.com/docum
 	- [ ] Task 2 Bonus (5 pts): Add Nested Comments to CommentsApp
 - [x] 3.1 (2 pts): Create “Teacher” model with profile (contact info, etc)
 - [x] 3.2 (3 pts): Create “Engineer” model with profile (Alma Mater, About, Contact Info, etc)
-- [ ] 3.3 (8 pts): Complete “University” and “Class” models. All students should belong to 1 University, and can belong to multiple classes. Teachers should be able to manage who is enrolled in their class.
+- [x] 3.3 (8 pts): Complete “University” and “Class” models. All students should belong to 1 University, and can belong to multiple classes. Teachers should be able to manage who is enrolled in their class.
 - [ ] 3.4 (5 pts): Groups: Anyone can create a group. Only group members may add additional members to the group. Only groups can be assigned to a project.
 - [ ] 3.5 (5 pts): Projects: Projects can be only created by engineer/corporate users. Projects have a list of qualifications, which are used for matching. Projects are visible to everyone.
 - [ ] 3.6 (5 pts): Bookmarks: Create the “Bookmarks” model, which relates user_id and project_id. Add and implement a button on the project page to “Bookmark” a project. Add and implement a bookmark page or list.
