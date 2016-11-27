@@ -1,0 +1,31 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+    <!-- Content -->
+    <div class="container" role="main">
+        <div class="table-responsive">
+            <table class="table table-striped sortable">
+                <thead>
+                    <tr>
+                        <th>Name</th>
+                        <th>University</th>
+                        <th>Email</th>
+                        <th>Phone</th>
+                    </tr>
+                </thead>
+                <tbody>
+                    {% for item in teachers %}
+                    <tr>
+                        <td>{{ item.name }}</td>
+                        <td><a href="/university?name={{ item.university.name }}">{{ item.university.name }}</a></td>
+                        <td>{{ item.email }}</td>
+                        <td>{{ item.phone }}</td>
+                    </tr>
+                    {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+
+{% endblock %}
