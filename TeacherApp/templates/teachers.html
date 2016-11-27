@@ -1,0 +1,34 @@
+{% extends "body.html" %}
+
+{% block content %}
+    
+    <!-- Content -->
+    <div class="container" role="main">
+        <div class="table-responsive">
+            <table class="table table-striped sortable">
+                <thead>
+                    <tr>
+                      	<th></th>
+			<th>ID</th>
+			<th>Teacher</th>
+   			<th>University</th>
+			<th>Contact Info</th>
+                    </tr>
+                </thead>
+
+                <tbody>
+                   {% for item in teachers %}
+                   <tr>
+			
+                       	<td><a href="/teacher?name={{ item.name }}"><img src="/{{ item.photo }}"></a></td>
+                       	<td>{{ item.teacher_id }}</td>
+		  	<td>{{ item.name }}</td>
+			<td>{{ item.university }}</td>
+			<td>{{ item.contact_info }} </td>
+                   </tr>
+                   {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}
