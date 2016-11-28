@@ -11,7 +11,7 @@ from django.contrib import messages
 
 
 from .forms import LoginForm, RegisterForm, UpdateForm
-from .models import MyUser, Student
+from .models import MyUser, Student, Teacher
 
 # Auth Views
 
@@ -49,18 +49,40 @@ def auth_register(request):
 		return HttpResponseRedirect("/")
 	
 	form = RegisterForm(request.POST or None)
+	
 	if form.is_valid():
-		new_user = MyUser.objects.create_user(email=form.cleaned_data['email'], 
-			password=form.cleaned_data["password2"], 
-			first_name=form.cleaned_data['firstname'], last_name=form.cleaned_data['lastname'])
-		new_user.save()	
-		#Also registering students		
-		new_student = Student(user = new_user)
-		new_student.save()
-		login(request, new_user);	
-		messages.success(request, 'Success! Your account was created.')
-		return render(request, 'index.html')
+		usertype = form.cleaned_data['usertype']
 
+		if usertype == 'Student':
+			new_user = MyUser.objects.create_user(email=form.cleaned_data['email'], 
+				password=form.cleaned_data['password2'], 
+				first_name=form.cleaned_data['firstname'], last_name=form.cleaned_data['lastname'])
+			new_user.save()	
+			#Also registering students		
+			new_student = Student(user = new_user)
+			new_student.save()
+			login(request, new_user);	
+			messages.success(request, 'Success! Your student account was created.')
+			return render(request, 'index.html')
+		elif usertype == 'Teacher':
+			new_user = MyUser.objects.create_user(email=form.cleaned_data['email'], 
+				password=form.cleaned_data['password2'], 
+				first_name=form.cleaned_data['firstname'], last_name=form.cleaned_data['lastname'])
+			new_user.save()
+			new_teacher = Teacher(user=new_user)
+			new_teacher.save()
+			login(request, new_user);
+			messages.success(request, 'Success! Your teacher account was created.')
+			return render(request, 'index.html')
+		elif usertype == 'Engineer':
+			# TODO
+			context = {
+				"form": form,
+				"page_name" : "Register",
+				"button_value" : "Register",
+				"links" : ["login"],
+			}
+			return render(request, 'auth_form.html', context)
 	context = {
 		"form": form,
 		"page_name" : "Register",
