@@ -96,5 +96,5 @@ db.sqlite3
 # Django
 
 # images
-.png
-.jpg
+*.png
+*.jpg
