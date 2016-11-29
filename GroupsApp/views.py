@@ -32,7 +32,10 @@ def getGroup(request):
 
 def getGroupForm(request):
     if request.user.is_authenticated():
-        return render(request, 'groupform.html')
+        projects_list = models.Project.objects.all()
+        return render(request, 'groupform.html',{
+        'projects': projects_list,
+    })
     # render error page if user is not logged in
     return render(request, 'autherror.html')
 
@@ -44,6 +47,11 @@ def getGroupFormSuccess(request):
                 if models.Group.objects.filter(name__exact=form.cleaned_data['name']).exists():
                     return render(request, 'groupform.html', {'error' : 'Error: That Group name already exists!'})
                 new_group = models.Group(name=form.cleaned_data['name'], description=form.cleaned_data['description'])
+                try:
+                    project = models.Project.objects.get(project_id=form.cleaned_data['project'])
+                except ObjectDoesNotExist:
+                    return render(request, 'groupform.html', {'error': 'Error: That project does not exist!'})
+                new_group.project = project
                 new_group.save()
                 new_group.members.add(request.user)
                 new_group.save()

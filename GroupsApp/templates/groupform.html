@@ -16,6 +16,13 @@
 				<br>
 				<label for="description">Group Description</label>
 				<input type="text" name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
+
+                <select name="project" id="project">
+                    {% for project in projects %}
+                      <option value="{{ project.project_id }}">{{ project.name }}</option>
+                    {% endfor %}
+                </select>
+
 				<br>
 				<input type="submit" value="Submit" class="btn btn-primary">
 			</form>
