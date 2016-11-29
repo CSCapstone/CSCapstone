@@ -11,6 +11,7 @@
 					<tr>
 						<th>Group</th>
 						<th>Description</th>
+						<th>Project</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -18,6 +19,7 @@
 					<tr>
 						<td><a href="/group?name={{ item.name }}">{{ item.name }}</a></td>
 						<td>{{ item.description }}</td>
+						<td>{{ item.project }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>

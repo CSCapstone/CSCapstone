@@ -9,7 +9,7 @@ from . import forms
 
 def getGroups(request):
     if request.user.is_authenticated():
-        groups_list = models.Group.objects.all()
+        groups_list = models.Group.objects.select_related().all()
         context = {
             'groups' : groups_list,
         }
