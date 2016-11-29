@@ -2,6 +2,7 @@
 Created by Naman Patwari on 10/10/2016.
 """
 from django.shortcuts import render
+from django.core.exceptions import ObjectDoesNotExist
 
 from . import models
 from . import forms
@@ -85,4 +86,41 @@ def unjoinGroup(request):
         }
         return render(request, 'group.html', context)
     return render(request, 'autherror.html')
-    
+
+
+def getGroupAddMemberForm(request):
+    if request.user.is_authenticated():
+        context = {
+            'name': request.GET.get('name', ''),
+        }
+        return render(request, 'groupaddmemberform.html',context)
+    # render error page if user is not logged in
+
+    return render(request, 'autherror.html')
+
+def getGroupAddMemberFormSuccess(request):
+    # return None
+    if request.user.is_authenticated():
+        if request.method == 'POST':
+            form = forms.GroupAddMemberForm(request.POST)
+            if form.is_valid():
+                group_to_join = models.Group.objects.get(name__exact=form.cleaned_data['name'])
+                try:
+                    user = models.MyUser.objects.get(email__exact=form.cleaned_data['email'])
+                except ObjectDoesNotExist:
+                    return render(request, 'groupaddmemberform.html', {'error': 'Error: That user does not exist!'})
+
+                group_to_join.members.add(user)
+                group_to_join.save()
+                user.group_set.add(group_to_join)
+                user.save()
+                context = {
+                    'name' : form.cleaned_data['name'],
+                    'email' : form.cleaned_data['email'],
+                }
+                return render(request, 'groupaddmemberformsuccess.html', context)
+        else:
+            form = forms.GroupForm()
+        return render(request, 'groupaddmemberform.html')
+    # render error page if user is not logged in
+    return render(request, 'autherror.html')

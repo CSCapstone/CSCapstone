@@ -1,0 +1,22 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+	<!-- Content -->
+	<div class="container" role="main">
+		<div class="jumbotron">
+			<h3 style="margin: 0px; padding: 0px;">Add member to group <small>{{ name }}</small></h3>
+		</div>
+		<div class="panel panel-default">
+			<form method="post" action="/group/addmembersuccess" class="panel-body validate">
+				{% csrf_token %}
+				<label for="email">email</label>
+				<h6 style="color:red">{{ error }}</h6>
+				<input type="text" name="email" id="email" placeholder="Email" class="form-control" data-bvalidator="required" data-bvalidator-msg="email Required">
+				<input type="hidden" name="name" value="{{ name }}">
+				<input type="submit" value="Submit" class="btn btn-primary">
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}
