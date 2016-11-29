@@ -44,6 +44,8 @@ def getGroupFormSuccess(request):
                     return render(request, 'groupform.html', {'error' : 'Error: That Group name already exists!'})
                 new_group = models.Group(name=form.cleaned_data['name'], description=form.cleaned_data['description'])
                 new_group.save()
+                new_group.members.add(request.user)
+                new_group.save()
                 context = {
                     'name' : form.cleaned_data['name'],
                 }
