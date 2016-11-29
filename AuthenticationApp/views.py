@@ -19,7 +19,7 @@ def auth_login(request):
 	form = LoginForm(request.POST or None)
 	next_url = request.GET.get('next')
 	if next_url is None:
-		next_url = "/"
+		next_url = "/home"
 	if form.is_valid():
 		email = form.cleaned_data['email']
 		password = form.cleaned_data['password']
@@ -46,7 +46,7 @@ def auth_logout(request):
 
 def auth_register(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect("/")
+		return HttpResponseRedirect("/home")
 	
 	form = RegisterForm(request.POST or None)
 	if form.is_valid():
