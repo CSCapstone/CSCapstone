@@ -20,6 +20,9 @@ class CreateProjectForm(forms.ModelForm):
             'experience',
             'speciality'
         ]
+        labels = {
+            'experience' : 'Years of Experience'
+        }
     # name = forms.CharField(label='Project Name', widget=forms.TextInput, required=True)
     # description = forms.CharField(label='Project Description', widget=forms.TextInput, required=True)
     # company = forms.ModelMultipleChoiceField(queryset=companies_model.) 

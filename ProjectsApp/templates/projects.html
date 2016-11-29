@@ -9,12 +9,20 @@
 				<thead>
 					<tr>
 						<th>Project Name</th>
+						<th>Company</th>
+						<th>Language</th>
+						<th>Experience</th>
+						<th>Description</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for project in projects %}
 					<tr>
 						<td>{{ project.name }}</td>
+						<td>{{ project.company }}</td>
+						<td>{{ project.language }}</td>
+						<td>{{ project.experience }}</td>
+						<td>{{ project.description }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
