@@ -6,9 +6,9 @@
     <div class="container theme-showcase" role="main">
         <p style="font-family: 'Courier New'; font-size: x-small;"><b>Account type:</b> <u>{{ type }}</u></p>
 		<div class="jumbotron">
-			<h1 style="text-align: center"><img class="img-circle" src={{ profile.pic }}></h1>
+			<h1 style="text-align: center"><img class="img-circle" src="{{ profile.pic.url }}"></h1>
 			<p>Welcome <b>{{ user.first_name }}</b>, to the CS390-Python CS Capstone Project!</p>
-            <a class="btn btn-sm btn-default" style="float: right" href="/comments">Edit Account Info</a>
+            <a class="btn btn-sm btn-default" style="float: right" href="/update_profile">Edit Account Info</a>
 		</div>
         <div class="container" style="font-family: 'Courier New';">
             <p><b><u>Account Summary</u></b></p>

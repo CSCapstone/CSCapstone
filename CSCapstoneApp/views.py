@@ -2,7 +2,14 @@
 
 Created by Harris Christiansen on 9/18/16.
 """
+from django.http import HttpResponseRedirect, HttpResponse
+from django.contrib.auth.decorators import login_required
 from django.shortcuts import render
+from django.contrib import messages
+
+
+from .forms import EditProfileForm
+
 from AuthenticationApp.models import Teacher
 
 def getIndex(request):
@@ -26,3 +33,38 @@ def getHome(request):
 		'user': request.user,
 		'type': type
     })
+
+def profile_edit(request):
+    current_user = request.user
+    form = EditProfileForm(request.POST or None)
+
+    next_url = request.GET.get('next')
+    if next_url is None:
+        next_url = "/home"
+
+    if form.is_valid():
+        if current_user.is_professor == True:
+            university = form.cleaned_data['university']
+            department = form.cleaned_data['department']
+            contact = form.cleaned_data['contact']
+            image = form.data['image']
+            t = Teacher.objects.filter(teacher=request.user)[0]
+            t.university = university
+            t.department = department
+            t.contact = contact
+            t.pic = image
+            t.save()
+
+        if current_user is not None:
+            messages.success(request, 'Success! Updated')
+            return HttpResponseRedirect(next_url)
+        else:
+            messages.warning(request, 'Something went wrong!')
+
+    context = {
+        "form": form,
+        "page_name": "Update Your Profile Info",
+        "button_value": "Update",
+        "links": ["Home"],
+    }
+    return render(request, 'update.html', context)
