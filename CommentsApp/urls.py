@@ -4,4 +4,5 @@ urlpatterns = [
     url(r'^comments$', views.getComments, name='Comments'),
     url(r'^commentform$', views.getCommentForm, name='CommentForm'),
     url(r'^addcomment$', views.addComment, name='AddComment'),
+    url(r'^addSubcomment$', views.addSubComment, name='AddSubComment'),
 ]
