@@ -1,0 +1,24 @@
+{% extends "body.html" %}
+{% block content %}
+<!-- Content -->
+<div class="container" role="main">
+    <div class="panel panel-default">
+        <form method="post" enctype="multipart/form-data" action="/submitTeacher/" class="panel-body validate">
+        {% csrf_token %}
+             <label for="Teacher">Create Teacher </label>
+
+              <input type="text" width="50%" name="first_name" id="first_name" placeholder="first name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Comment Required">
+              <br>
+
+            <input type="text" name="last_name" id="last_name" placeholder="last name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Comment Required">
+            <br>
+            <input type="text" name="university" id="university" placeholder="university" class="form-control" data-bvalidator="required" data-bvalidator-msg="Comment Required">
+            <br>
+            <input type="text" name="phone" id="phone" placeholder="phone" class="form-control" data-bvalidator="required" data-bvalidator-msg="Comment Required">
+             <br>
+
+            <input type="submit" value="Submit" class="btn btn-primary">
+        </form>
+    </div>
+</div>
+{% endblock %}

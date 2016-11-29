@@ -1,0 +1,41 @@
+{% extends "body.html" %}
+{% block content %}
+    <!-- Content -->
+    <div class="container" role="main">
+        <div class="table-responsive">
+            <table class="table table-striped sortable">
+                <thead>
+                    <tr>
+                      <th style="width: 20%">Time</th>
+                        <th style="width: 80%">Comment</th>
+                    </tr>
+                </thead>
+                <tbody>
+                   {% for item in comment %}
+                   <tr>
+
+                       <td>{{ item.time }}</td>
+                       <td>{{ item.comment }}</td>
+                       {% for subcomment in item.subcomment_set.all %}
+                            <td> {{ subcomment.comment }}</td>
+                       {% endfor %}
+                       <td> <button data-toggle="collapse" data-target="#subcomments{{forloop.counter}}">reply</button></td>
+
+                       <td id="subcomments{{forloop.counter}}" class="collapse" id="item{{forloop.counter}}" value="{{item.id}}">
+                               <form method="post" enctype="multipart/form-data" action="{% url 'comment:addSubComment' item.id %}" class="panel-body validate">
+                                {% csrf_token %}
+                                     <label for="subcomment">Comment</label>
+                                     <input type="text" name="subcomment" id="subcomment" placeholder="Comment" class="form-control" data-bvalidator="required" data-bvalidator-msg="Comment Required">
+                                     <br>
+                                     <input type="submit" value="Submit" class="btn btn-primary">
+                                </form>
+                           </td>
+
+
+                   </tr>
+                   {% endfor %}
+                </tbody>
+            </table>
+        </div>
+    </div>
+{% endblock %}

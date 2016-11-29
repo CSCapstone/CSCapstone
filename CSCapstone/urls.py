@@ -8,12 +8,21 @@ For more information please see:
 from django.conf.urls import url, include
 from django.contrib import admin
 
+
+
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
-	url(r'^', include('AuthenticationApp.urls')),
+	url(r'^auth', include('AuthenticationApp.urls')),
+	url(r'^comment/', include('CommentsApp.urls')),
 	url(r'^', include('CSCapstoneApp.urls')),
 	url(r'^', include('ProjectsApp.urls')),
     url(r'^', include('CompaniesApp.urls')),
     url(r'^', include('GroupsApp.urls')),
 	url(r'^', include('UniversitiesApp.urls')),
+<<<<<<< HEAD
+    url(r'^', include('CommentsApp.urls')),
+    url(r'^', include('TeacherApp.urls')),
+=======
+
+>>>>>>> master
 ]
