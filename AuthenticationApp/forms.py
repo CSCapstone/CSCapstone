@@ -47,6 +47,21 @@ class RegisterForm(forms.Form):
         except:
             raise forms.ValidationError("There was an error, please contact us later")
 
+    def clean(self):
+        is_student = self.cleaned_data.get("student")
+        is_professor = self.cleaned_data.get("professor")
+        is_engineer = self.cleaned_data.get("engineer")
+        #Classify the Users as Students, Professors, Engineers
+        if is_student == True and is_professor == True and is_engineer == True:
+            raise forms.ValidationError("User cannot be Student, Professor and Enginner at the same time!")
+        elif is_student == True and is_engineer == True:
+            raise forms.ValidationError("User cannot be Student and Enginner at the same time!")
+        elif is_student == True and is_professor == True:
+            raise forms.ValidationError("User cannot be Student and Professor at the same time!")
+        elif is_engineer == True and is_professor == True:
+            raise forms.ValidationError("User cannot be Professor and Enginner at the same time!")
+
+
 class UpdateForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on
     the user, but replaces the password field with admin's
