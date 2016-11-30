@@ -10,10 +10,8 @@ class Teacher(models.Model):
     teacher_id = models.AutoField(primary_key=True)
     name = models.CharField(max_length=50)
     photo = models.ImageField(upload_to="static/teacherimages", default=0)
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    email=models.CharField(max_length=300)
     courses = models.ManyToManyField(Course) 
-    contact_info=models.CharField(max_length=300)
-    students = models.ManyToManyField(MyUser)
 
     def __str__(self):
         return self.name
