@@ -1,0 +1,14 @@
+% extends "body.html" %}
+
+{% block content %}
+        <meta http-equiv="refresh" content="5;url=/teacher?name={{ name }}"/>
+        <!-- Content -->
+        <div class="container theme-showcase" role="main">
+                <div class="jumbotron">
+                        <h2>Teacher "{{ name }}" was successfully created!</h2>
+                        <p>This page will redirect momentarily...if it does not <a href="/teacher?name={{ name }}">click here!</a></p>
+                </div>
+        </div>
+
+{% endblock %}
+

@@ -2,8 +2,8 @@ from __future__ import unicode_literals
 
 from django.db import models
 from AuthenticationApp.models import MyUser
-from UniversityApp.models import University
-from UniversityApp.models import Course
+from UniversitiesApp.models import University
+from UniversitiesApp.models import Course
 # Create your models here.
 
 class Teacher(models.Model):
