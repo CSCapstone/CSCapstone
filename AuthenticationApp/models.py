@@ -10,7 +10,7 @@ from django.db.models.signals import post_save
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
-    def create_user(self, email=None, password=None, first_name=None, last_name=None,is_student=None, is_professor=None, is_engineer=None):
+    def create_user(self, email=None, password=None, first_name=None, last_name=None,contact_info=None,description=None,is_student=None, is_professor=None, is_engineer=None):
         if not email:
             raise ValueError('Users must have an email address')
 
@@ -35,27 +35,28 @@ class MyUserManager(BaseUserManager):
             user.is_engineer = True
         else:
             user.is_admin = True
-
+        user.contact_info = contact_info
+        user.description = description
         user.save(using=self._db)
         return user
 
-    def create_superuser(self, email=None, password=None, first_name=None, last_name=None):
-        user = self.create_user(email, password=password, first_name=first_name, last_name=last_name,
+    def create_superuser(self, email=None, password=None, first_name=None, last_name=None,contact_info=None,description=None):
+        user = self.create_user(email, password=password, first_name=first_name, last_name=last_name,contact_info=None,description=None,
             is_student=None, is_professor=None, is_engineer=None)
         user.is_admin = True
         user.save(using=self._db)
         return user
         
-    def create_student(self, email=None, password=None,first_name=None, last_name=None):
-        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+    def create_student(self, email=None, password=None,first_name=None, last_name=None,contact_info=None,description=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,contact_info=None,description=None,
         is_student=True, is_professor=False, is_engineer=False)
 
-    def create_professor(self, email=None, password=None,first_name=None, last_name=None):
-        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+    def create_professor(self, email=None, password=None,first_name=None, last_name=None,contact_info=None,description=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,contact_info=None,description=None,
         is_student=False, is_professor=True, is_engineer=False)
 
-    def create_engineer(self, email=None, password=None,first_name=None, last_name=None):
-        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,
+    def create_engineer(self, email=None, password=None,first_name=None, last_name=None,contact_info=None,description=None):
+        return self.create_user(email, password=password,first_name=first_name, last_name=last_name,contact_info=None,description=None,
         is_student=False, is_professor=False, is_engineer=True)
 
 class MyUser(AbstractBaseUser):
@@ -134,8 +135,8 @@ class Student(models.Model):
         MyUser,
         on_delete=models.CASCADE,
         primary_key=True)
-    courses = models.ForeignKey('UniversitiesApp.Course',default=None)
-    university = models.OneToOneField('UniversitiesApp.University',default=None)
+    courses = models.ForeignKey('UniversitiesApp.Course',default=None,null=True)
+    university = models.OneToOneField('UniversitiesApp.University',default=None,null=True)
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
 
@@ -164,8 +165,8 @@ class Professor(models.Model):
         MyUser,
         on_delete=models.CASCADE,
         primary_key=True)
-    courses = models.ForeignKey('UniversitiesApp.Course',default=None)
-    university = models.OneToOneField('UniversitiesApp.University',default=None)
+    courses = models.ForeignKey('UniversitiesApp.Course',default=None,null=True)
+    university = models.OneToOneField('UniversitiesApp.University',default=None,null=True)
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
 
