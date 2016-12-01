@@ -30,3 +30,10 @@ class Project(models.Model):
 
     def __str__(self):
         return self.name
+
+class Bookmarks(models.Model):
+    user = models.OneToOneField(MyUser)
+    project = models.OneToOneField(Project)
+    def __str__(self):
+        return self.user.get_full_name() + " : " + project.name
+        
