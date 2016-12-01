@@ -29,6 +29,7 @@
 							<li><a href="/company/all">Companies</a></li>
 							<li><a href="/university/all">Universities</a></li>
 							<li><a href="/group/all">Groups</a></li>
+							<li><a href="/project/all">Projects</a></li>
 						</ul>
 					</li>
 					<li role="presentation" class="dropdown">
@@ -39,6 +40,7 @@
 
 							{% if request.user.is_student == True %}
 								<li><a href="/group/form">Create Group</a></li>
+								<li><a href="/project/form">Create Project</a></li>
 							{% elif user.is_professor == True %}
 								<li><a href="/university/form">Create University</a></li>
 							{% else %}
