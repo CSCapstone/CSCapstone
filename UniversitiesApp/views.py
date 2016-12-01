@@ -24,10 +24,12 @@ def getUniversity(request):
         in_university = models.University.objects.get(name__exact=in_name)
         is_member = in_university.members.filter(email__exact=request.user.email)
         is_professor = request.user.is_professor
+        is_student = request.user.is_student
         context = {
             'university' : in_university,
             'userIsMember': is_member,
-            'is_professor' : is_professor
+            'is_professor' : is_professor,
+            'is_student' : is_student
         }
         return render(request, 'university.html', context)
     # render error page if user is not logged in
@@ -68,6 +70,7 @@ def joinUniversity(request):
         in_name = request.GET.get('name', 'None')
         in_university = models.University.objects.get(name__exact=in_name)
         is_professor = request.user.is_professor
+        is_student = request.user.is_student
         in_university.members.add(request.user)
         in_university.save();
         request.user.university_set.add(in_university)
@@ -75,7 +78,8 @@ def joinUniversity(request):
         context = {
             'university' : in_university,
             'userIsMember': True,
-            'is_professor' : is_professor
+            'is_professor' : is_professor,
+            'is_student' : is_student
         }
         return render(request, 'university.html', context)
     return render(request, 'autherror.html')
@@ -85,6 +89,7 @@ def unjoinUniversity(request):
         in_name = request.GET.get('name', 'None')
         in_university = models.University.objects.get(name__exact=in_name)
         is_professor = request.user.is_professor
+        is_student = request.user.is_student
         in_university.members.remove(request.user)
         in_university.save();
         request.user.university_set.remove(in_university)
@@ -92,7 +97,8 @@ def unjoinUniversity(request):
         context = {
             'university' : in_university,
             'userIsMember': False,
-            'is_professor' : is_professor
+            'is_professor' : is_professor,
+            'is_student' : is_student
         }
         return render(request, 'university.html', context)
     return render(request, 'autherror.html')
@@ -104,10 +110,14 @@ def getCourse(request):
 		in_course_tag = request.GET.get('course', 'None')
 		in_course = in_university.course_set.get(tag__exact=in_course_tag)
 		is_member = in_course.members.filter(email__exact=request.user.email)
+		is_student = request.user.is_student
+		is_professor = request.user.is_professor
 		context = {
 			'university' : in_university,
 			'course' : in_course,
 			'userInCourse' : is_member,
+			'is_professor' : is_professor,
+            'is_student' : is_student
 		}
 		return render(request, 'course.html', context)
 	return render(request, 'autherror.html')
@@ -141,7 +151,7 @@ def addCourse(request):
 				is_member = in_university.members.filter(email__exact=request.user.email)
 				context = {
 					'university' : in_university,
-					'userIsMember': is_member,
+					'userIsMember': is_member
 				}
 				return render(request, 'university.html', context)
 			else:
@@ -162,7 +172,7 @@ def removeCourse(request):
 		is_member = in_university.members.filter(email__exact=request.user.email)
 		context = {
 			'university' : in_university,
-			'userIsMember' : is_member,
+			'userIsMember' : is_member
 		}
 		return render(request, 'university.html', context)
 	# render error page if user is not logged in
@@ -181,7 +191,7 @@ def joinCourse(request):
 		context = {
 			'university' : in_university,
 			'course' : in_course,
-			'userInCourse': True,
+			'userInCourse': True
 		}
 		return render(request, 'course.html', context)
 	return render(request, 'autherror.html')
@@ -199,7 +209,7 @@ def unjoinCourse(request):
 		context = {
 			'university' : in_university,
 			'course' : in_course,
-			'userInCourse': False,
+			'userInCourse': False
 		}
 		return render(request, 'course.html', context)
 	return render(request, 'autherror.html')

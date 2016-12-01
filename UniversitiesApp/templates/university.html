@@ -9,9 +9,11 @@
 			<p>{{ university.description }}</p>
             <h5><a href="{{ university.website }}">Website</a></h5>
             {% if userIsMember %}
-            <a href="/university/unjoin?name={{ university.name }}" class="btn btn-default">Unjoin this University</a>
+            	<a href="/university/unjoin?name={{ university.name }}" class="btn btn-default">Unjoin this University</a>
             {% else %}
-            <a href="/university/join?name={{ university.name }}" class="btn btn-default">Join this University</a>
+            	{% if is_professor == True or is_student == True %}
+            		<a href="/university/join?name={{ university.name }}" class="btn btn-default">Join this University</a>
+            	{% endif %}
             {% endif %}
 		</div>
     </div>
@@ -52,7 +54,10 @@
 				</tbody>
 			</table>
 		</div>
-		<a href="/university/course/form?name={{ university.name }}" class="btn btn-default">Add a course</a>
+		{% if is_professor == True  and userIsMember %}
+            <a href="/university/course/form?name={{ university.name }}" class="btn btn-default">Add a course</a>
+        {% endif %}
+		
 	</div>
 	
 {% endblock %}
