@@ -8,6 +8,8 @@ from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db.models.signals import post_save
 
+# from UniversitiesApp.models import University
+
 # Create your models here.
 class MyUserManager(BaseUserManager):
     def create_user(self, email=None, password=None, first_name=None, last_name=None,
@@ -40,6 +42,7 @@ class MyUserManager(BaseUserManager):
        		user.is_admin = True
         
         user.save(using=self._db)
+
         a = MyUser.objects.filter(email=email)[0]
         if is_professor == True:
             t = Teacher(teacher=a)
@@ -128,9 +131,20 @@ class MyUser(AbstractBaseUser):
              
 class Teacher(models.Model):
     teacher = models.ForeignKey(MyUser, on_delete=models.CASCADE, null=True)
-    university = models.CharField(max_length=500, null=True)
+    university = models.ForeignKey('UniversitiesApp.University', null=True, on_delete=models.CASCADE)
     contact = models.IntegerField(null=True)
     department = models.CharField(max_length=200, null=True)
     almamater = models.CharField(max_length=100, null=True)
     pic = models.ImageField(null=True)
+
+# class Student(models.Model):
+#     major = models.CharField(max_length=500, null=True)
+#     year = models.CharField(max_length=20,null=True)
+#     skills = models.CharField(max_length=2048, null=True)
+#
+#     experience = models.CharField(max_length=2048, null=True)
+#     #conflict between char field ( comma separated list <company:time>,dynamic addition into a model(Experience model), number of years(int) )
+#
+#     resume = models.FileField(null=True)
+
 

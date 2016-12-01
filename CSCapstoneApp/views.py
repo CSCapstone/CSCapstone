@@ -8,7 +8,7 @@ from django.shortcuts import render
 from django.contrib import messages
 
 
-from .forms import EditProfileForm
+from .forms import TeacherForm
 
 from AuthenticationApp.models import Teacher
 
@@ -36,7 +36,12 @@ def getHome(request):
 
 def profile_edit(request):
     current_user = request.user
-    form = EditProfileForm(request.POST or None)
+
+    if current_user.is_professor == True:
+        form = TeacherForm(request.POST or None)
+    #elif
+        #TODO
+
 
     next_url = request.GET.get('next')
     if next_url is None:
@@ -47,12 +52,14 @@ def profile_edit(request):
             university = form.cleaned_data['university']
             department = form.cleaned_data['department']
             contact = form.cleaned_data['contact']
+            almamater = form.cleaned_data['almamater']
             image = form.data['image']
             t = Teacher.objects.filter(teacher=request.user)[0]
             t.university = university
             t.department = department
             t.contact = contact
             t.pic = image
+            t.almamater = almamater
             t.save()
 
         if current_user is not None:
