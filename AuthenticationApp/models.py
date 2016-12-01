@@ -94,7 +94,7 @@ class MyUser(AbstractBaseUser):
     # #New fields added
     is_student = models.BooleanField(default=False,)
     is_professor = models.BooleanField(default=False,)
-    is_engineer = models.BooleanField(default=False,)    
+    is_engineer = models.BooleanField(default=False,)   
 
     objects = MyUserManager()
 
@@ -118,6 +118,10 @@ class MyUser(AbstractBaseUser):
 
     def has_module_perms(self, app_label):        
         return True
+
+    def has_module_perms(self, app_label):        
+        return True
+
 
     @property
     def is_staff(self):

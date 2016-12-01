@@ -36,9 +36,17 @@
 						  Create new Group/Organization <span class="caret"></span>
 						</a>
 						<ul class="dropdown-menu">
-							<li><a href="/company/form">Create Company</a></li>
-							<li><a href="/university/form">Create University</a></li>
-							<li><a href="/group/form">Create Group</a></li>
+
+							{% if request.user.is_student == True %}
+								<li><a href="/group/form">Create Group</a></li>
+							{% elif user.is_professor == True %}
+								<li><a href="/university/form">Create University</a></li>
+							{% else %}
+								<li><a href="/company/form">Create Company</a></li>
+							{% endif %}
+							
+							
+							
 						</ul>
 					</li>
 					<li><a href="/update" style="color:#FFFFFF;">{{user.first_name}}</a></li>
