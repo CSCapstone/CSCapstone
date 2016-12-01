@@ -8,9 +8,12 @@
 			<h1>Hi There!</h1>
 			<p>Welcome to the CS390-Python CS Capstone Project!</p>
 			<br>
-			<a href="/login">Log in</a>
-			<br>
-			<a href="/register">Register</a>
+			{% if user.is_authenticated == False %}
+					<li><a href="/login">Login</a></li>
+					<li><a href="/register">Register</a></li>
+			{% else %}
+				<h3>We（づ￣3￣）づ╭❤～ {{user.first_name}} !</h3>
+			{% endif %}
 		</div>
     </div>
 
