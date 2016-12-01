@@ -21,9 +21,11 @@ def getGroup(request):
         in_name = request.GET.get('name', 'None')
         in_group = models.Group.objects.get(name__exact=in_name)
         is_member = in_group.members.filter(email__exact=request.user.email)
+        is_student = request.user.is_student
         context = {
             'group' : in_group,
             'userIsMember': is_member,
+            'is_student' : is_student
         }
         return render(request, 'group.html', context)
     # render error page if user is not logged in
@@ -58,6 +60,7 @@ def joinGroup(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_group = models.Group.objects.get(name__exact=in_name)
+        is_student = request.user.is_student
         in_group.members.add(request.user)
         in_group.save();
         request.user.group_set.add(in_group)
@@ -65,6 +68,7 @@ def joinGroup(request):
         context = {
             'group' : in_group,
             'userIsMember': True,
+            'is_student' : is_student
         }
         return render(request, 'group.html', context)
     return render(request, 'autherror.html')
@@ -73,6 +77,7 @@ def unjoinGroup(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_group = models.Group.objects.get(name__exact=in_name)
+        is_student = request.user.is_student
         in_group.members.remove(request.user)
         in_group.save();
         request.user.group_set.remove(in_group)
@@ -80,6 +85,7 @@ def unjoinGroup(request):
         context = {
             'group' : in_group,
             'userIsMember': False,
+            'is_student' : is_student
         }
         return render(request, 'group.html', context)
     return render(request, 'autherror.html')

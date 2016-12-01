@@ -23,9 +23,11 @@ def getUniversity(request):
         in_name = request.GET.get('name', 'None')
         in_university = models.University.objects.get(name__exact=in_name)
         is_member = in_university.members.filter(email__exact=request.user.email)
+        is_professor = request.user.is_professor
         context = {
             'university' : in_university,
             'userIsMember': is_member,
+            'is_professor' : is_professor
         }
         return render(request, 'university.html', context)
     # render error page if user is not logged in
@@ -65,6 +67,7 @@ def joinUniversity(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_university = models.University.objects.get(name__exact=in_name)
+        is_professor = request.user.is_professor
         in_university.members.add(request.user)
         in_university.save();
         request.user.university_set.add(in_university)
@@ -72,6 +75,7 @@ def joinUniversity(request):
         context = {
             'university' : in_university,
             'userIsMember': True,
+            'is_professor' : is_professor
         }
         return render(request, 'university.html', context)
     return render(request, 'autherror.html')
@@ -80,6 +84,7 @@ def unjoinUniversity(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_university = models.University.objects.get(name__exact=in_name)
+        is_professor = request.user.is_professor
         in_university.members.remove(request.user)
         in_university.save();
         request.user.university_set.remove(in_university)
@@ -87,6 +92,7 @@ def unjoinUniversity(request):
         context = {
             'university' : in_university,
             'userIsMember': False,
+            'is_professor' : is_professor
         }
         return render(request, 'university.html', context)
     return render(request, 'autherror.html')
