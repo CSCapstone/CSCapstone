@@ -149,9 +149,13 @@ def addCourse(request):
 				new_course.save()
 				in_university.course_set.add(new_course)
 				is_member = in_university.members.filter(email__exact=request.user.email)
+				is_student = request.user.is_student
+				is_professor = request.user.is_professor
 				context = {
 					'university' : in_university,
-					'userIsMember': is_member
+					'userIsMember': is_member,
+					'is_professor' : is_professor,
+            		'is_student' : is_student
 				}
 				return render(request, 'university.html', context)
 			else:
@@ -170,9 +174,13 @@ def removeCourse(request):
 		in_course = in_university.course_set.get(tag__exact=in_course_tag)
 		in_course.delete()
 		is_member = in_university.members.filter(email__exact=request.user.email)
+		is_student = request.user.is_student
+		is_professor = request.user.is_professor
 		context = {
 			'university' : in_university,
-			'userIsMember' : is_member
+			'userIsMember' : is_member,
+			'is_professor' : is_professor,
+            'is_student' : is_student
 		}
 		return render(request, 'university.html', context)
 	# render error page if user is not logged in
@@ -184,6 +192,8 @@ def joinCourse(request):
 		in_university = models.University.objects.get(name__exact=in_university_name)
 		in_course_tag = request.GET.get('course', 'None')
 		in_course = in_university.course_set.get(tag__exact=in_course_tag)
+		is_student = request.user.is_student
+		is_professor = request.user.is_professor
 		in_course.members.add(request.user)
 		in_course.save();
 		request.user.course_set.add(in_course)
@@ -191,7 +201,9 @@ def joinCourse(request):
 		context = {
 			'university' : in_university,
 			'course' : in_course,
-			'userInCourse': True
+			'userInCourse': True,
+			'is_professor' : is_professor,
+            'is_student' : is_student
 		}
 		return render(request, 'course.html', context)
 	return render(request, 'autherror.html')
@@ -202,6 +214,8 @@ def unjoinCourse(request):
 		in_university = models.University.objects.get(name__exact=in_university_name)
 		in_course_tag = request.GET.get('course', 'None')
 		in_course = in_university.course_set.get(tag__exact=in_course_tag)
+		is_student = request.user.is_student
+		is_professor = request.user.is_professor
 		in_course.members.remove(request.user)
 		in_course.save();
 		request.user.course_set.remove(in_course)
@@ -209,7 +223,9 @@ def unjoinCourse(request):
 		context = {
 			'university' : in_university,
 			'course' : in_course,
-			'userInCourse': False
+			'userInCourse': False,
+			'is_professor' : is_professor,
+            'is_student' : is_student
 		}
 		return render(request, 'course.html', context)
 	return render(request, 'autherror.html')
