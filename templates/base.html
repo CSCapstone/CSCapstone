@@ -51,7 +51,12 @@
 
 	<!-- Tablesorter -->
 	<script type="text/javascript" src="{% static "js/jquery.tablesorter.min.js" %}"></script>
-
+	
+	<!-- TinyMCE Editor JS -->
+	<script src="//cdn.tinymce.com/4/tinymce.min.js"></script>
+	
 	<!-- Site JS -->
 	<script type="text/javascript" src="{% static "js/site.js" %}"></script>
+	<script>tinymce.init({ selector:'textarea' });</script>
+	
 </body></html>
