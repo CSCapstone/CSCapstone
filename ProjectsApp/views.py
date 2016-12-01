@@ -5,6 +5,8 @@ Created by Harris Christiansen on 10/02/16.
 from django.shortcuts import render
 
 from . import models
+from . import forms
+import datetime
 
 def getProjects(request):
 	projects_list = models.Project.objects.all()
@@ -13,62 +15,45 @@ def getProjects(request):
     })
 
 def getProject(request):
-	return render(request, 'project.html')
+	in_name = request.GET.get('name', 'None')
+	in_project = models.Project.objects.get(name__exact=in_name)
+	is_member = in_project.createdBy.filter(email__exact=request.user.email)
+	is_engineer = request.user.is_engineer
+	context = {
+		'project' : in_project,
+		'userIsMember': is_member,
+		'is_engineer' : is_engineer
+	}
+	return render(request, 'project.html',context)
 
 def getProjectForm(request):
-	if request.user.is_engineer():
+	if request.user.is_authenticated():
 		return render(request,'projectform.html')
 	return render(request,'autherror.html')
 
 def getProjectFormSuccess(request):
     if request.user.is_authenticated():
         if request.method == 'POST':
-            form = forms.GroupForm(request.POST)
+            form = forms.ProjectForm(request.POST)
             if form.is_valid():
-                if models.Group.objects.filter(name__exact=form.cleaned_data['name']).exists():
-                    return render(request, 'groupform.html', {'error' : 'Error: That Group name already exists!'})
-                new_group = models.Group(name=form.cleaned_data['name'], description=form.cleaned_data['description'])
-                new_group.save()
+                if models.Project.objects.filter(name__exact=form.cleaned_data['name']).exists():
+                    return render(request, 'projectform.html', {'error' : 'Error: That Project name already exists!'})
+                new_project = models.Project(name=form.cleaned_data['name'], description=form.cleaned_data['description'],programmingLanguage=form.cleaned_data['programmingLanguage'],yearsOfExperience=form.cleaned_data['yearsOfExperience'],speciality=form.cleaned_data['speciality'])
+                new_project.created_at = datetime.datetime.now()
+                new_project.updated_at = datetime.datetime.now()
+
+                new_project.save()
+                new_project.createdBy.add(request.user)
+                # request.user.projects_set.add(new_project)
+                new_project.save()
+                request.user.save()
                 context = {
                     'name' : form.cleaned_data['name'],
                 }
-                return render(request, 'groupformsuccess.html', context)
+                return render(request, 'projectformsuccess.html', context)
         else:
-            form = forms.GroupForm()
-        return render(request, 'groupform.html')
+            form = forms.ProjectForm()
+        return render(request, 'projectform.html')
     # render error page if user is not logged in
     return render(request, 'autherror.html')
 
-def joinProject(request):
-    if request.user.is_authenticated():
-        in_name = request.GET.get('name', 'None')
-        in_group = models.Group.objects.get(name__exact=in_name)
-        is_student = request.user.is_student
-        in_group.members.add(request.user)
-        in_group.save();
-        request.user.group_set.add(in_group)
-        request.user.save()
-        context = {
-            'group' : in_group,
-            'userIsMember': True,
-            'is_student' : is_student
-        }
-        return render(request, 'group.html', context)
-    return render(request, 'autherror.html')
-    
-def unjoinProject(request):
-    if request.user.is_authenticated():
-        in_name = request.GET.get('name', 'None')
-        in_group = models.Group.objects.get(name__exact=in_name)
-        is_student = request.user.is_student
-        in_group.members.remove(request.user)
-        in_group.save();
-        request.user.group_set.remove(in_group)
-        request.user.save()
-        context = {
-            'group' : in_group,
-            'userIsMember': False,
-            'is_student' : is_student
-        }
-        return render(request, 'group.html', context)
-    return render(request, 'autherror.html')

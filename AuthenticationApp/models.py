@@ -140,6 +140,7 @@ class Student(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
     courses = models.ForeignKey('UniversitiesApp.Course',default=None,null=True)
+    groups = models.ForeignKey('GroupsApp.Group',default=None,null=True)
     university = models.OneToOneField('UniversitiesApp.University',default=None,null=True)
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
@@ -198,7 +199,8 @@ class Engineer(models.Model):
         MyUser,
         on_delete=models.CASCADE,
         primary_key=True)
-
+    companies = models.ForeignKey('CompaniesApp.Company',default=None,null=True)
+    projects = models.ForeignKey('ProjectsApp.Project',default=None,null=True)
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
 

@@ -18,6 +18,7 @@ CS390 Students: Please refer to the [grading form](https://docs.google.com/docum
 	- [ ] 3.4.1 Only group members may add additional members to the group.
 	- [ ] 3.4.2 Only groups can be assigned to a project.
 - [x] 3.5 (5 pts): Projects: Projects can be only created by engineer/corporate users. Projects have a list of qualifications, which are used for matching. Projects are visible to everyone.
+	- [ ] 3.5.1 Projects should be editable by users of the company which posted the project.
 - [ ] 3.6 (5 pts): Bookmarks: Create the “Bookmarks” model, which relates user_id and project_id. Add and implement a button on the project page to “Bookmark” a project. Add and implement a bookmark page or list.
 - [ ] 3.7 (12 pts): Implement Matching System: Using group’s combined student properties, calculate suggested projects for the groups to choose.
 - [ ] 3.8 (15 pts): Group Profiles: Each group’s profile should include team member details and the project they opted for. Group members, their teachers, and the project corporate users may post comments on the group profile page, allowing discussion.
