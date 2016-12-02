@@ -22,7 +22,7 @@ class RegisterForm(forms.Form):
     lastname = forms.CharField(label="Last name", widget=forms.TextInput, required=False)     
 
     contact_info = forms.CharField(label="Contact Information", widget=forms.TextInput, required=False)
-    description = forms.CharField(label="Description", widget=forms.TextInput, required=False)
+    description = forms.CharField(label="Description", widget=forms.Textarea, required=False)
 
     student = forms.NullBooleanField(label="Is student?", widget=forms.NullBooleanSelect, required=False)       
     professor = forms.NullBooleanField(label="Is professor?", widget=forms.NullBooleanSelect, required=False)     
