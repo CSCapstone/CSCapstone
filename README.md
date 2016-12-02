@@ -26,7 +26,7 @@ CS390 Students: Please refer to the [grading form](https://docs.google.com/docum
 - [ ] 3.8 (15 pts): Group Profiles: Each group’s profile should include team member details and the project they opted for. Group members, their teachers, and the project corporate users may post comments on the group profile page, allowing discussion.
 - [ ] 3.9 (10 pts): Deletion: Allow privileged users to delete groups, projects, classes, and comments.
 - [x] 3.10 (10 pts): Use a WYSIWYG editor for any multi-line textarea (user profile about, group profile comments, etc). There are many WYSIWYG options available, just google “WYSIWYG editor”. One options is TinyMCE.
-	- [ ] Replace multi-line textarea with TinyMCE
+	- [x] Replace multi-line textarea with TinyMCE
 - [ ] Robustness (5 pts): Did it crash?
 - [ ] Easy To Use (5 pts): Could all tasks be performed with minimal steps?
 - [ ] Presentation (5 pts)
