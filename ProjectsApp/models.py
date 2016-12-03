@@ -17,16 +17,16 @@ class Project(models.Model):
     createdBy = models.ManyToManyField(MyUser)
 
     def setProgrammingLanguage(self,x):
-    	self.programmingLanguage = json.dumps(x)
+    	self.programmingLanguage = x
 
     def getProgrammingLanguage(self):
-    	return json.loads(self.programmingLanguage)
+    	return self.programmingLanguage
 
     def setSpeciality(self,x):
-    	self.speciality = json.dumps(x)
+    	self.speciality = x
 
     def getSpeciality(self):
-    	return json.loads(self.speciality)
+    	return self.speciality
 
     def __str__(self):
         return self.name

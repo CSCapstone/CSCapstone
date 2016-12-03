@@ -3,7 +3,8 @@
 Created by Harris Christiansen on 10/02/16.
 """
 from django.shortcuts import render
-
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
 from . import models
 from . import forms
 import datetime
@@ -28,13 +29,7 @@ def getProject(request):
 
 def getProjectForm(request):
 	if request.user.is_authenticated():
-		return render(request,'projectform.html')
-	return render(request,'autherror.html')
-
-def getProjectFormSuccess(request):
-    if request.user.is_authenticated():
-        if request.method == 'POST':
-            form = forms.ProjectForm(request.POST)
+            form = forms.ProjectForm(request.POST or None)
             if form.is_valid():
                 if models.Project.objects.filter(name__exact=form.cleaned_data['name']).exists():
                     return render(request, 'projectform.html', {'error' : 'Error: That Project name already exists!'})
@@ -51,9 +46,27 @@ def getProjectFormSuccess(request):
                     'name' : form.cleaned_data['name'],
                 }
                 return render(request, 'projectformsuccess.html', context)
-        else:
-            form = forms.ProjectForm()
-        return render(request, 'projectform.html')
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+            context = {
+                "form": form,
+                "page_name" : "Create Project",
+                "button_value" : "Create"
+            }
+            return render(request,'projectform.html',context)
+	return render(request,'autherror.html')
+
+@login_required
+def editProject(request):
+    in_name = request.GET.get('name', 'None')
+    in_project = models.Project.objects.get(name__exact=in_name)
+    form = forms.UpdateForm(request.POST or None, instance=in_project)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Success, this project is updated!')
+
+    context = {
+        "form" : form,
+        "page_name" : "Update Project",
+        "button_value" : "Update"
+    }
+    return render(request, 'projectform.html', context)
 
