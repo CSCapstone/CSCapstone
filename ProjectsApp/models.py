@@ -17,23 +17,24 @@ class Project(models.Model):
     createdBy = models.ManyToManyField(MyUser)
 
     def setProgrammingLanguage(self,x):
-    	self.programmingLanguage = x
+        self.programmingLanguage = x
 
     def getProgrammingLanguage(self):
-    	return self.programmingLanguage
+        return self.programmingLanguage
 
     def setSpeciality(self,x):
-    	self.speciality = x
+        self.speciality = x
 
     def getSpeciality(self):
-    	return self.speciality
+        return self.speciality
 
     def __str__(self):
         return self.name
 
+
 class Bookmarks(models.Model):
-    user = models.OneToOneField(MyUser)
-    project = models.OneToOneField(Project)
+    user = models.ForeignKey(MyUser, on_delete=models.CASCADE,default=None)
+    project = models.ForeignKey(Project, on_delete=models.CASCADE,default=None)
+    objects = models.Manager()
     def __str__(self):
-        return self.user.get_full_name() + " : " + project.name
-        
+        return self.user.get_full_name() + " bookmarked " + self.project.name

@@ -20,12 +20,40 @@ def getProject(request):
     in_project = models.Project.objects.get(name__exact=in_name)
     is_member = in_project.createdBy.filter(email__exact=request.user.email)
     is_engineer = request.user.is_engineer
+    has_bookmarked = models.Bookmarks.objects.filter(project__exact=in_project,user__exact=request.user)
+    context = {
+        'project' : in_project,
+        'userIsMember': is_member,
+        'is_engineer' : is_engineer,
+        'has_bookmarked' : has_bookmarked
+    }
+    return render(request, 'project.html',context)
+
+@login_required
+def bookmarkProject(request):
+    in_name = request.GET.get('name', 'None')
+    in_project = models.Project.objects.get(name__exact=in_name)
+    has_bookmarked = models.Bookmarks.objects.filter(project__exact=in_project,user__exact=request.user)
+    is_member = in_project.createdBy.filter(email__exact=request.user.email)
+    is_engineer = request.user.is_engineer
     context = {
         'project' : in_project,
         'userIsMember': is_member,
         'is_engineer' : is_engineer
     }
+    if has_bookmarked:
+        bookmark = models.Bookmarks.objects.get(user__exact=request.user,project__exact=in_project)
+        bookmark.delete()
+        messages.success(request, 'Unbookmarked! you have successfully unbookmarked this project!')
+        context['has_bookmarked'] = False
+    else:
+        bookmark = models.Bookmarks(user=request.user,project=in_project)
+        bookmark.save()
+        messages.success(request, 'Bookmarked! you have successfully bookmarked this project!')
+        context['has_bookmarked'] = True
+
     return render(request, 'project.html',context)
+
 
 def deleteProject(request):
     in_name = request.GET.get('name', 'None')
