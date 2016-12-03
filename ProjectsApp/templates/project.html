@@ -1,39 +1,40 @@
 {% extends "body.html" %}
 
 {% block content %}
-	<!-- Content -->
+  <!-- Content -->
     <div class="container theme-showcase" role="main">
-		<div class="jumbotron">
-			<h3>{{ project.name }}</h3>
-			<h4>Created_At: {{ project.created_at }}</h4>
-			<h4>Updated At: {{ project.updated_at }}</h4>
-			<h4>Years of Experience: {{ project.yearsOfExperience }}</h4>
-			<h4>Programming Languages: {{ project.getProgrammingLanguage }}</h4>
-			<h4>Specialities: {{ project.getSpeciality }}</h4>
-			<p>Description: {{ project.description}}</p>
+    <div class="jumbotron">
+      <h3>{{ project.name }}</h3>
+      <h4>Created_At: {{ project.created_at }}</h4>
+      <h4>Updated At: {{ project.updated_at }}</h4>
+      <h4>Years of Experience: {{ project.yearsOfExperience }}</h4>
+      <h4>Programming Languages: {{ project.getProgrammingLanguage }}</h4>
+      <h4>Specialities: {{ project.getSpeciality }}</h4>
+      <p>Description: {{ project.description}}</p>
             {% if userIsMember %}
-            	<a href="/project/edit?name={{ project.name }}" class="btn btn-default">Edit this Project</a>
+              <a href="/project/edit?name={{ project.name }}" class="btn btn-default">Edit this Project</a>
+              <a href="/project/delete?name={{ project.name }}" class="btn btn-danger">Delete this Project</a>
             {% endif %}
-		</div>
+    </div>
     </div>
     <div class="container" role="main">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>Creaters</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for item in project.createdBy.all %}
-					<tr>
-						<td>{{ item.get_full_name }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		
-	</div>
-	
+    <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>Creaters</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in project.createdBy.all %}
+          <tr>
+            <td>{{ item.get_full_name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+  </div>
+
 {% endblock %}

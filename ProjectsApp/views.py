@@ -27,6 +27,15 @@ def getProject(request):
     }
     return render(request, 'project.html',context)
 
+def deleteProject(request):
+    in_name = request.GET.get('name', 'None')
+    in_project = models.Project.objects.get(name__exact=in_name)
+    in_project.delete()
+    projects_list = models.Project.objects.all()
+    return render(request, 'projects.html', {
+        'projects': projects_list,
+    })
+
 def getProjectForm(request):
     if request.user.is_authenticated():
             form = forms.ProjectForm(request.POST or None)
