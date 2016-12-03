@@ -13,7 +13,7 @@
                 <a href="/university/unjoin?name={{ university.name }}" class="btn btn-default">Unjoin this University</a>
               {% if is_professor == True %}
                 <a href="/university/edit?name={{ university.name }}" class="btn btn-default">Edit this University</a>
-                <a href="/university/delete?name={{ university.name }}" class="btn btn-default">Delete this University</a>
+                <a href="/university/delete?name={{ university.name }}" class="btn btn-danger">Delete this University</a>
               {% endif %}
             {% else %}
               {% if is_professor == True or is_student == True %}

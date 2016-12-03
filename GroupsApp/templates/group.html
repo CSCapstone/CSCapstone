@@ -10,7 +10,7 @@
       {% if userIsMember %}
         <a href="/group/edit?name={{ group.name }}" class="btn btn-default">Edit this Group</a>
         <a href="/group/unjoin?name={{ group.name }}" class="btn btn-default">Unjoin this Group</a>
-        <a href="/group/delete?name={{ group.name }}" class="btn btn-default">Delete this Group</a>
+        <a href="/group/delete?name={{ group.name }}" class="btn btn-danger">Delete this Group</a>
       {% elif is_student == True %}
         <a href="/group/join?name={{ group.name }}" class="btn btn-default">Join this Group</a>
       {% endif %}
