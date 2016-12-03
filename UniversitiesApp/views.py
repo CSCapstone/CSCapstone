@@ -70,7 +70,9 @@ def getUniversityForm(request):
 def editUniversity(request):
     in_name = request.GET.get('name', 'None')
     in_university = models.University.objects.get(name__exact=in_name)
-    form = forms.UpdateUniversityForm(request.POST or None, instance=in_university)
+    form = forms.UpdateUniversityForm(request.POST,request.FILES, instance=in_university)
+    if request.method != 'POST':
+        form = forms.UpdateUniversityForm(None,instance=in_university)
     if form.is_valid():
         form.save()
         messages.success(request, 'Success, this University is updated!')
