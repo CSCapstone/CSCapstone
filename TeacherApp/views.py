@@ -1,10 +1,12 @@
 from django.shortcuts import render
 
 # Create your views here.
-from django.shortcuts import render
+from django.contrib import messages
 
 from . import models
 from . import forms
+from forms import TeacherUpdateForm
+from TeacherApp.models import Teacher
 
 def getTeachers(request): 
 	if request.user.is_authenticated():
@@ -19,10 +21,14 @@ def getTeachers(request):
 
 def getTeacher(request):
 	if request.user.is_authenticated():
-		request_name = request.GET.get('name', 'None')
-		teacher_object = models.Teacher.objects.get(name__exact=request_name)
-		#is_student = teacher_object.students.filter(email__exact=request.user.email)
+		request_email = request.user.email
 		
+		try:
+			teacher_object = Teacher.objects.get(email=request_email)
+			#is_student = teacher_object.students.filter(email__exact=request.user.email)
+		except Teacher.DoesNotExist:
+			return render(request, 'teacherautherror.html')
+
 		context = {
 			'teacher' : teacher_object,
 			#'userIsStudent' : is_student,
@@ -36,6 +42,7 @@ def getTeacher(request):
 
 def getTeacherForm(request):
 	if request.user.is_authenticated():
+		# Auto Complete name and email from request.user
 		return render(request, 'teacherform.html')
 	#else
 	return render(request, 'autherror.html')
@@ -50,7 +57,9 @@ def getTeacherFormSuccess(request):
 				#else
 				new_teacher_object = models.Teacher(name=form.cleaned_data['name'],
 								photo=request.FILES['photo'],
-								email=form.cleaned_data['email'])
+								email=form.cleaned_data['email'],
+								user_map=request.user,
+								)
 				new_teacher_object.save()
 				
 				context = {
@@ -65,3 +74,24 @@ def getTeacherFormSuccess(request):
 			form = forms.TeacherForm()
 		return render(request, 'teacherform.html')
 	return render(request, 'autherror.html')
+
+def updateTeacher(request):
+	if request.user.is_authenticated():
+	   if request.user.is_professor:
+		user_email = request.user.email
+		object_teacher = Teacher.objects.get(email=user_email)
+		form = TeacherUpdateForm(request.POST or None, instance=object_teacher)#models.Teacher.objects.filter(email=request.user.email))
+		
+		if form.is_valid():
+			form.save()
+			messages.success(request, 'Success, your teacher profile was saved!')
+		
+		context = {
+			"form": form,
+			"page_name" : "Update Teacher",
+			"button_value" : "Update",
+			"links" : ["logout"],
+		}
+		return render(request, 'auth_form.html', context)
+	   return render(request, 'teacherautherror.html')	
+	return render(request, 'autherror.html') 

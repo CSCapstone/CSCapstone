@@ -78,6 +78,7 @@ def update_profile(request):
 	if form.is_valid():
 		form.save()
 		messages.success(request, 'Success, your profile was saved!')
+		#return render(request, 'teacherupdateform.html')
 
 	context = {
 		"form": form,
