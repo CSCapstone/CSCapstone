@@ -1,63 +1,64 @@
 {% extends "body.html" %}
 
 {% block content %}
-	<!-- Content -->
+  <!-- Content -->
     <div class="container theme-showcase" role="main">
-		<div class="jumbotron">
+    <div class="jumbotron">
             <img src="/{{ university.photo }}" alt="University Image" width=150/>
-			<h2>{{ course.tag }}</h2>
-			<h3>{{ course.name }}</h3>
-			<p>{{ course.description }}</p>
+      <h2>{{ course.tag }}</h2>
+      <h3>{{ course.name }}</h3>
+      <p>{{ course.description }}</p>
             {% if userInCourse %}
-            	<a href="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Unjoin this Course</a>
+              <a href="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Unjoin this Course</a>
             {% else %}
-            	{% if is_professor == True or is_student == True %}
-            		<a href="/university/course/join?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Join this Course</a>
-            	{% endif %}
+              {% if is_professor == True or is_student == True %}
+                <a href="/university/course/join?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Join this Course</a>
+              {% endif %}
             {% endif %}
             {% if is_professor == True %}
-            		<a href="/university/course/remove?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Delete this Course</a>
+                <a href="/university/course/edit?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Edit this Course</a>
+                <a href="/university/course/remove?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Delete this Course</a>
             {% endif %}
-			
-		</div>
+
+    </div>
     </div>
     <div class="container" role="main">
-    	<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>Professors</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for item in course.members.all %}
-						{% if item.is_professor == True %}
-            				<tr>
-								<td>{{ item.get_full_name }}</td>
-							</tr>
-            			{% endif %}
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>Students</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for item in course.members.all %}
-						{% if item.is_student == True %}
-            				<tr>
-								<td>{{ item.get_full_name }}</td>
-							</tr>
-            			{% endif %}
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
-	
+      <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>Professors</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in course.members.all %}
+            {% if item.is_professor == True %}
+                    <tr>
+                <td>{{ item.get_full_name }}</td>
+              </tr>
+                  {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>Students</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in course.members.all %}
+            {% if item.is_student == True %}
+                    <tr>
+                <td>{{ item.get_full_name }}</td>
+              </tr>
+                  {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 {% endblock %}
