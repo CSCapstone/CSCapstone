@@ -38,7 +38,7 @@ def getGroup(request):
 
 def getGroupForm(request):
     if request.user.is_authenticated():
-        form = forms.GroupForm(request.POST)
+        form = forms.GroupForm(request.POST or None)
         if form.is_valid():
             if models.Group.objects.filter(name__exact=form.cleaned_data['name']).exists():
                 return render(request, 'groupform.html', {'error': 'Error: That Group name already exists!'})
@@ -49,11 +49,11 @@ def getGroupForm(request):
                 'name': form.cleaned_data['name'],
             }
             return render(request, 'groupformsuccess.html', context)
-            context = {
-                "form": form,
-                "page_name": "Create Group",
-                "button_value": "Create"
-            }
+        context = {
+            "form": form,
+            "page_name": "Create Group",
+            "button_value": "Create"
+        }
         return render(request, 'groupform.html', context)
     # render error page if user is not logged in
     return render(request, 'autherror.html')
@@ -109,4 +109,18 @@ def unjoinGroup(request):
             'is_student': is_student
         }
         return render(request, 'group.html', context)
+    return render(request, 'autherror.html')
+
+
+def deleteGroup(request):
+    if request.user.is_authenticated():
+        in_name = request.GET.get('name', 'None')
+        in_group = models.Group.objects.get(name__exact=in_name)
+        in_group.delete()
+        groups_list = models.Group.objects.all()
+        context = {
+            'groups': groups_list,
+        }
+        return render(request, 'groups.html', context)
+    # render error page if user is not logged in
     return render(request, 'autherror.html')
