@@ -10,25 +10,25 @@ from . import forms
 import datetime
 
 def getProjects(request):
-	projects_list = models.Project.objects.all()
-	return render(request, 'projects.html', {
+    projects_list = models.Project.objects.all()
+    return render(request, 'projects.html', {
         'projects': projects_list,
     })
 
 def getProject(request):
-	in_name = request.GET.get('name', 'None')
-	in_project = models.Project.objects.get(name__exact=in_name)
-	is_member = in_project.createdBy.filter(email__exact=request.user.email)
-	is_engineer = request.user.is_engineer
-	context = {
-		'project' : in_project,
-		'userIsMember': is_member,
-		'is_engineer' : is_engineer
-	}
-	return render(request, 'project.html',context)
+    in_name = request.GET.get('name', 'None')
+    in_project = models.Project.objects.get(name__exact=in_name)
+    is_member = in_project.createdBy.filter(email__exact=request.user.email)
+    is_engineer = request.user.is_engineer
+    context = {
+        'project' : in_project,
+        'userIsMember': is_member,
+        'is_engineer' : is_engineer
+    }
+    return render(request, 'project.html',context)
 
 def getProjectForm(request):
-	if request.user.is_authenticated():
+    if request.user.is_authenticated():
             form = forms.ProjectForm(request.POST or None)
             if form.is_valid():
                 if models.Project.objects.filter(name__exact=form.cleaned_data['name']).exists():
@@ -52,7 +52,7 @@ def getProjectForm(request):
                 "button_value" : "Create"
             }
             return render(request,'projectform.html',context)
-	return render(request,'autherror.html')
+    return render(request,'autherror.html')
 
 @login_required
 def editProject(request):
@@ -69,4 +69,3 @@ def editProject(request):
         "button_value" : "Update"
     }
     return render(request, 'projectform.html', context)
-
