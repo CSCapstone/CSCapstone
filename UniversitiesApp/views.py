@@ -122,6 +122,19 @@ def unjoinUniversity(request):
         return render(request, 'university.html', context)
     return render(request, 'autherror.html')
 
+def deleteUniversity(request):
+    if request.user.is_authenticated():
+        in_university_name = request.GET.get('name', 'None')
+        in_university = models.University.objects.get(name__exact=in_university_name)
+        in_university.delete()
+        universities_list = models.University.objects.all()
+        context = {
+            'universities' : universities_list,
+        }
+        return render(request, 'universities.html', context)
+    # render error page if user is not logged in
+    return render(request, 'autherror.html')
+
 def getCourse(request):
     if request.user.is_authenticated():
         in_university_name = request.GET.get('name', 'None')
