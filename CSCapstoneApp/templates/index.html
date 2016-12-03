@@ -2,117 +2,126 @@
 
 {% block content %}
 
-	<!-- Content -->
+  <!-- Content -->
     <div class="container theme-showcase" role="main">
-		<div class="jumbotron">
-			<h1>Hi {{user.first_name}}! ヽ(･ω･´ﾒ)</h1>
-			<p>Welcome to the CS390-Python CS Market Place!💰💰💰🤑🤑🤑👛👛👛💸💸💸</p>
-			<br>
-			{% if user.is_authenticated == False %}
-					<li><a href="/login">Login</a></li>
-					<li><a href="/register">Register</a></li>
-			{% else %}
-				<h3>We（づ￣3￣）づ╭❤～ {{user.get_full_name}} !</h3>
-			{% endif %}
-		</div>
+    <div class="jumbotron">
+      <h1>Hi {{user.first_name}}! ヽ(･ω･´ﾒ)</h1>
+      <p>Welcome to the CS390-Python CS Market Place!💰💰💰🤑🤑🤑👛👛👛💸💸💸</p>
+      <br>
+      {% if user.is_authenticated == False %}
+          <li><a href="/login">Login</a></li>
+          <li><a href="/register">Register</a></li>
+      {% else %}
+        <h3>We（づ￣3￣）づ╭❤～ {{user.get_full_name}} !</h3>
+      {% endif %}
+    </div>
 
     </div>
-	
-	<!-- Content -->
-	<div class="container" role="main">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>Projects</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for item in projects %}
-					<tr>
+
+  <!-- Content -->
+  <div class="container" role="main">
+    <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>Projects</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in projects %}
+          <tr>
 
                         <td><a href="/project?name={{ item.name }}">{{ item.name }}</a></td>
                         <td>{{ item.description }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
+                        {% if item in bookmarks %}
+                        <td><a href="/project/bookmark?name={{ item.name }}" class="btn btn-info btn-md">
+                          <span class="glyphicon glyphicon-bookmark"></span> Unbookmark
+                        </a></td>
+                        {% else %}
+                        <td><a href="/project/bookmark?name={{ item.name }}" class="btn btn-default btn-md">
+                          <span class="glyphicon glyphicon-bookmark"></span> Bookmark
+                        </a></td>
+                        {% endif %}
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 
-	<!-- Content -->
-	<div class="container" role="main">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>Groups</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for item in groups %}
-					<tr>
-						<td><a href="/group?name={{ item.name }}">{{ item.name }}</a></td>
-						<td>{{ item.description }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
+  <!-- Content -->
+  <div class="container" role="main">
+    <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>Groups</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in groups %}
+          <tr>
+            <td><a href="/group?name={{ item.name }}">{{ item.name }}</a></td>
+            <td>{{ item.description }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
 
 
-	<div class="container" role="main">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>University</th>
-						<th>Logo</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
+  <div class="container" role="main">
+    <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>University</th>
+            <th>Logo</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
                     {% for item in universities %}
                     <tr>
-                        
+
                         <td><a href="/university?name={{ item.name }}">{{ item.name }}</a></td>
                         <td><a href="/university?name={{ item.name }}"><img src="/{{ item.photo }}" alt="University Image" width=50/></a></td>
                         <td>{{ item.description }}</td>
                     </tr>
                     {% endfor %}
-				</tbody>
-			</table>
-		</div>
+        </tbody>
+      </table>
+    </div>
     </div>
 
 
     <div class="container" role="main">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-                        
-						<th>Company</th>
-						<th>Logo</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
+    <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+
+            <th>Company</th>
+            <th>Logo</th>
+            <th>Description</th>
+          </tr>
+        </thead>
+        <tbody>
                     {% for item in companies %}
                     <tr>
-                        
+
                         <td><a href="/company?name={{ item.name }}">{{ item.name }}</a></td>
                         <td><a href="/company?name={{ item.name }}"><img src="/{{ item.photo }}" alt="Company Image" width=50/></a></td>
                         <td>{{ item.description }}</td>
                     </tr>
                     {% endfor %}
-				</tbody>
-			</table>
-		</div>
+        </tbody>
+      </table>
+    </div>
     </div>
 
 {% endblock %}
