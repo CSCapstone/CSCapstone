@@ -27,7 +27,8 @@ CS390 Students: Please refer to the [grading form](https://docs.google.com/docum
   - [] Group members, their teachers, and the project corporate users may post comments on the group profile page, allowing discussion.
 - [x] 3.9 (10 pts): Deletion: Allow privileged users to delete groups, projects, classes, and comments.
   - [ ] Anyone can delete their own comments
-  - [ ] Allow admin to delete anything
+  - [ ] Allow admin to delete any comments
+  - [x] Allow admin to delete anything
 - [x] 3.10 (10 pts): Use a WYSIWYG editor for any multi-line textarea (user profile about, group profile comments, etc). There are many WYSIWYG options available, just google “WYSIWYG editor”. One options is TinyMCE.
   - [x] Replace multi-line textarea with TinyMCE
 - [ ] Robustness (5 pts): Did it crash?
