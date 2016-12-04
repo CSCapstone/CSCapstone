@@ -13,7 +13,7 @@ CS390 Students: Please refer to the [grading form](https://docs.google.com/docum
 - [x] 3.1 (2 pts): Create “Teacher” model with profile (contact info, etc)
 - [x] 3.2 (3 pts): Create “Engineer” model with profile (Alma Mater, About, Contact Info, etc)
 - [x] 3.3 (8 pts): Complete “University” and “Class” models. All students should belong to 1 University, and can belong to multiple classes. Teachers should be able to manage who is enrolled in their class.
-  - [ ] 3.3.1 Allow teacher to add/remove students
+  - [x] 3.3.1 Allow teacher to add/remove students
 - [x] 3.4 (5 pts): Groups: Students can create a group. Only group members may add additional members to the group. Only groups can be assigned to a project.
   - [ ] 3.4.1 Only group members may add additional members to the group.
   - [ ] 3.4.2 Only groups can be assigned to a project.
