@@ -254,13 +254,28 @@ def joinCourse(request):
 def unjoinCourse(request):
     if request.user.is_authenticated():
         in_university_name = request.GET.get('name', 'None')
+        user_to_delete = request.GET.get('user', 'None')
         in_university = models.University.objects.get(name__exact=in_university_name)
         in_course_tag = request.GET.get('course', 'None')
         in_course = in_university.course_set.get(tag__exact=in_course_tag)
         is_student = request.user.is_student
         is_professor = request.user.is_professor
+        if user_to_delete != 'None':
+            to_delete = models.MyUser.objects.get(email__exact=user_to_delete)
+            in_course.members.remove(to_delete)
+            in_course.save()
+            to_delete.course_set.remove(in_course)
+            to_delete.save()
+            context = {
+            'university' : in_university,
+            'course' : in_course,
+            'userInCourse': True,
+            'is_professor' : is_professor,
+            'is_student' : is_student
+            }
+            return render(request, 'course.html', context)
         in_course.members.remove(request.user)
-        in_course.save();
+        in_course.save()
         request.user.course_set.remove(in_course)
         request.user.save()
         context = {

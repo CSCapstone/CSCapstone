@@ -51,10 +51,15 @@
         <tbody>
           {% for item in course.members.all %}
             {% if item.is_student == True %}
-                    <tr>
+              <tr>
                 <td>{{ item.get_full_name }}</td>
+                {% if is_professor == True %}
+                  <td>
+                    <a href ="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}&user={{ item }}">Remove</a>
+                  </td>
+                {% endif %}
               </tr>
-                  {% endif %}
+            {% endif %}
           {% endfor %}
         </tbody>
       </table>
