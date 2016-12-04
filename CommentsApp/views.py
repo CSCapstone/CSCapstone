@@ -19,7 +19,7 @@ def addComment(request):
     if request.method == 'POST':
         form = forms.CommentForm(request.POST)
         if form.is_valid():
-            new_comment = models.Comment(comment=form.cleaned_data['comment'])
+            new_comment = models.Comment(comment=form.cleaned_data['comment'],createdBy=request.user)
             new_comment.save()
             comments_list = models.Comment.objects.all()
             context = {

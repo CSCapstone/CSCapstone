@@ -8,6 +8,7 @@ from django.contrib.auth.decorators import login_required
 from . import models
 from . import forms
 import datetime
+from CommentsApp.models import Comment
 
 def getProjects(request):
     projects_list = models.Project.objects.all()
@@ -21,10 +22,12 @@ def getProject(request):
     is_member = in_project.createdBy.filter(email__exact=request.user.email)
     is_engineer = request.user.is_engineer
     has_bookmarked = models.Bookmarks.objects.filter(project__exact=in_project,user__exact=request.user)
+    comments_list = Comment.objects.all()
     context = {
         'project' : in_project,
         'userIsMember': is_member,
         'is_engineer' : is_engineer,
+        'comments' : comments_list,
         'has_bookmarked' : has_bookmarked
     }
     return render(request, 'project.html',context)

@@ -8,6 +8,8 @@ from django.contrib.auth.decorators import login_required
 from . import models
 from . import forms
 
+from CommentsApp.models import Comment
+
 
 def getGroups(request):
     if request.user.is_authenticated():
@@ -26,9 +28,11 @@ def getGroup(request):
         in_group = models.Group.objects.get(name__exact=in_name)
         is_member = in_group.members.filter(email__exact=request.user.email)
         is_student = request.user.is_student
+        comments_list = Comment.objects.all()
         context = {
             'group': in_group,
             'userIsMember': is_member,
+            'comments' : comments_list,
             'is_student': is_student
         }
         return render(request, 'group.html', context)
