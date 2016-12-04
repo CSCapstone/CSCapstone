@@ -7,7 +7,7 @@
             <img src="/{{ company.photo }}" alt="Company Image" width=150/>
       <h3>{{ company.name }}</h3>
       <p>{{ company.description }}</p>
-            <h5><a href="{{ company.website }}">Website</a></h5>
+            <h5><a href="http://{{ company.website }}">Website</a></h5>
             {% if userIsMember  or user.is_staff %}
               <a href="/company/edit?name={{ company.name }}" class="btn btn-default">Edit this Company</a>
               {% if userIsMember %}
