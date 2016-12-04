@@ -25,19 +25,23 @@ def getProject(request):
     has_bookmarked = models.Bookmarks.objects.filter(project__exact=in_project,user__exact=request.user)
     comments_list = Comment.objects.all()
     groups_list = Group.objects.all()
+    assigned_groups = in_project.project_groups.all()
     context = {
         'project' : in_project,
         'userIsMember': is_member,
         'is_engineer' : is_engineer,
         'comments' : comments_list,
         'has_bookmarked' : has_bookmarked,
-        'groups_list' : groups_list
+        'groups_list' : groups_list,
+        'assigned_groups' : assigned_groups
     }
     if request.method == 'POST':
-        group_name = request.POST.get('dropdownl','None')
-        in_group = Group.objects.get(name__exact=group_name)
-        in_group.project = in_project
-        in_group.save()
+        group_names = request.POST.getlist('dropdownl','None')
+        for group_name in group_names:
+            group = Group.objects.get(name__exact=group_name)
+            group.project.add(in_project)
+            print group.project
+            group.save()
 
     return render(request, 'project.html',context)
 
@@ -50,12 +54,14 @@ def bookmarkProject(request):
     is_engineer = request.user.is_engineer
     comments_list = Comment.objects.all()
     groups_list = Group.objects.all()
+    assigned_groups = in_project.project_groups.all()
     context = {
         'project' : in_project,
         'userIsMember': is_member,
         'is_engineer' : is_engineer,
         'comments' : comments_list,
-        'groups_list' : groups_list
+        'groups_list' : groups_list,
+        'assigned_groups' : assigned_groups
     }
     if has_bookmarked:
         bookmark = models.Bookmarks.objects.get(user__exact=request.user,project__exact=in_project)

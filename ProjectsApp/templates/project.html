@@ -27,30 +27,27 @@
     <a href="/project/delete?name={{ project.name }}" class="btn btn-danger">Delete this Project</a>
     <br>
     <br>
-    <form method="POST" class="panel-body validate">
-      {% csrf_token %}
-      <div class="table-responsive">
-        <table class="table">
-          <tbody>
-            <tr>
-              <td>
-                Current Group: {{project.group}}
-              </td>
-              <td>Group Name:
-                <select name="dropdownl">
-                  {% for group in groups_list %}
-                  {% if group.project != project %}
-                    <option value="{{ group.name }}">{{ group.name }}</option>
-                  {% endif %}
-                  {% endfor %}
-                </select>
-              </td>
-              <td><input type="submit" class="btn btn-info" value="Assign to this group" ></td>
-              </tr>
-            </tbody>
-          </table>
-        </div>
-      </div>
+    <td>
+      Current Group:
+      {% for group in assigned_groups %}
+        <option value="{{ group.name }}">{{ group.name }}</option>
+      {% endfor %}
+    </td>
+    <br>
+    <br>
+
+    <form method="POST" class="panel-body validate">{% csrf_token %}Group Name:
+        <select class="selectpicker"  name="dropdownl" data-live-search="true" multiple>
+          {% for group in groups_list %}
+            {% if  group not in assigned_groups %}
+              <option value="{{ group.name }}">{{ group.name }}</option>
+            {%endif%}
+
+          {% endfor %}
+        </select>
+
+      <input type="submit" class="btn btn-info" value="Assign to this group" >
+
 
     </form>
 
