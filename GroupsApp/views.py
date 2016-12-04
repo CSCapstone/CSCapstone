@@ -29,11 +29,13 @@ def getGroup(request):
         is_member = in_group.members.filter(email__exact=request.user.email)
         is_student = request.user.is_student
         comments_list = Comment.objects.all()
+        projects = in_group.project.all()
         context = {
             'group': in_group,
             'userIsMember': is_member,
             'comments' : comments_list,
-            'is_student': is_student
+            'is_student': is_student,
+            'projects' : projects
         }
         return render(request, 'group.html', context)
     # render error page if user is not logged in
@@ -89,10 +91,12 @@ def joinGroup(request):
         in_group.save()
         request.user.group_set.add(in_group)
         request.user.save()
+        projects = in_group.project.all()
         context = {
             'group': in_group,
             'userIsMember': True,
-            'is_student': is_student
+            'is_student': is_student,
+            'projects' : projects
         }
         return render(request, 'group.html', context)
     return render(request, 'autherror.html')
@@ -107,10 +111,12 @@ def unjoinGroup(request):
         in_group.save()
         request.user.group_set.remove(in_group)
         request.user.save()
+        projects = in_group.project.all()
         context = {
             'group': in_group,
             'userIsMember': False,
-            'is_student': is_student
+            'is_student': is_student,
+            'projects' : projects
         }
         return render(request, 'group.html', context)
     return render(request, 'autherror.html')

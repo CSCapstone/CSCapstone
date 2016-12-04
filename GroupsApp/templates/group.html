@@ -22,7 +22,7 @@
     <table class="table table-striped sortable">
       <thead>
         <tr>
-          <th>Users</th>
+          <th>Students</th>
         </tr>
       </thead>
       <tbody>
@@ -36,6 +36,35 @@
   </div>
 </div>
 </div>
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped sortable">
+      <thead>
+        <tr>
+          <th>Projects</th>
+          <th>Description</th>
+          <th>Programming Language</th>
+          <th>Years Of Experience</th>
+          <th>Speciality</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for project in projects %}
+        <tr>
+          <td>{{ project.name }}</td>
+          <td>{{ project.description }}</td>
+          <td>{{ project.programmingLanguage }}</td>
+          <td>{{ project.yearsOfExperience }}</td>
+          <td>{{ project.speciaty }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
 <div class="container" role="main">
   <div class="table-responsive">
     <table class="table table-striped sortable">
