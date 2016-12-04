@@ -8,10 +8,12 @@
       <h3>{{ university.name }}</h3>
       <p>{{ university.description }}</p>
             <h5><a href="{{ university.website }}">Website</a></h5>
-            {% if userIsMember %}
-
+            {% if userIsMember or user.is_staff %}
+              {% if userIsMember == True %}
                 <a href="/university/unjoin?name={{ university.name }}" class="btn btn-default">Unjoin this University</a>
-              {% if is_professor == True %}
+              {% endif %}
+
+              {% if is_professor == True or user.is_staff %}
                 <a href="/university/edit?name={{ university.name }}" class="btn btn-default">Edit this University</a>
                 <a href="/university/delete?name={{ university.name }}" class="btn btn-danger">Delete this University</a>
               {% endif %}

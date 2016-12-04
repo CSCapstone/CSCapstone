@@ -20,7 +20,7 @@
       <span class="glyphicon glyphicon-bookmark"></span> Bookmark
     </a>
     {% endif %}
-    {% if userIsMember %}
+    {% if userIsMember or user.is_staff %}
     <br>
     <br>
     <a href="/project/edit?name={{ project.name }}" class="btn btn-default">Edit this Project</a>

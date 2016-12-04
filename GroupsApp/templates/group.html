@@ -7,9 +7,12 @@
   <div class="jumbotron">
     <h1>{{ group.name }}</h1>
     <p>{{ group.description }}</p>
-    {% if userIsMember %}
+    {% if userIsMember or user.is_staff %}
     <a href="/group/edit?name={{ group.name }}" class="btn btn-default">Edit this Group</a>
-    <a href="/group/unjoin?name={{ group.name }}" class="btn btn-default">Unjoin this Group</a>
+    {% if userIsMember %}
+      <a href="/group/unjoin?name={{ group.name }}" class="btn btn-default">Unjoin this Group</a>
+    {% endif %}
+
     <a href="/group/delete?name={{ group.name }}" class="btn btn-danger">Delete this Group</a>
     {% elif is_student == True %}
     <a href="/group/join?name={{ group.name }}" class="btn btn-default">Join this Group</a>
