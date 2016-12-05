@@ -253,6 +253,7 @@ def joinCourse(request):
 
 def unjoinCourse(request):
     if request.user.is_authenticated():
+        test = request.GET.get('email', 'None')        
         in_university_name = request.GET.get('name', 'None')
         user_to_delete = request.GET.get('user', 'None')
         in_university = models.University.objects.get(name__exact=in_university_name)
@@ -282,6 +283,33 @@ def unjoinCourse(request):
             'university' : in_university,
             'course' : in_course,
             'userInCourse': False,
+            'is_professor' : is_professor,
+            'is_student' : is_student
+        }
+        return render(request, 'course.html', context)
+    return render(request, 'autherror.html')
+
+def addByEmail(request):
+    print('hi')
+    if request.user.is_authenticated():
+        in_university_name = request.GET.get('name', 'None')
+        in_university = models.University.objects.get(name__exact=in_university_name)
+        in_course_tag = request.GET.get('course', 'None')
+        in_course = in_university.course_set.get(tag__exact=in_course_tag)
+        is_student = request.user.is_student
+        is_professor = request.user.is_professor
+        student_email = request.POST.get('email', 'None')
+        if student_email != 'None':
+            student = models.MyUser.objects.filter(email__exact=student_email)
+            if student:
+                in_course.members.add(student[0])
+                in_course.save();
+                student[0].course_set.add(in_course)
+                student[0].save()
+        context = {
+            'university' : in_university,
+            'course' : in_course,
+            'userInCourse': True,
             'is_professor' : is_professor,
             'is_student' : is_student
         }

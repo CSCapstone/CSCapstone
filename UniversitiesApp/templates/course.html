@@ -17,6 +17,11 @@
             {% endif %}
             {% if is_professor == True %}
                 <a href="/university/course/edit?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Edit this Course</a>
+                <form style="display:inline;" action="/university/course/addbyemail?name={{ university.name }}&course={{ course.tag }}" method="post">
+                  {% csrf_token %}
+                  <input id="email" type="text" name="email" placeholder="example@example.com">
+                  <input type="submit" value="Add Student" class="btn btn-default">
+                </form>
                 <a href="/university/course/remove?name={{ university.name }}&course={{ course.tag }}" class="btn btn-danger">Delete this Course</a>
             {% endif %}
 
