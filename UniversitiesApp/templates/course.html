@@ -5,17 +5,28 @@
     <div class="container theme-showcase" role="main">
 		<div class="jumbotron">
             <img src="/{{ university.photo }}" alt="University Image" width=150/>
-			<h2>{{ course.tag }}</h2>
-			<h3>{{ course.name }}</h3>
-			<p>{{ course.description }}</p>
+			<h2>Course Number: {{ course.tag }}</h2>
+			<h3>Course Name: {{ course.name }}</h3>
+			<p>Description: {{ course.description }}</p>
             {% if userInCourse %}
             <a href="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Unjoin this Course</a>
             {% else %}
             <a href="/university/course/join?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Join this Course</a>
             {% endif %}
 			<a href="/university/course/remove?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Delete this Course</a>
-		</div>
+	    <a href="/university/course/addstudentsform?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Add Students</a>
+		
     </div>
+		
+		
+    </div>
+    <script>
+	function SomeDeleteRowFunction(o) {
+     		//no clue what to put here?
+     		var p=o.parentNode.parentNode;
+        	p.parentNode.removeChild(p);
+    	}
+    </script>
     <div class="container" role="main">
 		<div class="table-responsive">
 			<table class="table table-striped sortable">
@@ -28,6 +39,7 @@
 					{% for item in course.members.all %}
 					<tr>
 						<td>{{ item.get_full_name }}</td>
+						<!--td><input type="button" value="Delete Row" onclick="SomeDeleteRowFunction(this)"></td-->
 					</tr>
 					{% endfor %}
 				</tbody>
