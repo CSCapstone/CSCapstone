@@ -1,0 +1,40 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+        <!-- Content -->
+        <div class="container" role="main">
+                <div class="jumbotron">
+                        <h3 style="margin: 0px; padding: 0px;">Create Project</h3>
+                </div>
+                <div class="panel panel-default">
+                        <form method="post" enctype="multipart/form-data" action="/project/formsuccess" class="panel-body validate">
+                {% csrf_token %}
+                 		<label for="name">Name</label>
+                <h6 style="color:red">{{ error }}</h6>
+                                <input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required">
+                                <br>
+                <label for="description">Description</label>
+                <input type="text" name="description" id="description" placeholder="Info" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
+                <br>
+                
+		<label for="planguage">Programming Language</label>
+                <input type="text" name="planguage" id="planguage" placeholder="Programming Language" class="form-control" data-bvalidator="required" data-bvalidator-msg="Programming Language(s) Required">
+                <br>
+		
+		<label for="exp">Experience</label>
+                <h6 style="color:red">{{ error }}</h6>
+                <input type="number" name="exp" id="exp" placeholder="Exp." class="form-control" data-bvalidator="required" data-bvalidator-msg="Exp Required">
+                <br>
+		
+		<label for="skills">Skills Required</label>
+                <h6 style="color:red">{{ error }}</h6>
+                <input type="text" name="skills" id="skills" placeholder="Skills" class="form-control" data-bvalidator="required" data-bvalidator-msg="Skills Required">
+                 <br>
+                 		<input type="submit" value="Submit" class="btn btn-primary">
+                        </form>
+                </div>
+        </div>
+
+{% endblock %}
+

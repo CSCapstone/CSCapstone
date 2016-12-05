@@ -12,5 +12,12 @@ def getProjects(request):
         'projects': projects_list,
     })
 
+def getProjectForm(request):
+	if request.user.is_authenticated():
+		if request.user.is_engineer == True:
+			return render(request, 'projectform.html')
+		return render(request, 'engineerautherror.html')
+	return render(request, 'autherror.html')
+
 def getProject(request):
 	return render(request, 'project.html')
