@@ -2,36 +2,98 @@
 
 {% block content %}
 
-	<!-- Content -->
-	<div class="container theme-showcase" role="main">
-		<div class="jumbotron">
-			<h1>{{ group.name }}</h1>
-			<p>{{ group.description }}</p>
-			{% if userIsMember %}
-			<a href="/group/unjoin?name={{ group.name }}" class="btn btn-default">Unjoin this Group</a>
-			{% else %}
-			<a href="/group/join?name={{ group.name }}" class="btn btn-default">Join this Group</a>
-			{% endif %}
-		</div>
-	</div>
-	
-	<div class="container">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>Users</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for item in group.members.all %}
-					<tr>
-						<td>{{ item.get_full_name }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
+<!-- Content -->
+<div class="container theme-showcase" role="main">
+  <div class="jumbotron">
+    <h1>{{ group.name }}</h1>
+    <p>{{ group.description }}</p>
+    {% if userIsMember or user.is_staff %}
+    <a href="/group/edit?name={{ group.name }}" class="btn btn-default">Edit this Group</a>
+    {% if userIsMember %}
+      <a href="/group/unjoin?name={{ group.name }}" class="btn btn-default">Unjoin this Group</a>
+      <form style="display:inline;" action="/group/addmember?name={{ group.name }}" method="post">
+        {% csrf_token %}
+        <input id="email" type="text" name="email" placeholder="example@example.com">
+        <input type="submit" value="Add Member" class="btn btn-default">
+      </form>
+    {% endif %}
+
+    <a href="/group/delete?name={{ group.name }}" class="btn btn-danger">Delete this Group</a>
+    {% elif is_student == True %}
+    <a href="/group/join?name={{ group.name }}" class="btn btn-default">Join this Group</a>
+    {% endif %}
+  </div>
+</div>
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped sortable">
+      <thead>
+        <tr>
+          <th>Students</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in group.members.all %}
+        <tr>
+          <td>{{ item.get_full_name }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="container">
+  <div class="table-responsive">
+    <table class="table table-striped sortable">
+      <thead>
+        <tr>
+          <th>Projects</th>
+          <th>Description</th>
+          <th>Programming Language</th>
+          <th>Years Of Experience</th>
+          <th>Speciality</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for project in projects %}
+        <tr>
+          <td>{{ project.name }}</td>
+          <td>{{ project.description }}</td>
+          <td>{{ project.programmingLanguage }}</td>
+          <td>{{ project.yearsOfExperience }}</td>
+          <td>{{ project.speciaty }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
+</div>
+
+<div class="container" role="main">
+  <div class="table-responsive">
+    <table class="table table-striped sortable">
+      <thead>
+        <tr>
+          <th style="width: 15%">Time</th>
+          <th style="width: 15%">User</th>
+          <th style="width: 70%">Comment</th>
+        </tr>
+      </thead>
+      <tbody>
+        {% for item in comments %}
+        <tr>
+          <td>{{ item.time }}</td>
+          <td>{{ item.createdBy.get_full_name }}</td>
+          <td>{{ item.comment }}</td>
+        </tr>
+        {% endfor %}
+      </tbody>
+    </table>
+  </div>
+</div>
 
 {% endblock %}

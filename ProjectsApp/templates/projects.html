@@ -12,9 +12,10 @@
 					</tr>
 				</thead>
 				<tbody>
-					{% for project in projects %}
+					{% for item in projects %}
 					<tr>
-						<td>{{ project.name }}</td>
+                        <td><a href="/project?name={{ item.name }}">{{ item.name }}</a></td>
+                        <td>{{ item.description }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>

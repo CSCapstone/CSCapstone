@@ -1,13 +1,76 @@
 {% extends "body.html" %}
 
 {% block content %}
-	
-	<!-- Content -->
-	<div class="container theme-showcase" role="main">
-		<div class="jumbotron">
-			<h1>Project</h1>
-			<p>Description</p>
-		</div>
-	</div>
+<!-- Content -->
+<div class="container theme-showcase" role="main">
+  <div class="jumbotron">
+    <h3>{{ project.name }}</h3>
+    <h4>Created_At: {{ project.created_at }}</h4>
+    <h4>Updated At: {{ project.updated_at }}</h4>
+    <h4>Years of Experience: {{ project.yearsOfExperience }}</h4>
+    <h4>Programming Languages: {{ project.getProgrammingLanguage }}</h4>
+    <h4>Specialities: {{ project.getSpeciality }}</h4>
+    <p>Description: {{ project.description}}</p>
+    {% if has_bookmarked %}
+    <a href="/project/bookmark?name={{ project.name }}" class="btn btn-info btn-lg">
+      <span class="glyphicon glyphicon-bookmark"></span> Unbookmark
+    </a>
+    {% else %}
+    <a href="/project/bookmark?name={{ project.name }}" class="btn btn-default btn-lg">
+      <span class="glyphicon glyphicon-bookmark"></span> Bookmark
+    </a>
+    {% endif %}
+    {% if userIsMember or user.is_staff %}
+    <br>
+    <br>
+    <a href="/project/edit?name={{ project.name }}" class="btn btn-default">Edit this Project</a>
+    <a href="/project/delete?name={{ project.name }}" class="btn btn-danger">Delete this Project</a>
+    <br>
+    <br>
+    <td>
+      Current Group:
+      {% for group in assigned_groups %}
+        <option value="{{ group.name }}">{{ group.name }}</option>
+      {% endfor %}
+    </td>
+    <br>
+    <br>
 
-{% endblock %}
+    <form method="POST" class="panel-body validate">{% csrf_token %}Group Name:
+        <select class="selectpicker"  name="dropdownl" data-live-search="true" multiple>
+          {% for group in groups_list %}
+            {% if  group not in assigned_groups %}
+              <option value="{{ group.name }}">{{ group.name }}</option>
+            {%endif%}
+
+          {% endfor %}
+        </select>
+
+      <input type="submit" class="btn btn-info" value="Assign to this group" >
+
+
+    </form>
+
+    {% endif %}
+  </div>
+  <div class="container" role="main">
+    <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>Creaters</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in project.createdBy.all %}
+          <tr>
+            <td>{{ item.get_full_name }}</td>
+          </tr>
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+
+
+
+    {% endblock %}

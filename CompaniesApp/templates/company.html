@@ -1,19 +1,23 @@
 {% extends "body.html" %}
 
 {% block content %}
-	<!-- Content -->
+  <!-- Content -->
     <div class="container theme-showcase" role="main">
-		<div class="jumbotron">
+    <div class="jumbotron">
             <img src="/{{ company.photo }}" alt="Company Image" width=150/>
-			<h3>{{ company.name }}</h3>
-			<p>{{ company.description }}</p>
-            <h5><a href="{{ company.website }}">Website</a></h5>
-            {% if userIsMember %}
-            <a href="/company/unjoin?name={{ company.name }}" class="btn btn-default">Unjoin this Company</a>
+      <h3>{{ company.name }}</h3>
+      <p>{{ company.description }}</p>
+            <h5><a href="http://{{ company.website }}">Website</a></h5>
+            {% if userIsMember  or user.is_staff %}
+              <a href="/company/edit?name={{ company.name }}" class="btn btn-default">Edit this Company</a>
+              {% if userIsMember %}
+                <a href="/company/unjoin?name={{ company.name }}" class="btn btn-default">Unjoin this Company</a>
+              {% endif %}
+              <a href="/company/delete?name={{ company.name }}" class="btn btn-danger">Delete this Company</a>
             {% else %}
             <a href="/company/join?name={{ company.name }}" class="btn btn-default">Join this Company</a>
             {% endif %}
-		</div>
+    </div>
     </div>
     <div class="container" role="main">
             <div class="table-responsive">

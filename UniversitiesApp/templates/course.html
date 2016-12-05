@@ -1,38 +1,74 @@
 {% extends "body.html" %}
 
 {% block content %}
-	<!-- Content -->
+  <!-- Content -->
     <div class="container theme-showcase" role="main">
-		<div class="jumbotron">
+    <div class="jumbotron">
             <img src="/{{ university.photo }}" alt="University Image" width=150/>
-			<h2>{{ course.tag }}</h2>
-			<h3>{{ course.name }}</h3>
-			<p>{{ course.description }}</p>
+      <h2>{{ course.tag }}</h2>
+      <h3>{{ course.name }}</h3>
+      <p>{{ course.description }}</p>
             {% if userInCourse %}
-            <a href="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Unjoin this Course</a>
+              <a href="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Unjoin this Course</a>
             {% else %}
-            <a href="/university/course/join?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Join this Course</a>
+              {% if is_professor == True or is_student == True %}
+                <a href="/university/course/join?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Join this Course</a>
+              {% endif %}
             {% endif %}
-			<a href="/university/course/remove?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Delete this Course</a>
-		</div>
+            {% if is_professor == True %}
+                <a href="/university/course/edit?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Edit this Course</a>
+                <form style="display:inline;" action="/university/course/addbyemail?name={{ university.name }}&course={{ course.tag }}" method="post">
+                  {% csrf_token %}
+                  <input id="email" type="text" name="email" placeholder="example@example.com">
+                  <input type="submit" value="Add Student" class="btn btn-default">
+                </form>
+                <a href="/university/course/remove?name={{ university.name }}&course={{ course.tag }}" class="btn btn-danger">Delete this Course</a>
+            {% endif %}
+
+    </div>
     </div>
     <div class="container" role="main">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>Students</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for item in course.members.all %}
-					<tr>
-						<td>{{ item.get_full_name }}</td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
-	</div>
-	
+      <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>Professors</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in course.members.all %}
+            {% if item.is_professor == True %}
+                    <tr>
+                <td>{{ item.get_full_name }}</td>
+              </tr>
+                  {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+    <div class="table-responsive">
+      <table class="table table-striped sortable">
+        <thead>
+          <tr>
+            <th>Students</th>
+          </tr>
+        </thead>
+        <tbody>
+          {% for item in course.members.all %}
+            {% if item.is_student == True %}
+              <tr>
+                <td>{{ item.get_full_name }}</td>
+                {% if is_professor == True %}
+                  <td>
+                    <a href ="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}&user={{ item }}">Remove</a>
+                  </td>
+                {% endif %}
+              </tr>
+            {% endif %}
+          {% endfor %}
+        </tbody>
+      </table>
+    </div>
+  </div>
+
 {% endblock %}

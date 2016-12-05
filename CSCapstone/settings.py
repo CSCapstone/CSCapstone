@@ -42,7 +42,8 @@ INSTALLED_APPS = [
     'CompaniesApp',
     'AuthenticationApp',
     'GroupsApp',
-	'UniversitiesApp',
+    'UniversitiesApp',
+    'CommentsApp',
 ]
 
 MIDDLEWARE = [
@@ -72,6 +73,7 @@ TEMPLATES = [
         },
     },
 ]
+
 
 WSGI_APPLICATION = 'CSCapstone.wsgi.application'
 
