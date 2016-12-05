@@ -8,7 +8,7 @@ A marketplace for students/groups to find creative and challenging projects to w
 
 CS390 Students: Please refer to the [grading form](https://docs.google.com/document/d/1owkuHpkWHiZVTyX7PPE0SZMQ5wUxfQFdkWwn8CsJHo0/edit?usp=sharing) for most recent updates to these tasks.
 
-- [ ] Task 2 (10 pts): CommentsApp
+- [x] Task 2 (10 pts): CommentsApp
 	- [ ] Task 2 Bonus (5 pts): Add Nested Comments to CommentsApp
 - [ ] 3.1 (2 pts): Create “Teacher” model with profile (contact info, etc)
 - [ ] 3.2 (3 pts): Create “Engineer” model with profile (Alma Mater, About, Contact Info, etc)

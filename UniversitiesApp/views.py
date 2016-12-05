@@ -108,6 +108,7 @@ def getCourse(request):
 
 def courseForm(request):
 	if request.user.is_authenticated():
+	    if request.user.is_professor:
 		in_university_name = request.GET.get('name', 'None')
 		in_university = models.University.objects.get(name__exact=in_university_name)
 		context = {
@@ -115,10 +116,12 @@ def courseForm(request):
 		}
 		return render(request, 'courseform.html', context)
     # render error page if user is not logged in
+	    return render(request, 'createcourseautherror.html')
 	return render(request, 'autherror.html')
 
 def addCourse(request):
 	if request.user.is_authenticated():
+	   if request.user.is_professor:
 		if request.method == 'POST':
 			form = forms.CourseForm(request.POST)
 			if form.is_valid():
@@ -144,6 +147,7 @@ def addCourse(request):
 			form = forms.CourseForm()
 			return render(request, 'courseform.html')
 		# render error page if user is not logged in
+	   return render(request, 'createcourseautherror.html')
 	return render(request, 'autherror.html')
 		
 def removeCourse(request):
@@ -197,3 +201,58 @@ def unjoinCourse(request):
 		}
 		return render(request, 'course.html', context)
 	return render(request, 'autherror.html')
+
+def getAddStudentsForm(request):
+	if request.user.is_authenticated():
+		return render(request, 'addstudents.html')
+	return render(request, 'autherror.html')
+
+def addStudentsFormSuccess(request):
+	if request.user.is_authenticated():
+		if request.method == 'POST':
+			if request.user.is_professor == True:
+				form = forms.AddStudentsForm(request.POST)
+				if form.is_valid():
+					in_university_name = request.GET.get('name', 'None')
+					in_university = models.University.objects.get(name__exact=in_university_name)
+					in_course_id = request.GET.get('course', 'None')
+					in_course = models.Course.objects.get(tag__exact=on_course_id)
+					
+					in_user_email = form.cleaned_data['email']
+					in_user=models.MyUser.objects.get(email__exact=in_user_email)
+					
+					user_set = in_course.value_list('members', flat=True)
+				  	if in_user in user_set:
+						return render(request, 'addstudents.html', {'error' : 'Error: The user is already added to the course'})
+					return render(request, 'createcourseautherror.html')
+				else:
+					return render(request, 'addstudents.html', {'error' : 'Error'})
+			return render(request, 'createcourseautherror.html')
+		else:
+			form = forms.AddStudentsForm()
+			return render(request, 'addstudents.html')
+	return render(request, 'autherror.html')					
+
+def addStudents(request):
+	if request.user.is_authenticated():
+		if request.user.is_professor == True:
+			in_university_name = request.GET.get('name', 'None')
+			in_university = models.University.objects.get(name__exact=in_university_name)
+                	in_course_tag = request.GET.get('course', 'None')
+                	in_course = in_university.course_set.get(tag__exact=in_course_tag)
+			
+			in_student_email = request.GET.get('student', 'None')
+			in_student = models.MyUser.objects.get(email__exact=in_student_email)
+			
+			in_course.members.add(in_student)
+			in_student.course_set.add(in_course)
+			in_student.save()
+
+			context = {
+				'university' : in_university,
+				'coourse' : in_course,
+			}
+			return render(request, 'course.html', context)
+		return render(request, 'autherror.html')
+	return render(request, 'autherror.html')
+		
