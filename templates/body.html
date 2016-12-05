@@ -2,89 +2,101 @@
 
 {% block body %}
 
-  <!-- Navbar -->
-  <nav class="navbar navbar-inverse navbar-fixed-top">
-    <div class="container">
-      <div class="navbar-header">
-        <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
-          <span class="sr-only">Toggle navigation</span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-          <span class="icon-bar"></span>
-        </button>
-        <a class="navbar-brand" href="/">CS Capstone Marketplace</a>
-      </div>
-      <div id="navbar" class="navbar-collapse collapse">
-        <ul class="nav navbar-nav">
+<!-- Navbar -->
+<nav class="navbar navbar-inverse navbar-fixed-top">
+  <div class="container">
+    <div class="navbar-header">
+      <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" href="/">CS Capstone Marketplace</a>
+    </div>
+    <div id="navbar" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
         {% if user.is_authenticated == False %}
-          <li><a href="/login">Login</a></li>
-          <li><a href="/register">Register</a></li>
+        <li><a href="/login">Login</a></li>
+        <li><a href="/register">Register</a></li>
         {% else %}
-          <li><a href="/update">Update Profile</a></li>
-          <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              Groups/Organizations <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
-              <li><a href="/company/all">Companies</a></li>
-              <li><a href="/university/all">Universities</a></li>
-              <li><a href="/group/all">Groups</a></li>
-              <li><a href="/project/all">Projects</a></li>
-            </ul>
-          </li>
-          <li role="presentation" class="dropdown">
-            <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-              Create new Group/Organization <span class="caret"></span>
-            </a>
-            <ul class="dropdown-menu">
+        <li><a href="/update">Update Profile</a></li>
+        <li role="presentation" class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Groups/Organizations <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
+            <li><a href="/company/all">Companies</a></li>
+            <li><a href="/university/all">Universities</a></li>
+            <li><a href="/group/all">Groups</a></li>
+            <li><a href="/project/all">Projects</a></li>
+          </ul>
+        </li>
+        <li role="presentation" class="dropdown">
+          <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+            Create new Group/Organization <span class="caret"></span>
+          </a>
+          <ul class="dropdown-menu">
 
-              {% if request.user.is_student == True %}
-                <li><a href="/group/form">Create Group</a></li>
-              {% elif user.is_professor == True %}
-                <li><a href="/university/form">Create University</a></li>
-              {% else %}
-                <li><a href="/company/form">Create Company</a></li>
-                <li><a href="/project/form">Create Project</a></li>
-              {% endif %}
+            {% if request.user.is_student == True %}
+            <li><a href="/group/form">Create Group</a></li>
+            {% elif user.is_professor == True %}
+            <li><a href="/university/form">Create University</a></li>
+            {% else %}
+            <li><a href="/company/form">Create Company</a></li>
+            <li><a href="/project/form">Create Project</a></li>
+            {% endif %}
 
 
 
-            </ul>
-          </li>
-          <li><a href="/update" style="color:#FFFFFF;">{{user.first_name}}</a></li>
-          <li><a href="/logout">Logout</a></li>
+          </ul>
+        </li>
+        <li><a href="/update" style="color:#FFFFFF;">{{user.first_name}}</a></li>
+        <li><a href="/logout">Logout</a></li>
         {% endif %}
-        </ul>
-      </div>
-    </div>
-  </nav>
 
 
-  <!-- Alerts -->
-  {% if messages %}
-  <div class='section container'>
-    <div class='section-container'>
-      {% for message in messages %}
-      {% if message.tags == 'error' %}
-        <div class="alert alert-danger" role="alert">{{ message }}</div>
-      {% else %}
-        <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
-      {% endif %}
+        <!-- add search -->
+        <li><form method="get" action="/search">
 
-      {% endfor %}
+
+          <!-- <label for="id_q">Search:</label> -->
+          <input type="text" name="q" id="id_q"/>
+          <input type="submit" value="Search"/>
+
+
+        </form></li>
+      </ul>
     </div>
   </div>
-  {% endif %}
+</nav>
 
 
-  {% block content %}
-  <!-- Content -->
-  <div class="container theme-showcase" role="main">
-    <div class="jumbotron">
-      <h1>CS Capstone Marketplace</h1>
-      <p>Hello World!</p>
-    </div>
+<!-- Alerts -->
+{% if messages %}
+<div class='section container'>
+  <div class='section-container'>
+    {% for message in messages %}
+    {% if message.tags == 'error' %}
+    <div class="alert alert-danger" role="alert">{{ message }}</div>
+    {% else %}
+    <div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+    {% endif %}
+
+    {% endfor %}
   </div>
-  {% endblock %}
+</div>
+{% endif %}
+
+
+{% block content %}
+<!-- Content -->
+<div class="container theme-showcase" role="main">
+  <div class="jumbotron">
+    <h1>CS Capstone Marketplace</h1>
+    <p>Hello World!</p>
+  </div>
+</div>
+{% endblock %}
 
 {% endblock %}

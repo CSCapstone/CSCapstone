@@ -11,4 +11,5 @@ urlpatterns = [
     url(r'^$', views.getIndex, name='Index'),
     url(r'^table$', views.getTable, name='Table'),
     url(r'^form$', views.getForm, name='Form'),
+    url(r'^search$', views.search, name='Search'),
 ]
