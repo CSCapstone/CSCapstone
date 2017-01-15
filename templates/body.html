@@ -1,0 +1,74 @@
+{% extends "base.html" %}
+
+{% block body %}
+
+	<!-- Navbar -->
+	<nav class="navbar navbar-inverse navbar-fixed-top">
+		<div class="container">
+			<div class="navbar-header">
+				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+					<span class="sr-only">Toggle navigation</span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+					<span class="icon-bar"></span>
+				</button>
+				<a class="navbar-brand" href="/">CS Capstone Marketplace</a>
+			</div>
+			<div id="navbar" class="navbar-collapse collapse">
+				<ul class="nav navbar-nav">
+				{% if user.is_authenticated == False %}
+					<li><a href="/login">Login</a></li>
+					<li><a href="/register">Register</a></li>
+				{% else %}
+					<li><a href="/update">Update Profile</a></li>
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+						  Groups/Organizations <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/company/all">Companies</a></li>
+							<li><a href="/university/all">Universities</a></li>
+							<li><a href="/group/all">Groups</a></li>
+						</ul>
+					</li>
+					<li role="presentation" class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
+						  Create new Group/Organization <span class="caret"></span>
+						</a>
+						<ul class="dropdown-menu">
+							<li><a href="/company/form">Create Company</a></li>
+							<li><a href="/university/form">Create University</a></li>
+							<li><a href="/group/form">Create Group</a></li>
+						</ul>
+					</li>
+					<li><a href="/logout">Logout</a></li>
+				{% endif %}
+				</ul>
+			</div>
+		</div>
+	</nav>
+
+
+	<!-- Alerts -->
+	{% if messages %}
+	<div class='section container'>
+		<div class='section-container'>
+			{% for message in messages %}
+			<div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
+			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+
+
+	{% block content %}
+	<!-- Content -->
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<h1>CS Capstone Marketplace</h1>
+			<p>Hello World!</p>
+		</div>
+	</div>
+	{% endblock %}
+
+{% endblock %}

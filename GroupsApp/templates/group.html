@@ -1,0 +1,37 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+	<!-- Content -->
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<h1>{{ group.name }}</h1>
+			<p>{{ group.description }}</p>
+			{% if userIsMember %}
+			<a href="/group/unjoin?name={{ group.name }}" class="btn btn-default">Unjoin this Group</a>
+			{% else %}
+			<a href="/group/join?name={{ group.name }}" class="btn btn-default">Join this Group</a>
+			{% endif %}
+		</div>
+	</div>
+	
+	<div class="container">
+		<div class="table-responsive">
+			<table class="table table-striped sortable">
+				<thead>
+					<tr>
+						<th>Users</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in group.members.all %}
+					<tr>
+						<td>{{ item.get_full_name }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+{% endblock %}

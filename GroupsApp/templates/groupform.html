@@ -1,0 +1,25 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+	<!-- Content -->
+	<div class="container" role="main">
+		<div class="jumbotron">
+			<h3 style="margin: 0px; padding: 0px;">Create Group</h3>
+		</div>
+		<div class="panel panel-default">
+			<form method="post" action="/group/formsuccess" class="panel-body validate">
+				{% csrf_token %}
+				<label for="name">Name</label>
+				<h6 style="color:red">{{ error }}</h6>
+				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required">
+				<br>
+				<label for="description">Group Description</label>
+				<input type="text" name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
+				<br>
+				<input type="submit" value="Submit" class="btn btn-primary">
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}

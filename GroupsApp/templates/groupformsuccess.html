@@ -1,0 +1,13 @@
+{% extends "body.html" %}
+
+{% block content %}
+	<meta http-equiv="refresh" content="5;url=/group?name={{ name }}"/>
+	<!-- Content -->
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<h2>Group {{ name }} was successfully created!</h2>
+			<p>This page will redirect momentarily...if it does not <a href="/group?name={{ name }}">click here!</a></p>
+		</div>
+	</div>
+
+{% endblock %}

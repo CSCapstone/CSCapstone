@@ -40,6 +40,9 @@ INSTALLED_APPS = [
     'CSCapstoneApp',
     'ProjectsApp',
     'CompaniesApp',
+    'AuthenticationApp',
+    'GroupsApp',
+	'UniversitiesApp',
 ]
 
 MIDDLEWARE = [
@@ -125,3 +128,8 @@ STATIC_URL = '/static/'
 STATICFILES_DIRS = [
     os.path.join(BASE_DIR, "static")
 ]
+
+AUTH_USER_MODEL = 'AuthenticationApp.MyUser'
+
+#Use @login_required for functions that require authenticated users
+LOGIN_URL = "/login"

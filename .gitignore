@@ -6,6 +6,8 @@ __pycache__/
 # C extensions
 *.so
 
+.DS_Store
+
 # Distribution / packaging
 .Python
 env/
@@ -90,3 +92,9 @@ ENV/
 
 # Database
 db.sqlite3
+
+# Django
+
+# images
+*.png
+*.jpg

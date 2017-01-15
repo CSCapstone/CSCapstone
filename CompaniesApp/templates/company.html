@@ -1,0 +1,36 @@
+{% extends "body.html" %}
+
+{% block content %}
+	<!-- Content -->
+    <div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+            <img src="/{{ company.photo }}" alt="Company Image" width=150/>
+			<h3>{{ company.name }}</h3>
+			<p>{{ company.description }}</p>
+            <h5><a href="{{ company.website }}">Website</a></h5>
+            {% if userIsMember %}
+            <a href="/company/unjoin?name={{ company.name }}" class="btn btn-default">Unjoin this Company</a>
+            {% else %}
+            <a href="/company/join?name={{ company.name }}" class="btn btn-default">Join this Company</a>
+            {% endif %}
+		</div>
+    </div>
+    <div class="container" role="main">
+            <div class="table-responsive">
+                <table class="table table-striped sortable">
+                    <thead>
+                        <tr>
+                            <th>Users</th>
+                        </tr>
+                    </thead>
+                    <tbody>
+                        {% for item in company.members.all %}
+                        <tr>
+                            <td>{{ item.get_full_name }}</td>
+                        </tr>
+                        {% endfor %}
+                    </tbody>
+                </table>
+            </div>
+        </div>
+{% endblock %}

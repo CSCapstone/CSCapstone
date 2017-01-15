@@ -1,0 +1,29 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+    <!-- Content -->
+    <div class="container" role="main">
+		<div class="table-responsive">
+			<table class="table table-striped sortable">
+				<thead>
+					<tr>
+                        <th></th>
+						<th>University</th>
+						<th>Description</th>
+					</tr>
+				</thead>
+				<tbody>
+                    {% for item in universities %}
+                    <tr>
+                        <td><a href="/university?name={{ item.name }}"><img src="/{{ item.photo }}" alt="University Image" width=50/></a></td>
+                        <td><a href="/university?name={{ item.name }}">{{ item.name }}</a></td>
+                        <td>{{ item.description }}</td>
+                    </tr>
+                    {% endfor %}
+				</tbody>
+			</table>
+		</div>
+    </div>
+
+{% endblock %}
