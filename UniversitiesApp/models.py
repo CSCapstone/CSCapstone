@@ -12,6 +12,7 @@ class University(models.Model):
     photo = models.ImageField(upload_to="static/universityimages", default=0)
     description = models.CharField(max_length=300)
     website = models.CharField(max_length=300, default="/")
+    #TODO: edit this line
     members = models.ManyToManyField(MyUser)
     
     def __str__(self):
