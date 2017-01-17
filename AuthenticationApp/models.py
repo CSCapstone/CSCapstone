@@ -10,7 +10,7 @@ from django.db.models.signals import post_save
 from django.core.exceptions import ObjectDoesNotExist
 
 from CompaniesApp.models import Company
-from UniversitiesApp.models import University
+from UniversitiesApp.models import University, Course
 
 
 # Create your models here.
@@ -58,12 +58,7 @@ class MyUser(AbstractBaseUser):
     	)
 
     is_active = models.BooleanField(default=True,)
-    is_admin = models.BooleanField(default=False,)
-
-    # #New fields added
-    # is_student = models.BooleanField(default=False,)
-    # is_professor = models.BooleanField(default=False,)
-    # is_engineer = models.BooleanField(default=False,)    
+    is_admin = models.BooleanField(default=False,)    
 
     objects = MyUserManager()
 
@@ -88,12 +83,15 @@ class MyUser(AbstractBaseUser):
     def has_module_perms(self, app_label):        
         return True
 
+    @property
     def is_student(self):
         return hasattr(self, 'student')
 
+    @property
     def is_teacher(self):
         return hasattr(self, 'teacher')
 
+    @property
     def is_engineer(self):
         return hasattr(self, 'engineer')
 
@@ -115,7 +113,8 @@ class Student(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
+    courses = models.ManyToManyField(Course, null = True)
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
@@ -145,7 +144,8 @@ class Teacher(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    university = models.ForeignKey(University, on_delete=models.CASCADE)
+    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
+    courses = models.ManyToManyField(Course, null=True)
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
@@ -175,7 +175,7 @@ class Engineer(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    company = models.ForeignKey(Company, on_delete=models.CASCADE)
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)

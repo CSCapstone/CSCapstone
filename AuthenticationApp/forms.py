@@ -16,10 +16,18 @@ class RegisterForm(forms.Form):
     fields, plus a repeated password."""
     email = forms.CharField(label='Email', widget=forms.EmailInput, required=True)
     password1 = forms.CharField(label='Password', widget=forms.PasswordInput, required=True)
-    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput, required=True)    
+    password2 = forms.CharField(label='Password confirmation', widget=forms.PasswordInput, required=True)
 
     firstname = forms.CharField(label="First name", widget=forms.TextInput, required=False)
-    lastname = forms.CharField(label="Last name", widget=forms.TextInput, required=False)               
+    lastname = forms.CharField(label="Last name", widget=forms.TextInput, required=False)    
+
+    choices_type = (
+        ('T','Teacher'),
+        ('S','Student'),
+        ('E','Engineer')
+    )
+
+    acc_type = forms.ChoiceField(label="Account type", widget=forms.Select(), choices=choices_type, required=True)           
 
     def clean_password2(self):
         # Check that the two password entries match
@@ -38,7 +46,7 @@ class RegisterForm(forms.Form):
         except MyUser.DoesNotExist:
             return email
         except:
-            raise forms.ValidationError("There was an error, please contact us later")
+            raise forms.ValidationError("There was an error while checking email, please contact us later")
 
 class UpdateForm(forms.ModelForm):
     """A form for updating users. Includes all the fields on
@@ -66,7 +74,7 @@ class UpdateForm(forms.ModelForm):
         except MyUser.DoesNotExist:
             return email
         except:
-            raise forms.ValidationError("There was an error, please contact us later")
+            raise forms.ValidationError("There was an error while checking email, please contact us later")
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get("first_name")
