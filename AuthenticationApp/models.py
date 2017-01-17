@@ -7,6 +7,11 @@ from __future__ import unicode_literals
 from django.db import models
 from django.contrib.auth.models import BaseUserManager, AbstractBaseUser
 from django.db.models.signals import post_save
+from django.core.exceptions import ObjectDoesNotExist
+
+from CompaniesApp.models import Company
+from UniversitiesApp.models import University, Course
+
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
@@ -53,12 +58,7 @@ class MyUser(AbstractBaseUser):
     	)
 
     is_active = models.BooleanField(default=True,)
-    is_admin = models.BooleanField(default=False,)
-
-    # #New fields added
-    # is_student = models.BooleanField(default=False,)
-    # is_professor = models.BooleanField(default=False,)
-    # is_engineer = models.BooleanField(default=False,)    
+    is_admin = models.BooleanField(default=False,)    
 
     objects = MyUserManager()
 
@@ -84,6 +84,19 @@ class MyUser(AbstractBaseUser):
         return True
 
     @property
+    def is_student(self):
+        return hasattr(self, 'student')
+
+    @property
+    def is_teacher(self):
+        return hasattr(self, 'teacher')
+
+    @property
+    def is_engineer(self):
+        return hasattr(self, 'engineer')
+
+
+    @property
     def is_staff(self):
         return self.is_admin
     
@@ -99,6 +112,9 @@ class Student(models.Model):
         MyUser,
         on_delete=models.CASCADE,
         primary_key=True)
+
+    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
+    courses = models.ManyToManyField(Course, null = True)
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
@@ -118,6 +134,66 @@ class Student(models.Model):
     def has_module_perms(self, app_label):        
         return True
 
+    @property
+    def is_staff(self):
+        return False
+
+class Teacher(models.Model):
+    user = models.OneToOneField(
+        MyUser,
+        on_delete=models.CASCADE,
+        primary_key=True)
+
+    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
+    courses = models.ManyToManyField(Course, null=True)
+
+    def get_full_name(self):        
+        return "%s %s" %(self.user.first_name, self.user.last_name)
+
+    def get_short_name(self):        
+        return self.user.first_name
+
+    def __str__(self):              #Python 3
+        return self.user.email
+
+    def __unicode__(self):           # Python 2
+        return self.user.email
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):        
+        return True
+
+    @property
+    def is_staff(self):
+        return False
+
+class Engineer(models.Model):
+    user = models.OneToOneField(
+        MyUser,
+        on_delete=models.CASCADE,
+        primary_key=True)
+
+    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+
+    def get_full_name(self):        
+        return "%s %s" %(self.user.first_name, self.user.last_name)
+
+    def get_short_name(self):        
+        return self.user.first_name
+
+    def __str__(self):              #Python 3
+        return self.user.email
+
+    def __unicode__(self):           # Python 2
+        return self.user.email
+
+    def has_perm(self, perm, obj=None):
+        return True
+
+    def has_module_perms(self, app_label):        
+        return True
 
     @property
     def is_staff(self):
