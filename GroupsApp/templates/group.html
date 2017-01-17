@@ -8,9 +8,12 @@
 			<h1>{{ group.name }}</h1>
 			<p>{{ group.description }}</p>
 			{% if userIsMember %}
-			<a href="/group/unjoin?name={{ group.name }}" class="btn btn-default">Unjoin this Group</a>
+			<a href="/group/unjoin?name={{ group.name }}" class="btn btn-default">Leave this Group</a>
+			<a href="/group/addmember?name={{ group.name }}" class="btn btn-default">Add New Group Member</a>
+			<a href="/group/requests?name={{ group.name }}" class="btn btn-default">Membership Requests ({{ numRequests }})</a>
 			{% else %}
-			<a href="/group/join?name={{ group.name }}" class="btn btn-default">Join this Group</a>
+			<a href="/group/requestjoin?name={{ group.name }}" class="btn btn-default">Request access to this Group</a>
+			<h6 style="color:{{ requestColor }}">{{ requestText }}</h6>
 			{% endif %}
 		</div>
 	</div>

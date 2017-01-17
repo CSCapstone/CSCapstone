@@ -7,9 +7,10 @@ from AuthenticationApp.models import MyUser
 
 # Create your models here.
 class Group(models.Model):
-    name = models.CharField(max_length=30)
-    description = models.CharField(max_length=300)
-    members = models.ManyToManyField(MyUser)
+	name = models.CharField(max_length=30)
+	description = models.CharField(max_length=300)
+	members = models.ManyToManyField(MyUser, related_name="members")
+	requests = models.ManyToManyField(MyUser, related_name="requests")
     
-    def __str__(self):
-        return self.name
+	def __str__(self):
+		return self.name
