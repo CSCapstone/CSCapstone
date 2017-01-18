@@ -4,7 +4,7 @@ Created by Naman Patwari on 10/4/2016.
 """
 from django.contrib.auth.forms import ReadOnlyPasswordHashField
 from django import forms
-from .models import MyUser
+from .models import MyUser, Student, Teacher, Engineer
 
 class LoginForm(forms.Form):
     email = forms.CharField(label='Email')
@@ -79,6 +79,33 @@ class UpdateForm(forms.ModelForm):
             email = self.cleaned_data.get("email")                               
             return email[:email.find("@")]      
         return first_name
+
+class UpdateStudent(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+    class Meta:
+        model = Student        
+        fields = ('university',)   
+
+class UpdateTeacher(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+    class Meta:
+        model = Teacher        
+        fields = ('university',) 
+
+class UpdateEngineer(forms.ModelForm):
+    """A form for updating users. Includes all the fields on
+    the user, but replaces the password field with admin's
+    password hash display field.
+    """
+    class Meta:
+        model = Engineer        
+        fields = ('company',)      
    
 
 
