@@ -53,14 +53,10 @@ class UpdateForm(forms.ModelForm):
     the user, but replaces the password field with admin's
     password hash display field.
     """
-    password = ReadOnlyPasswordHashField()
 
     class Meta:
         model = MyUser        
-        fields = ('email', 'password', 'first_name', 'last_name')
-
-    def clean_password(self):            
-        return self.initial["password"]        
+        fields = ('email','first_name', 'last_name')        
 
     def clean_email(self):
         email = self.cleaned_data.get("email")
@@ -78,7 +74,7 @@ class UpdateForm(forms.ModelForm):
 
     def clean_first_name(self):
         first_name = self.cleaned_data.get("first_name")
-        #Check is email has changed
+        #Check if email has changed
         if first_name is None or first_name == "" or first_name == '':  
             email = self.cleaned_data.get("email")                               
             return email[:email.find("@")]      

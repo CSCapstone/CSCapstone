@@ -54,27 +54,21 @@ def auth_register(request):
 			password=form.cleaned_data["password2"], 
 			first_name=form.cleaned_data['firstname'], last_name=form.cleaned_data['lastname'])
 		new_user.save()
-
-		# if form.cleaned_data['acc_type'] == 'S':
-		# 	new_student = Student.objects.create_user(user = new_user)
-		# 	new_student.save()
-  #   	elif form.cleaned_data['acc_type'] == 'T':
-		# 	new_student = Teacher(user = new_user)
-		# 	new_student.save()
-  #   	elif form.cleaned_data['acc_type'] == 'E':
-		# 	new_student = Engineer(user = new_user)
-		# 	new_student.save()
-		# else:
-		# 	print "Nothing selected"
-
 		login(request, new_user)
-		# print new_user.is_student();
-		# new_student = Student(user = new_user)
-		# new_student.save()
-		# new_teacher = Teacher(user = new_user)
-		# new_teacher.save()
-		# print new_user.is_student();
-		# print new_user.is_teacher();
+
+		if form.cleaned_data['acc_type'] == 'S':
+			new_student = Student(user = new_user)
+			new_student.save()
+			return HttpResponseRedirect("/student/updateProfile")
+		elif form.cleaned_data['acc_type'] == 'T':
+			new_teacher = Teacher(user = new_user)
+			new_teacher.save()
+			return HttpResponseRedirect("/teacher/updateProfile")
+		elif form.cleaned_data['acc_type'] == 'E':
+			new_engin = Engineer(user = new_user)
+			new_engin.save()
+			return HttpResponseRedirect("/engineer/updateProfile")
+		
 		messages.success(request, 'Success! Your account was created.')
 		return render(request, 'index.html')
 
@@ -100,3 +94,27 @@ def update_profile(request):
 		"links" : ["logout"],
 	}
 	return render(request, 'auth_form.html', context)
+
+@login_required
+def update_student(request):
+	pass
+	# form = UpdateForm(request.POST or None, instance=request.user)
+	# if form.is_valid():
+	# 	form.save()
+	# 	messages.success(request, 'Success, your profile was saved!')
+
+	# context = {
+	# 	"form": form,
+	# 	"page_name" : "Update",
+	# 	"button_value" : "Update",
+	# 	"links" : ["logout"],
+	# }
+	# return render(request, 'auth_form.html', context)
+
+@login_required
+def update_teacher(request):
+	pass
+
+@login_required
+def update_engineer(request):
+	pass
