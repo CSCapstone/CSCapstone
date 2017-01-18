@@ -9,9 +9,9 @@ A marketplace for students/groups to find creative and challenging projects to w
 - [X] MyUser (Naman):
 	-[ ]Possible Social Media connectiong
 - [X] Teacher Profiles (Naman): Create “Teacher” model with profile (contact info, etc)
-	-[ ]Things like contact info, etc need to finalized. Very easy to add in current form. 
+	- [ ] Things like contact info, etc need to finalized. Very easy to add in current form. 
 - [X] Engineer Profiles (Naman): Create “Engineer” model with profile (Alma Mater, About, Contact Info, etc)
-	-[ ]Things like contact info, etc need to finalized. Very easy to add in current form. 
+	- [ ] Things like contact info, etc need to finalized. Very easy to add in current form. 
 
 - [ ] Universities and Classes (Naman): Complete “University” and “Class” models. All students should belong to 1 University, and can belong to multiple classes. Teachers should be able to manage who is enrolled in their class.
 
