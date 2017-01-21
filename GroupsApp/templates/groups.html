@@ -4,12 +4,14 @@
 
 	<!-- Content -->
 	<div class="container" role="main">
+        <a href="/group/form"><button class="btn btn-primary">Create group</button></a>
 		<div class="table-responsive">
 			<table class="table table-striped sortable">
 				<thead>
 					<tr>
 						<th>Group</th>
 						<th>Description</th>
+						<th>Project</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -17,6 +19,7 @@
 					<tr>
 						<td><a href="/group?name={{ item.name }}">{{ item.name }}</a></td>
 						<td>{{ item.description }}</td>
+						<td>{{ item.project }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
