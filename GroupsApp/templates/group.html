@@ -24,17 +24,62 @@
 				<thead>
 					<tr>
 						<th>Users</th>
+						<th>Email</th>
 					</tr>
 				</thead>
 				<tbody>
 					{% for item in group.members.all %}
 					<tr>
 						<td>{{ item.get_full_name }}</td>
+						<td>{{ item.email }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>
 			</table>
 		</div>
 	</div>
-
+	<br>
+	<br>
+	{% if userIsMember %}
+	<div class="container" id="comments">
+		<div class="table-responsive">
+			<table class="table table-striped sortable">
+				<thead>
+					<tr>
+						<th width=15%>Poster</th>
+						<th width=50%>Comment</th>
+						<th width=5%></th>
+						<th width=20%>Date</th>
+						<th width=10%></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in comments %}
+					<tr>
+						<td>{{ item.poster.get_full_name }}</td>
+						<td>{{ item.text }}</td>
+						<td></td>
+						<td>{{ item.stamp }} (UTC)</td>
+						{% if item.poster == user %}
+						<td><a href="/group/deletecomment?name={{ group.name }}&cid={{ item.cid }}#comments" class="btn btn-default">Delete</a></td>
+						{% else %}
+						<td></td>
+						{% endif %}
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+		<div class="panel panel-default">
+			<form method="post" action="/group/addcomment?name={{ group.name }}#comments" class="panel-body validate">
+				{% csrf_token %}
+				<label for="comment">New comment</label>
+				<h6 style="color:red">{{ error }}</h6>
+				<input type="text" name="comment" id="comment" placeholder="Comment" class="form-control" data-bvalidator="required" data-bvalidator-msg="Comment Required">
+				<br>
+				<input type="submit" value="Submit" class="btn btn-primary">
+			</form>
+		</div>
+	</div>
+	{% endif %}
 {% endblock %}

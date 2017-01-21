@@ -6,6 +6,18 @@ from django.shortcuts import render
 from . import models
 from . import forms
 
+def renderGroup(request, in_group):
+	is_member = in_group.members.filter(email__exact=request.user.email)
+	comments = in_group.comment_set.all()
+	num_requests = in_group.requests.all().count()
+	context = {
+		'group' : in_group,
+		'userIsMember' : is_member,
+		'numRequests' : num_requests,
+		'comments' : comments,
+	}
+	return render(request, 'group.html', context)
+
 def getGroups(request):
     if request.user.is_authenticated():
         groups_list = models.Group.objects.all()
@@ -20,14 +32,7 @@ def getGroup(request):
 	if request.user.is_authenticated():
 		in_name = request.GET.get('name', 'None')
 		in_group = models.Group.objects.get(name__exact=in_name)
-		is_member = in_group.members.filter(email__exact=request.user.email)
-		num_requests = in_group.requests.all().count()
-		context = {
-			'group' : in_group,
-			'userIsMember' : is_member,
-			'numRequests' : num_requests,
-		}
-		return render(request, 'group.html', context)
+		return renderGroup(request, in_group)
 	# render error page if user is not logged in
 	return render(request, 'autherror.html')
 
@@ -156,13 +161,7 @@ def joinGroup(request):
 		in_group.save();
 		request.user.group_set.add(in_group)
 		request.user.save()
-		num_requests = in_group.requests.all().count()
-		context = {
-			'group' : in_group,
-			'userIsMember': True,
-			'numRequests' : num_requests,
-		}
-		return render(request, 'group.html', context)
+		return renderGroup(request, in_group)
 	return render(request, 'autherror.html')
     
 def unjoinGroup(request):
@@ -173,13 +172,7 @@ def unjoinGroup(request):
 		in_group.save();
 		request.user.requests.remove(in_group)
 		request.user.save()
-		num_requests = in_group.requests.all().count()
-		context = {
-			'group' : in_group,
-			'userIsMember': False,
-			'numRequests' : num_requests,
-		}
-		return render(request, 'group.html', context)
+		return renderGroup(request, in_group)
 	return render(request, 'autherror.html')
 
 def addMember(request):
@@ -202,7 +195,7 @@ def addMemberSuccess(request):
 			if request.method == 'POST':
 				form = forms.GroupMemberForm(request.POST)
 				if form.is_valid():
-					new_member = models.MyUser.objects.get(email__exact=form.cleaned_data['email'])
+					new_member = models.MyUser.objects.filter(email__exact=form.cleaned_data['email']).first()
 					if not new_member:
 						context = {
 							'group' : in_group,
@@ -210,20 +203,51 @@ def addMemberSuccess(request):
 						}
 						return render(request, 'addmember.html', context)
 					in_group.members.add(new_member)
+					in_group.requests.remove(new_member)
 					in_group.save()
 					new_member.members.add(in_group)
 					new_member.save()
-					is_member = in_group.members.filter(email__exact=request.user.email)
-					num_requests = in_group.requests.all().count()
-					context = {
-						'group' : in_group,
-						'userIsMember': is_member,
-						'numRequests' : num_requests,
-					}
-					return render(request, 'group.html', context)
+					return renderGroup(request, in_group)
 			else:
 				form = forms.GroupForm()
 			return render(request, 'groupform.html')
 		return render(request, 'accessdenied.html')
 	return render(request, 'autherror.html')
-    
+
+def addComment(request):
+	if request.user.is_authenticated():
+		in_name = request.GET.get('name', 'None')
+		in_group = models.Group.objects.get(name__exact=in_name)
+		if in_group.members.filter(first_name__exact=request.user.first_name, last_name__exact=request.user.last_name).count() > 0:
+			if request.method == 'POST':
+				form = forms.CommentForm(request.POST)
+				if form.is_valid():
+					new_comment = models.Comment(poster=request.user, group=in_group, text=form.cleaned_data['comment'])
+					new_comment.save()
+					return renderGroup(request, in_group)
+			else:
+				form = forms.GroupForm()
+			return render(request, 'groupform.html')
+		return render(request, 'accessdenied.html')
+	return render(request, 'autherror.html')
+
+def deleteComment(request):
+	if request.user.is_authenticated():
+		in_name = request.GET.get('name', 'None')
+		in_group = models.Group.objects.get(name__exact=in_name)
+		if in_group.members.filter(first_name__exact=request.user.first_name, last_name__exact=request.user.last_name):
+			cid = request.GET.get('cid', 'None')
+			comment = request.user.comment_set.filter(cid__exact=cid)
+			comment.delete()
+			return renderGroup(request, in_group)
+		return render(request, 'accessdenied.html')
+	return render(request, 'autherror.html')
+    		
+			
+			
+			
+			
+			
+			
+			
+			

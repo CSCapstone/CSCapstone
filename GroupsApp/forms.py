@@ -10,3 +10,6 @@ class GroupForm(forms.Form):
 	
 class GroupMemberForm(forms.Form):
 	email = forms.CharField(label='Email', max_length=50)
+	
+class CommentForm(forms.Form):
+	comment = forms.CharField(label='Comment', max_length=500)
