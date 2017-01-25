@@ -1,0 +1,36 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+	<!-- Content -->
+	<div class="container" role="main">
+		<div class="jumbotron">
+			<h3 style="margin: 0px; padding: 0px;">{{ group.name }} - Membership Requests</h3>
+			<br>
+			<a href="/group?name={{ group.name }}" class="btn btn-default">Back to Group</a>
+		</div>
+		<div class="table-responsive">
+			<table class="table table-striped sortable">
+				<thead>
+					<tr>
+						<th>User</th>
+						<th>Email</th>
+						<th></th>
+						<th></th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in requests %}
+					<tr>
+						<td>{{ item.get_full_name }}</td>
+						<td>{{ item.email }}</td>
+						<td><a href="/group/addtogroup?name={{ group.name }}&email={{ item.email }}">Approve</a></td>
+						<td><a href="/group/removerequest?name={{ group.name }}&email={{ item.email }}">Deny</a></td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+	</div>
+
+{% endblock %}
