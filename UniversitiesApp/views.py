@@ -22,10 +22,12 @@ def getUniversity(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_university = models.University.objects.get(name__exact=in_name)
-        is_member = in_university.members.filter(email__exact=request.user.email)
+        is_member = False;
+        if (request.user.student.university == in_university):
+            is_member = True;
         context = {
             'university' : in_university,
-            'userIsMember': is_member,
+            'userIsMember' : is_member,
         }
         return render(request, 'university.html', context)
     # render error page if user is not logged in
@@ -65,13 +67,17 @@ def joinUniversity(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_university = models.University.objects.get(name__exact=in_name)
-        in_university.members.add(request.user)
-        in_university.save();
-        request.user.university_set.add(in_university)
+        if (is_student(request.user)):
+            request.user.student.university = in_university
+        if (is_teacher(request.user)):
+            request.user.teacher.university = in_university
         request.user.save()
+        is_member = False;
+        if (request.user.student.university == in_university or request.user.teacher.university == in_university):
+            is_member = True;
         context = {
             'university' : in_university,
-            'userIsMember': True,
+            'userIsMember': is_member,
         }
         return render(request, 'university.html', context)
     return render(request, 'autherror.html')
@@ -80,13 +86,17 @@ def unjoinUniversity(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')
         in_university = models.University.objects.get(name__exact=in_name)
-        in_university.members.remove(request.user)
-        in_university.save();
-        request.user.university_set.remove(in_university)
+        if (models.is_student(request.user)):
+            request.user.student.university = null
+        if (is_teacher(request.user)):
+            request.user.teacher.university = null
         request.user.save()
+        is_member = False;
+        if (request.user.student.university == in_university or request.user.teacher.university == in_university):
+            is_member = True;
         context = {
             'university' : in_university,
-            'userIsMember': False,
+            'userIsMember': is_member,
         }
         return render(request, 'university.html', context)
     return render(request, 'autherror.html')
