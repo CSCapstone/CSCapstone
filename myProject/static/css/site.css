@@ -1,0 +1,19 @@
+/*
+	@ Harris Christiansen (Harris@HarrisChristiansen.com)
+	2016-09-18
+	Project: HTML5 Boilerplate
+*/
+
+/* ------------------------ HTML/Body ------------------------- */
+
+body {
+  padding-top: 55px;
+}
+
+/* ------------------------ Tables ------------------------- */
+
+.table-clickable tbody tr:hover {
+	cursor: pointer;
+}
+
+/* ------------------------ End ------------------------- */
