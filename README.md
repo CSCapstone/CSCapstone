@@ -22,7 +22,6 @@ A marketplace for students/groups to find creative and challenging projects to w
 - [ ] Bookmarks (Harris): Create the “Bookmarks” model, which relates user_id and project_id. Add and implement a button on the project page to “Bookmark” a project. Add and implement a bookmark page or list.
 
 - [ ] Matching System (12 pts): Using group’s combined student properties, calculate suggested projects for the groups to choose.
-
 - [ ] WYSIWYG editor (10 pts): Use a WYSIWYG editor for any multi-line textarea (user profile about, group profile comments, etc). There are many WYSIWYG options available, just google “WYSIWYG editor”. One options is TinyMCE.
 - [ ] Common Forms/Styling Across Site (Harris) 
 - [ ] Alert Messages for non-authentication modules (Harris)
