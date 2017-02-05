@@ -5,8 +5,9 @@
 	<!-- Content -->
 	<div class="container theme-showcase" role="main">
 		<div class="jumbotron">
-			<h1>Project</h1>
-			<p>Description</p>
+			<h1>Project: {{ project.name }}</h1>
+			<p>{{ project.description }}</p>
+			<a href="{% url 'project-edit' project.id %}" type="button" class="btn btn-primary">Edit Project</a>
 		</div>
 	</div>
 

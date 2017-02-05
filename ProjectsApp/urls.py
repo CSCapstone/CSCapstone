@@ -7,6 +7,8 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^project/all$', views.getProjects, name='Projects'),
-    url(r'^project$', views.getProject, name='Project'),
+	url(r'^$', views.getProjects, name='projects'),
+	url(r'^create/$', views.editProject, name='projects-create'),
+	url(r'^([0-9]+)$', views.getProject, name='project'),
+	url(r'^([0-9]+)/edit$', views.editProject, name='project-edit'),
 ]

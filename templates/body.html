@@ -29,6 +29,7 @@
 							<li><a href="/company/all">Companies</a></li>
 							<li><a href="/university/all">Universities</a></li>
 							<li><a href="/group/all">Groups</a></li>
+							<li><a href="{% url 'projects' %}">Projects</a></li>
 						</ul>
 					</li>
 					<li role="presentation" class="dropdown">
@@ -39,6 +40,7 @@
 							<li><a href="/company/form">Create Company</a></li>
 							<li><a href="/university/form">Create University</a></li>
 							<li><a href="/group/form">Create Group</a></li>
+							<li><a href="{% url 'projects-create' %}">Create Project</a></li>
 						</ul>
 					</li>
 					<li><a href="/logout">Logout</a></li>
@@ -56,6 +58,17 @@
 			{% for message in messages %}
 			<div class="alert alert-{{ message.tags }}" role="alert">{{ message }}</div>
 			{% endfor %}
+		</div>
+	</div>
+	{% endif %}
+	{% if form.errors %}
+	<div class='section container'>
+		<div class='section-container'>
+		{% for field, errors in form.errors.items %}
+			{% for error in errors %}
+			<div class="alert alert-danger" role="alert">Error: {{ field }} - {{ error }}</div>
+			{% endfor %}
+		{% endfor %}
 		</div>
 	</div>
 	{% endif %}
