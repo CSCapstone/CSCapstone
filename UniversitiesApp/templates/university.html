@@ -20,11 +20,11 @@
 			<table class="table table-striped sortable">
 				<thead>
 					<tr>
-						<th>Users</th>
+						<th>Students</th>
 					</tr>
 				</thead>
 				<tbody>
-					{% for item in university.members.all %}
+					{% for item in university.student_set.all %}
 					<tr>
 						<td>{{ item.get_full_name }}</td>
 					</tr>
@@ -32,6 +32,23 @@
 				</tbody>
 			</table>
 		</div>
+        <div class="table-responsive">
+			<table class="table table-striped sortable">
+				<thead>
+					<tr>
+						<th>Teachers</th>
+					</tr>
+				</thead>
+				<tbody>
+					{% for item in university.teacher_set.all %}
+					<tr>
+						<td>{{ item.get_full_name }}</td>
+					</tr>
+					{% endfor %}
+				</tbody>
+			</table>
+		</div>
+        {% if userIsMember %}
 		<div class="table-responsive">
 			<table class="table table-striped sortable">
 				<thead>
@@ -53,6 +70,7 @@
 			</table>
 		</div>
 		<a href="/university/course/form?name={{ university.name }}" class="btn btn-default">Add a course</a>
+        {% endif %}
 	</div>
 	
 {% endblock %}
