@@ -3,10 +3,12 @@ UniversitiesApp Views
 
 Created by Jacob Dunbar on 11/5/2016.
 """
-from django.shortcuts import render
+from django.contrib.auth.decorators import login_required
+from django.contrib import messages
+from django.shortcuts import render, redirect
 
-from . import models
 from . import forms
+from . import models
 
 
 def renderUniversity(request, in_university):
@@ -36,86 +38,79 @@ def renderCourse(request, in_course, in_university):
 	}
     return render(request, 'course.html', context)
 
-def getUniversities(request):
-    if request.user.is_authenticated():
-        universities_list = models.University.objects.all()
-        context = {
-            'universities' : universities_list,
-        }
-        return render(request, 'universities.html', context)
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+@login_required
+def getUniversities(request):    
+    universities_list = models.University.objects.all()
+    context = {
+        'universities' : universities_list,
+    }
+    return render(request, 'universities.html', context)
 
-def getUniversity(request):
-    if request.user.is_authenticated():
-        in_name = request.GET.get('name', 'None')
-        in_university = models.University.objects.get(name__exact=in_name)
-        
-        return renderUniversity(request, in_university)
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+@login_required
+def getUniversity(request, id):    
+    in_university = models.University.objects.get(id=id)
+    #TODO: ERROR Checking
+    return renderUniversity(request, in_university)
 
-def getUniversityForm(request):
-    if request.user.is_authenticated():
-        return render(request, 'universityform.html')
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+@login_required
+def editUniversity(request, id=-1):
+    if (id == -1): # Create New Project
+        university = models.University(name='')
+    else: # Edit Existing Project
+        university = models.University.objects.get(id=id)
 
-def getUniversityFormSuccess(request):
-    if request.user.is_authenticated():
-        if request.method == 'POST':
-            form = forms.UniversityForm(request.POST, request.FILES)
-            if form.is_valid():
-                if models.University.objects.filter(name__exact=form.cleaned_data['name']).exists():
-                    return render(request, 'universityform.html', {'error' : 'Error: That university name already exists!'})
-                new_university = models.University(name=form.cleaned_data['name'], 
-                                             photo=request.FILES['photo'],  
-                                             description=form.cleaned_data['description'],
-                                             website=form.cleaned_data['website'])
-                new_university.save()
-                context = {
-                    'name' : form.cleaned_data['name'],
-                }
-                return render(request, 'universityformsuccess.html', context)
-            else:
-                return render(request, 'universityform.html', {'error' : 'Error: Photo upload failed!'})
-        else:
-            form = forms.UniversityForm()
-        return render(request, 'universityform.html')
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+    form = forms.UniversityForm(data=request.POST or None, files=request.FILES or None, instance=university)    
+    if request.method == 'POST':
+        if form.is_valid():                       
+            university.save()            
+            return render(request, 'universityformsuccess.html', {'name' : form.cleaned_data['name']})
 
-def joinUniversity(request):
-    if request.user.is_authenticated():
-        in_name = request.GET.get('name', 'None')
-        in_university = models.University.objects.get(name__exact=in_name)
-        if (request.user.is_student):
-            request.user.student.university = in_university
-            in_university.student_set.add(request.user.student)
-        if (request.user.is_teacher):
-            request.user.teacher.university = in_university
-            in_university.teacher_set.add(request.user.teacher)
-        request.user.save()
-        in_university.save()
-        
-        return renderUniversity(request, in_university)
-    return render(request, 'autherror.html')
-    
-def unjoinUniversity(request):
-    if request.user.is_authenticated():
-        in_name = request.GET.get('name', 'None')
-        in_university = models.University.objects.get(name__exact=in_name)
-        if (request.user.is_student and request.user.student.university == in_university):
-            in_university.student_set.remove(request.user)
+    return render(request, 'universityform.html', { 'university':university, 'form':form })    
+
+@login_required
+def joinUniversity(request, id):
+    in_university = models.University.objects.get(id=id)
+
+    if (request.user.is_student):
+        #Making sure this user is not a part of another university
+        if (request.user.student.university is not None):
+            #prev_university = models.University.objects.get(id=request.user.student.university.id)            
+            request.user.student.university.student_set.remove(request.user.student)
             request.user.student.university = None
-        if (request.user.is_teacher and request.user.teacher.university == in_university):
-            in_university.teacher_set.remove(request.user.teacher)
+        #Adding this user to this university
+        request.user.student.university = in_university
+        in_university.student_set.add(request.user.student)
+
+    if (request.user.is_teacher):
+        #Making sure this user is not a part of another university
+        if (request.user.teacher.university is not None):
+            request.user.teacher.university.teacher_set.remove(request.user.teacher)
             request.user.teacher.university = None
-        request.user.save()
-        in_university.save()
+        #Adding this user to this university
+        request.user.teacher.university = in_university
+        in_university.teacher_set.add(request.user.teacher)
+
+    request.user.save()
+    in_university.save()
+    
+    return renderUniversity(request, in_university)
+ 
+@login_required   
+def unjoinUniversity(request, id):
+    in_university = models.University.objects.get(id=id)
+
+    if (request.user.is_student and request.user.student.university == in_university):
+        in_university.student_set.remove(request.user.student)
+        request.user.student.university = None
+
+    if (request.user.is_teacher and request.user.teacher.university == in_university):
+        in_university.teacher_set.remove(request.user.teacher)
+        request.user.teacher.university = None
         
-        return renderUniversity(request, in_university)
-    return render(request, 'autherror.html')
+    request.user.save()
+    in_university.save()
+    
+    return renderUniversity(request, in_university)
     
 def getCourse(request):
 	if request.user.is_authenticated():
