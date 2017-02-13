@@ -9,9 +9,9 @@
 			<p>{{ university.description }}</p>
             <h5><a href="{{ university.website }}">Website</a></h5>
             {% if userIsMember %}
-            <a href="{% url 'university-unjoin' university.id %}" class="btn btn-default">Unjoin this University</a>
+            <a href="{% url 'university-unjoin' slug=university.slug %}" class="btn btn-default">Unjoin this University</a>
             {% else %}
-            <a href="{% url 'university-join' university.id %}" class="btn btn-default">Join this University</a>
+            <a href="{% url 'university-join' slug=university.slug %}" class="btn btn-default">Join this University</a>
             {% endif %}
 		</div>
     </div>

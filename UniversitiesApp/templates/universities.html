@@ -16,8 +16,8 @@
 				<tbody>
                     {% for university in universities %}
                     <tr>
-                        <td><a href="{% url 'university' university.id %}"><img src="/{{ university.photo }}" alt="University Image" width=50/></a></td>
-                        <td><a href="{% url 'university' university.id %}">{{ university.name }}</a></td>
+                        <td><a href="{% url 'university' slug=university.slug %}"><img src="/{{ university.photo }}" alt="University Image" width=50/></a></td>
+                        <td><a href="{% url 'university' slug=university.slug %}">{{ university.name }}</a></td>
                         <td>{{ university.description }}</td>
                     </tr>
                     {% endfor %}

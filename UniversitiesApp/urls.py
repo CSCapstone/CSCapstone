@@ -10,11 +10,11 @@ from . import views
 urlpatterns = [
 	url(r'^$', views.getUniversities, name='universities'),
 	url(r'^create/$', views.editUniversity, name='university-create'),
-	url(r'^([0-9]+)$', views.getUniversity, name='university'),
-	url(r'^([0-9]+)/edit$', views.editUniversity, name='university-edit'),
+	url(r'^(?P<slug>[-\w\d]+)/$', views.getUniversity, name='university'),
+	url(r'^(?P<slug>[-\w\d]+)/edit$', views.editUniversity, name='university-edit'),
 
-    url(r'^([0-9]+)/join$', views.joinUniversity, name='university-join'),
-    url(r'^([0-9]+)/unjoin$', views.unjoinUniversity, name='university-unjoin'),
+    url(r'^(?P<slug>[-\w\d]+)/join$', views.joinUniversity, name='university-join'),
+    url(r'^(?P<slug>[-\w\d]+)/unjoin$', views.unjoinUniversity, name='university-unjoin'),
 
 	url(r'^course/form$', views.courseForm, name="CourseForm"),
 	url(r'^course/add$', views.addCourse, name="AddCourse"),

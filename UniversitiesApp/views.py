@@ -38,6 +38,14 @@ def renderCourse(request, in_course, in_university):
 	}
     return render(request, 'course.html', context)
 
+def createSlug(in_university):
+    original = slugify(in_university.name)
+    if University.objects.filter(slug=original).exists():
+        if University.objects.filter(slug=original) == in_university:
+            return original
+    return slugify('%s-%d' % (original, in_university.id))
+
+
 @login_required
 def getUniversities(request):    
     universities_list = models.University.objects.all()
@@ -47,34 +55,33 @@ def getUniversities(request):
     return render(request, 'universities.html', context)
 
 @login_required
-def getUniversity(request, id):    
-    in_university = models.University.objects.get(id=id)
+def getUniversity(request, slug=''):    
+    in_university = models.University.objects.get(slug=slug)
     #TODO: ERROR Checking
     return renderUniversity(request, in_university)
 
 @login_required
-def editUniversity(request, id=-1):
-    if (id == -1): # Create New Project
+def editUniversity(request, slug=''):
+    if (slug == ''): # Create New Project
         university = models.University(name='')
     else: # Edit Existing Project
-        university = models.University.objects.get(id=id)
+        university = models.University.objects.get(slug=slug)
 
     form = forms.UniversityForm(data=request.POST or None, files=request.FILES or None, instance=university)    
     if request.method == 'POST':
-        if form.is_valid():                       
-            university.save()            
+        if form.is_valid():
+            university.save()          
             return render(request, 'universityformsuccess.html', {'name' : form.cleaned_data['name']})
 
     return render(request, 'universityform.html', { 'university':university, 'form':form })    
 
 @login_required
-def joinUniversity(request, id):
-    in_university = models.University.objects.get(id=id)
+def joinUniversity(request, slug=''):
+    in_university = models.University.objects.get(slug=slug)
 
     if (request.user.is_student):
         #Making sure this user is not a part of another university
-        if (request.user.student.university is not None):
-            #prev_university = models.University.objects.get(id=request.user.student.university.id)            
+        if (request.user.student.university is not None):                     
             request.user.student.university.student_set.remove(request.user.student)
             request.user.student.university = None
         #Adding this user to this university
@@ -96,8 +103,8 @@ def joinUniversity(request, id):
     return renderUniversity(request, in_university)
  
 @login_required   
-def unjoinUniversity(request, id):
-    in_university = models.University.objects.get(id=id)
+def unjoinUniversity(request, slug=''):
+    in_university = models.University.objects.get(slug=slug)
 
     if (request.user.is_student and request.user.student.university == in_university):
         in_university.student_set.remove(request.user.student)
@@ -106,7 +113,7 @@ def unjoinUniversity(request, id):
     if (request.user.is_teacher and request.user.teacher.university == in_university):
         in_university.teacher_set.remove(request.user.teacher)
         request.user.teacher.university = None
-        
+
     request.user.save()
     in_university.save()
     
