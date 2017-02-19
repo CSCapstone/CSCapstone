@@ -14,11 +14,11 @@
 					</tr>
 				</thead>
 				<tbody>
-                    {% for item in universities %}
+                    {% for university in universities %}
                     <tr>
-                        <td><a href="/university?name={{ item.name }}"><img src="/{{ item.photo }}" alt="University Image" width=50/></a></td>
-                        <td><a href="/university?name={{ item.name }}">{{ item.name }}</a></td>
-                        <td>{{ item.description }}</td>
+                        <td><a href="{% url 'university' slug=university.slug %}"><img src="/{{ university.photo }}" alt="University Image" width=50/></a></td>
+                        <td><a href="{% url 'university' slug=university.slug %}">{{ university.name }}</a></td>
+                        <td>{{ university.description }}</td>
                     </tr>
                     {% endfor %}
 				</tbody>

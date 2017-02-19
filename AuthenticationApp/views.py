@@ -97,8 +97,12 @@ def update_profile(request):
 
 @login_required
 def update_student(request):
-	form = UpdateStudent(request.POST or None, instance=request.user)
-	print "Success!"
+	print request.user.is_teacher
+	form = UpdateStudent(request.POST or None, instance=request.user)	
+	if form.is_valid():		
+		request.user.student.university = form.cleaned_data['university']
+		request.user.student.save()
+		return HttpResponseRedirect("/")
 	context = {
 		"form": form,
 		"page_name" : "Update",
@@ -110,7 +114,10 @@ def update_student(request):
 @login_required
 def update_teacher(request):
 	form = UpdateTeacher(request.POST or None, instance=request.user)
-	print "Success!"
+	if form.is_valid():
+		request.user.teacher.university = form.cleaned_data['university']
+		request.user.teacher.save()
+		return HttpResponseRedirect("/")
 	context = {
 		"form": form,
 		"page_name" : "Update",
@@ -122,7 +129,10 @@ def update_teacher(request):
 @login_required
 def update_engineer(request):
 	form = UpdateEngineer(request.POST or None, instance=request.user)
-	print "Success!"
+	if form.is_valid():
+		request.user.engineer.company = form.cleaned_data['company']		
+		request.user.engineer.save()
+		return HttpResponseRedirect("/")
 	context = {
 		"form": form,
 		"page_name" : "Update",

@@ -17,7 +17,21 @@
 			{% endif %}
 		</div>
 	</div>
-	
+
+	{% if userIsMember %}
+	<div class="container theme-showcase">
+		<div class="jumbotron">
+			<h2>Project</h2>
+			{% if group.project %}
+			<h3><a href="/project?name={{ group.project.name }}">{{ group.project }}</a></h3>
+			{% else %}
+			<h3>None</h3>
+			{% endif %}
+		</div>
+	</div>
+	<br>
+	{% endif %}
+
 	<div class="container">
 		<div class="table-responsive">
 			<table class="table table-striped sortable">

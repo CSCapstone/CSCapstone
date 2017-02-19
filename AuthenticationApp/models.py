@@ -113,8 +113,9 @@ class Student(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
-    courses = models.ManyToManyField(Course)
+    university = models.ForeignKey(University, related_name='student_set',
+        null=True, on_delete=models.SET_NULL)
+    courses = models.ManyToManyField(Course, related_name='student_set', blank=True)
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
@@ -144,8 +145,9 @@ class Teacher(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    university = models.ForeignKey(University, on_delete=models.CASCADE, null=True)
-    courses = models.ManyToManyField(Course)
+    university = models.ForeignKey(University, related_name='teacher_set',
+        null=True, on_delete=models.SET_NULL)
+    courses = models.ManyToManyField(Course, related_name='teacher_set', blank=True)
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
@@ -175,7 +177,8 @@ class Engineer(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    company = models.ForeignKey(Company, on_delete=models.CASCADE, null=True)
+    company = models.ForeignKey(Company, related_name='enigneer_set',
+        null=True, on_delete=models.SET_NULL)
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)

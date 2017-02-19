@@ -1,29 +1,43 @@
 {% extends "body.html" %}
 
 {% block content %}
+
 	<!-- Content -->
 	<div class="container" role="main">
 		<div class="jumbotron">
-			<h3 style="margin: 0px; padding: 0px;">Create University</h3>
+			<h3 style="margin: 0px; padding: 0px;">
+				{% if university.name %}
+				Edit {{ university.name }}
+				{% else %}
+				Create University
+				{% endif %}
+			</h3>
 		</div>
 		<div class="panel panel-default">
-			<form method="post" enctype="multipart/form-data" action="/university/formsuccess" class="panel-body validate">
-                {% csrf_token %}
+			{% if university.id %}
+			<form method="post" action="{% url 'university-edit' university.id %}" class="panel-body validate" enctype="multipart/form-data">
+			{% else %}
+			<form method="post" action="{% url 'university-create' %}" class="panel-body validate" enctype="multipart/form-data">
+			{% endif %}
+				{% csrf_token %}
 				<label for="name">Name</label>
-                <h6 style="color:red">{{ error }}</h6>
-				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required">
+				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required" value="{{ university.name }}">
 				<br>
-                <label for="photo">Upload a Photo</label>
-                <input type="file" name="photo" />
+				<label for="photo">Upload a Photo</label>
+                <input type="file" name="photo" id="photo" placeholder="Photo" class="form-control"
+                value="{{ university.photo }}" />
                 <br>
 				<label for="description">University Description</label>
-				<input type="text" name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
+				<textarea name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required" rows="4">{{ university.description }}</textarea>
 				<br>
-                <label for="website">Website</label>
-				<input type="text" name="website" id="website" placeholder="Website" class="form-control">
+				<label for="website">Website</label>
+				<input type="text" name="website" id="website" placeholder="Website" class="form-control"
+				value="{{ university.website }}">
 				<br>
-				<input type="submit" value="Submit" class="btn btn-primary">
+				<!-- {{ form.as_p }} -->
+				<input type="submit" value="Create University" class="btn btn-primary">
 			</form>
 		</div>
-    </div>
+	</div>
+	
 {% endblock %}
