@@ -38,7 +38,9 @@
 							<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
 						</a>
 						<ul class="dropdown-menu dropdown-user">
-							<li><a href="{% url 'update_profile' %}"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+							<li><a href="#"><i class="fa fa-user fa-fw"></i>{{ user.get_full_name }}</a></li>
+							<li class="divider"></li>
+							<li><a href="{% url 'update_profile' %}"><i class="fa fa-gear fa-fw"></i> Profile Settings</a></li>
 							{% if user.is_student %}
 							<li><a href="{% url 'update_student' %}"><i class="fa fa-gear fa-fw"></i> Student Settings</a></li>
 							{% elif user.is_teacher %}
