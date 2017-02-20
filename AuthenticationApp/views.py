@@ -4,9 +4,8 @@ Created by Naman Patwari on 10/4/2016.
 """
 
 from django.contrib.auth import authenticate, login, logout
-from django.http import HttpResponseRedirect, HttpResponse
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import render
+from django.shortcuts import redirect, render
 from django.contrib import messages
 
 
@@ -27,7 +26,7 @@ def auth_login(request):
 		if user is not None:
 			messages.success(request, 'Success! Welcome, '+(user.first_name or ""))
 			login(request, user)
-			return HttpResponseRedirect(next_url)
+			return redirect(next_url)
 		else:
 			messages.warning(request, 'Invalid username or password.')
 			
@@ -42,11 +41,11 @@ def auth_login(request):
 def auth_logout(request):
 	logout(request)
 	messages.success(request, 'Success, you are now logged out')
-	return render(request, 'index.html')
+	return redirect('home')
 
 def auth_register(request):
 	if request.user.is_authenticated():
-		return HttpResponseRedirect("/")
+		return redirect("home")
 	
 	form = RegisterForm(request.POST or None)
 	if form.is_valid():
@@ -59,15 +58,15 @@ def auth_register(request):
 		if form.cleaned_data['acc_type'] == 'S':
 			new_student = Student(user = new_user)
 			new_student.save()
-			return HttpResponseRedirect("/student/updateProfile")
+			return redirect("update_student")
 		elif form.cleaned_data['acc_type'] == 'T':
 			new_teacher = Teacher(user = new_user)
 			new_teacher.save()
-			return HttpResponseRedirect("/teacher/updateProfile")
+			return redirect("update_teacher")
 		elif form.cleaned_data['acc_type'] == 'E':
 			new_engin = Engineer(user = new_user)
 			new_engin.save()
-			return HttpResponseRedirect("/engineer/updateProfile")
+			return redirect("update_engineer")
 		
 		messages.success(request, 'Success! Your account was created.')
 		return render(request, 'index.html')
@@ -102,7 +101,7 @@ def update_student(request):
 	if form.is_valid():		
 		request.user.student.university = form.cleaned_data['university']
 		request.user.student.save()
-		return HttpResponseRedirect("/")
+		return redirect("home")
 	context = {
 		"form": form,
 		"page_name" : "Update",
@@ -117,7 +116,7 @@ def update_teacher(request):
 	if form.is_valid():
 		request.user.teacher.university = form.cleaned_data['university']
 		request.user.teacher.save()
-		return HttpResponseRedirect("/")
+		return redirect("home")
 	context = {
 		"form": form,
 		"page_name" : "Update",
@@ -132,7 +131,7 @@ def update_engineer(request):
 	if form.is_valid():
 		request.user.engineer.company = form.cleaned_data['company']		
 		request.user.engineer.save()
-		return HttpResponseRedirect("/")
+		return redirect("home")
 	context = {
 		"form": form,
 		"page_name" : "Update",
