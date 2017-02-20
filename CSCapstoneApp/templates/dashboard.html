@@ -33,7 +33,7 @@
 
 		<!-- ========== My Groups ========== -->
 		{% url 'groups' as panel_url %}
-		{% include 'color-panel.html' with panel_title="Groups" panel_color="panel-primary" panel_icon="fa-group" panel_count="26" panel_action=panel_url panel_action_title="My Groups" %}
+		{% include 'color-panel.html' with panel_title="Groups" panel_color="panel-primary" panel_icon="fa-group" panel_count=user.members.count panel_action=panel_url panel_action_title="My Groups" %}
 
 		<!-- ========== Search Projects ========== -->
 		{% url 'projects' as panel_url %}
@@ -43,7 +43,7 @@
 
 		<!-- ========== My Projects ========== -->
 		{% url 'projects' as panel_url %}
-		{% include 'color-panel.html' with panel_title="Projects" panel_color="panel-primary" panel_icon="fa-wrench" panel_count="26" panel_action=panel_url panel_action_title="My Projects" %}
+		{% include 'color-panel.html' with panel_title="Projects" panel_color="panel-primary" panel_icon="fa-wrench" panel_count=user.engineer.company.project_set.count panel_action=panel_url panel_action_title="My Projects" %}
 
 		{% endif %}
 </div>
