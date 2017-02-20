@@ -11,7 +11,7 @@
 		</div>
 		<div class="panel panel-default">
 			{% if university.id %}
-			<form method="post" action="{% url 'university-edit' university.id %}" class="panel-body validate" enctype="multipart/form-data">
+			<form method="post" action="{% url 'university-edit' university.slug %}" class="panel-body validate" enctype="multipart/form-data">
 			{% else %}
 			<form method="post" action="{% url 'university-create' %}" class="panel-body validate" enctype="multipart/form-data">
 			{% endif %}
@@ -28,7 +28,10 @@
 				<label for="website">Website</label>
 				<input type="text" name="website" id="website" placeholder="Website" class="form-control" value="{{ university.website }}" data-bvalidator="url" data-bvalidator-msg="Please enter a valid website URL">
 				<br>
-				
+				<label for="slug">Slug</label>
+				<input type="text" name="slug" id="slug" placeholder="Slug" class="form-control"
+				value="{{ university.slug }}">
+				<br>
 				<input type="submit" value="Create University" class="btn btn-primary">
 			</form>
 		</div>
