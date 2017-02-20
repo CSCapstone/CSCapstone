@@ -3,17 +3,18 @@ Created by Naman Patwari on 10/10/2016.
 """
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
-from django.shortcuts import redirect, render
+from django.shortcuts import render
+from CSCapstone.helpers import redirect_with_param
 
 from . import models
 from . import forms
 
-@loginRequired
+@login_required
 def getGroups(request):
     groups_list = models.Group.objects.all()
     return render(request, 'groups.html', {'groups' : groups_list})
 
-@loginRequired
+@login_required
 def getGroup(request):
 	in_name = request.GET.get('name', 'None')
 	in_group = models.Group.objects.get(name__exact=in_name)
@@ -31,8 +32,8 @@ def getGroup(request):
 
 @login_required
 def getGroupForm(request):
-    if request.method == 'POST':
-    	form = forms.GroupForm(request.POST)
+	if request.method == 'POST':
+		form = forms.GroupForm(request.POST)
 		if form.is_valid():
 			if models.Group.objects.filter(name__exact=form.cleaned_data['name']).exists():
 				return render(request, 'groupform.html', {'error' : 'Error: That Group name already exists!'})
@@ -42,14 +43,9 @@ def getGroupForm(request):
 			new_group.save()
 			request.user.members.add(new_group)
 			request.user.save()
-			context = {
-				'name' : form.cleaned_data['name'],
-			}
-			messages.success(request, 'Success! Created group: '+new_group.name)
-            response = redirect('group')
-            response['Location'] += "?name="+new_group.name
-            return response
-    return render(request, 'groupform.html')
+
+			return redirect_with_param(request, "group", new_group.name, 'Success! Created group: '+new_group.name)
+	return render(request, 'groupform.html')
 
 @login_required
 def getRequests(request):
@@ -85,13 +81,8 @@ def requestJoinGroup(request):
 	request.user.requests.add(in_group)
 	request.user.save()
 	num_requests = in_group.requests.all().count()
-	context = {
-		'group' : in_group,
-		'userIsMember' : False,
-		'requestText' : "Request sent",
-		'requestColor' : 'green',
-	}
-	return render(request, 'group.html', context)
+
+	return redirect_with_param(request, "group", in_group.name, 'Success! Request sent to join '+in_group.name)
 
 @login_required
 def addToGroup(request):
@@ -143,10 +134,7 @@ def joinGroup(request):
 	request.user.group_set.add(in_group)
 	request.user.save()
 
-	messages.success(request, 'Success! Joined group: '+in_group.name)
-	response = redirect('group')
-	response['Location'] += "?name="+in_group.name
-	return response
+	return redirect_with_param(request, "group", in_group.name, 'Success! Joined group '+in_group.name)
     
 @login_required
 def unjoinGroup(request):
@@ -156,7 +144,8 @@ def unjoinGroup(request):
 	in_group.save();
 	request.user.requests.remove(in_group)
 	request.user.save()
-	return renderGroup(request, in_group)
+
+	return redirect_with_param(request, "group", in_group.name, 'Success! Left group '+in_group.name)
 
 @login_required
 def addMember(request):
@@ -189,7 +178,7 @@ def addMemberSuccess(request):
 				in_group.save()
 				new_member.members.add(in_group)
 				new_member.save()
-				return renderGroup(request, in_group)
+				return redirect_with_param(request, "group", in_group.name, 'Success! Added '+new_member.name+' to group '+in_group.name)
 		else:
 			form = forms.GroupForm()
 		return render(request, 'groupform.html')
@@ -205,7 +194,7 @@ def addComment(request):
 			if form.is_valid():
 				new_comment = models.Comment(poster=request.user, group=in_group, text=form.cleaned_data['comment'])
 				new_comment.save()
-				return renderGroup(request, in_group)
+				return redirect_with_param(request, "group", in_group.name, 'Success! Added comment to group: '+in_group.name)
 		else:
 			form = forms.GroupForm()
 		return render(request, 'groupform.html')
@@ -219,14 +208,7 @@ def deleteComment(request):
 		cid = request.GET.get('cid', 'None')
 		comment = request.user.comment_set.filter(cid__exact=cid)
 		comment.delete()
-		return renderGroup(request, in_group)
+
+		return redirect_with_param(request, "group", in_group.name, 'Success! Deleted comment from group: '+in_group.name)
 	return render(request, 'accessdenied.html')
-    		
-			
-			
-			
-			
-			
-			
-			
-			
+
