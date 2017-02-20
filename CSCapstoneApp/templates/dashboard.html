@@ -5,7 +5,17 @@
 <!-- Content -->
 <div class="container theme-showcase" role="main">
 	<div class="jumbotron">
-		<h1>Dashboard</h1>
+		<h1>
+			{% if user.is_student %}
+			Student Dashboard
+			{% elif user.is_teacher %}
+			Teacher Dashboard
+			{% elif user.is_engineer %}
+			Engineer Dashboard
+			{% else %}
+			Dashboard
+			{% endif %}
+		</h1>
 		<p>Welcome, {{ user.get_full_name }}</p>
 	</div>
 	<div class="row">
