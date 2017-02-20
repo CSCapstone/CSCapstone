@@ -15,11 +15,7 @@
 		</div>
 		<div class="panel panel-default">
 			{% if university.id %}
-<<<<<<< HEAD
 			<form method="post" action="{% url 'university-edit' university.slug %}" class="panel-body validate" enctype="multipart/form-data">
-=======
-			<form method="post" action="{% url 'university-edit' university.id %}" class="panel-body validate" enctype="multipart/form-data">
->>>>>>> CSCapstone/master
 			{% else %}
 			<form method="post" action="{% url 'university-create' %}" class="panel-body validate" enctype="multipart/form-data">
 			{% endif %}
@@ -33,7 +29,6 @@
                 <br>
 				<label for="description">University Description</label>
 				<textarea name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required" rows="4">{{ university.description }}</textarea>
-<<<<<<< HEAD
 				<br>
 				<label for="website">Website</label>
 				<input type="text" name="website" id="website" placeholder="Website" class="form-control"
@@ -42,12 +37,6 @@
 				<label for="slug">Slug</label>
 				<input type="text" name="slug" id="slug" placeholder="Slug" class="form-control"
 				value="{{ university.slug }}">
-=======
-				<br>
-				<label for="website">Website</label>
-				<input type="text" name="website" id="website" placeholder="Website" class="form-control"
-				value="{{ university.website }}">
->>>>>>> CSCapstone/master
 				<br>
 				<!-- {{ form.as_p }} -->
 				<input type="submit" value="Create University" class="btn btn-primary">
