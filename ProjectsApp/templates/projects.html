@@ -4,8 +4,10 @@
 	
 <!-- Content -->
 <div class="container" role="main">
-	<h1>Projects
+	<h1>{{ user.is_engineer|yesno:"My Projects,Projects" }}
+		{% if user.is_engineer or user.is_admin %}
 		<a href="{% url 'project-create' %}" type="button" class="btn btn-primary pull-right">Create Project</a>
+		{% endif %}
 	</h1>
 	<div class="table-responsive">
 		<table class="table table-striped sortable">

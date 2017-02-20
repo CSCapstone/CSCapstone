@@ -13,9 +13,9 @@ from . import models
 @login_required
 def getProjects(request):
 	projects_list = models.Project.objects.all()
-	return render(request, 'projects.html', {
-        'projects': projects_list,
-    })
+	if request.user.is_engineer: # Restrict to only engineer's company's projects
+		projects_list = request.user.engineer.company.project_set.all()
+	return render(request, 'projects.html', {'projects': projects_list,})
 
 @login_required
 def getProject(request, id):

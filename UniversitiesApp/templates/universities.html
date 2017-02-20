@@ -4,7 +4,9 @@
 <!-- Content -->
 <div class="container" role="main">
 	<h1>All Universities
+		{% if user.is_admin %}
 		<a href="{% url 'university-create' %}" type="button" class="btn btn-primary pull-right">Create University</a>
+		{% endif %}
 	</h1>
 	<div class="table-responsive">
 		<table class="table table-striped sortable">

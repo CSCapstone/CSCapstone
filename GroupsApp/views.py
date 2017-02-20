@@ -12,6 +12,8 @@ from . import forms
 @login_required
 def getGroups(request):
     groups_list = models.Group.objects.all()
+    if (request.user.is_student):
+    	groups_list = request.user.members.all()
     return render(request, 'groups.html', {'groups' : groups_list})
 
 @login_required
