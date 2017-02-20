@@ -8,11 +8,11 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^login$', views.auth_login, name='Login'),
-    url(r'^logout$', views.auth_logout, name='Logout'),
-    url(r'^register$', views.auth_register, name='Register'),
-    url(r'^update$', views.update_profile, name='UpdateProfile'),   
-    url(r'^student/updateProfile$', views.update_student, name='UpdateStudent'),   
-    url(r'^teacher/updateProfile$', views.update_teacher, name='UpdateTeacher'),   
-    url(r'^engineer/updateProfile$', views.update_engineer, name='UpdateEngineer'),   
+    url(r'^login$', views.auth_login, name='login'),
+    url(r'^logout$', views.auth_logout, name='logout'),
+    url(r'^register$', views.auth_register, name='register'),
+    url(r'^update$', views.update_profile, name='update_profile'),   
+    url(r'^student/updateProfile$', views.update_student, name='update_student'),   
+    url(r'^teacher/updateProfile$', views.update_teacher, name='update_teacher'),   
+    url(r'^engineer/updateProfile$', views.update_engineer, name='update_engineer'),   
 ]

@@ -32,7 +32,8 @@ def editProject(request, id=-1):
 	form = forms.ProjectForm(request.POST or None, instance=project) # Validate and update project
 	if request.method == 'POST':
 		if form.is_valid():
-			project.company = request.user.engineer.company
+			if (not project.company and request.user.is_engineer):
+				project.company = request.user.engineer.company
 			project.save()
 			messages.success(request, "Success: Project Saved")
 			return redirect('project', project.id)

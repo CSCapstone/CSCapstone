@@ -7,13 +7,74 @@
 /* ------------------------ HTML/Body ------------------------- */
 
 body {
-  padding-top: 55px;
+	padding-top: 55px;
+}
+
+.huge_txt {
+	font-size: 3em;
+}
+
+.navbar-default {
+	color: blue !important;
 }
 
 /* ------------------------ Tables ------------------------- */
 
 .table-clickable tbody tr:hover {
 	cursor: pointer;
+}
+
+/* ------------------------ Equal Hight Columns ------------------------- */
+
+.equal, .equal > div[class*='col-'] {
+	display: -webkit-flex;
+	display: flex;
+	flex: 1 1 auto;
+}
+
+/* ------------------------ Panels ------------------------- */
+
+.panel-green {
+	border-color: #5cb85c;
+}
+.panel-green > .panel-heading {
+	border-color: #5cb85c;
+	color: white;
+	background-color: #5cb85c;
+}
+.panel-green > a {
+	color: #5cb85c;
+}
+.panel-green > a:hover {
+	color: #3d8b3d;
+}
+.panel-red {
+	border-color: #d9534f;
+}
+.panel-red > .panel-heading {
+	border-color: #d9534f;
+	color: white;
+	background-color: #d9534f;
+}
+.panel-red > a {
+	color: #d9534f;
+}
+.panel-red > a:hover {
+	color: #b52b27;
+}
+.panel-yellow {
+	border-color: #f0ad4e;
+}
+.panel-yellow > .panel-heading {
+	border-color: #f0ad4e;
+	color: white;
+	background-color: #f0ad4e;
+}
+.panel-yellow > a {
+	color: #f0ad4e;
+}
+.panel-yellow > a:hover {
+	color: #df8a13;
 }
 
 /* ------------------------ End ------------------------- */

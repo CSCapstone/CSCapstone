@@ -3,63 +3,51 @@ CompaniesApp Views
 
 Created by Jacob Dunbar on 10/2/2016.
 """
-from django.shortcuts import render
+from django.contrib import messages
+from django.contrib.auth.decorators import login_required
+from django.shortcuts import redirect, render
 
 from . import models
 from . import forms
 
+@login_required
 def getCompanies(request):
-    if request.user.is_authenticated():
-        companies_list = models.Company.objects.all()
-        context = {
-            'companies' : companies_list,
-        }
-        return render(request, 'companies.html', context)
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+    companies_list = models.Company.objects.all()
+    return render(request, 'companies.html', {'companies': companies_list})
 
+@login_required
 def getCompany(request):
-    if request.user.is_authenticated():
-        in_name = request.GET.get('name', 'None')
-        in_company = models.Company.objects.get(name__exact=in_name)
-        is_member = in_company.members.filter(email__exact=request.user.email)
-        context = {
-            'company' : in_company,
-            'userIsMember': is_member,
-        }
-        return render(request, 'company.html', context)
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+    in_name = request.GET.get('name', 'None')
+    in_company = models.Company.objects.get(name__exact=in_name)
+    is_member = in_company.members.filter(email__exact=request.user.email)
+    context = {
+        'company' : in_company,
+        'userIsMember': is_member,
+    }
+    return render(request, 'company.html', context)
 
 def getCompanyForm(request):
-    if request.user.is_authenticated():
+    if request.method == 'GET':
         return render(request, 'companyform.html')
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+    elif request.method == 'POST':
+        form = forms.CompanyForm(request.POST, request.FILES)
+        if form.is_valid():
+            company_name = form.cleaned_data['name']
 
-def getCompanyFormSuccess(request):
-    if request.user.is_authenticated():
-        if request.method == 'POST':
-            form = forms.CompanyForm(request.POST, request.FILES)
-            if form.is_valid():
-                if models.Company.objects.filter(name__exact=form.cleaned_data['name']).exists():
-                    return render(request, 'companyform.html', {'error' : 'Error: That company name already exists!'})
-                new_company = models.Company(name=form.cleaned_data['name'], 
-                                             photo=request.FILES['photo'],  
-                                             description=form.cleaned_data['description'],
-                                             website=form.cleaned_data['website'])
-                new_company.save()
-                context = {
-                    'name' : form.cleaned_data['name'],
-                }
-                return render(request, 'companyformsuccess.html', context)
-            else:
-                return render(request, 'companyform.html', {'error' : 'Error: Photo upload failed!'})
-        else:
-            form = forms.CompanyForm()
-        return render(request, 'companyform.html')
-    # render error page if user is not logged in
-    return render(request, 'autherror.html')
+            if models.Company.objects.filter(name__exact=company_name).exists():
+                return render(request, 'companyform.html', {'error' : 'Error: A company with the name '+company_name+' already exists!'})
+            new_company = models.Company(name=company_name, 
+                                         photo=request.FILES['photo'],  
+                                         description=form.cleaned_data['description'],
+                                         website=form.cleaned_data['website'])
+            new_company.save()
+
+            messages.success(request, 'Success! Created company: '+company_name)
+            response = redirect('company')
+            response['Location'] += "?name="+company_name
+            return response
+
+        return render(request, 'companyform.html', {'error' : 'Error: Photo upload failed!'})
 
 def joinCompany(request):
     if request.user.is_authenticated():

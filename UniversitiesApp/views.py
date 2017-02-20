@@ -10,20 +10,6 @@ from django.shortcuts import render, redirect
 from . import forms
 from . import models
 
-
-def renderUniversity(request, in_university):
-    # Check if user is a member
-    is_member = False;
-    if (request.user.is_student and request.user.student.university == in_university):
-        is_member = True
-    elif (request.user.is_teacher and request.user.teacher.university == in_university):
-        is_member = True
-    context = {
-		'university' : in_university,
-		'userIsMember' : is_member,
-	}
-    return render(request, 'university.html', context)
-
 def renderCourse(request, in_course, in_university):
     # Check if user is a member
     is_member = False;
@@ -49,16 +35,22 @@ def createSlug(in_university):
 @login_required
 def getUniversities(request):    
     universities_list = models.University.objects.all()
-    context = {
-        'universities' : universities_list,
-    }
-    return render(request, 'universities.html', context)
+    return render(request, 'universities.html', {'universities': universities_list})
 
 @login_required
 def getUniversity(request, slug=''):    
     in_university = models.University.objects.get(slug=slug)
-    #TODO: ERROR Checking
-    return renderUniversity(request, in_university)
+
+    is_member = False;
+    if (request.user.is_student and request.user.student.university == in_university):
+        is_member = True
+    elif (request.user.is_teacher and request.user.teacher.university == in_university):
+        is_member = True
+    context = {
+        'university' : in_university,
+        'userIsMember' : is_member,
+    }
+    return render(request, 'university.html', context)
 
 @login_required
 def editUniversity(request, slug=''):
@@ -70,8 +62,9 @@ def editUniversity(request, slug=''):
     form = forms.UniversityForm(data=request.POST or None, files=request.FILES or None, instance=university)    
     if request.method == 'POST':
         if form.is_valid():
-            university.save()          
-            return render(request, 'universityformsuccess.html', {'name' : form.cleaned_data['name']})
+            university.save()
+            messages.success(request, 'Success! Saved university: '+university.name)
+            return redirect('university', slug)
 
     return render(request, 'universityform.html', { 'university':university, 'form':form })    
 

@@ -2,24 +2,27 @@
 
 {% block content %}
 	
-	<!-- Content -->
-	<div class="container" role="main">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-						<th>Project Name</th>
-					</tr>
-				</thead>
-				<tbody>
-					{% for project in projects %}
-					<tr>
-						<td><a href="{% url 'project' project.id %}">{{ project.name }}</a></td>
-					</tr>
-					{% endfor %}
-				</tbody>
-			</table>
-		</div>
+<!-- Content -->
+<div class="container" role="main">
+	<h1>Projects
+		<a href="{% url 'project-create' %}" type="button" class="btn btn-primary pull-right">Create Project</a>
+	</h1>
+	<div class="table-responsive">
+		<table class="table table-striped sortable">
+			<thead>
+				<tr>
+					<th>Project Name</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for project in projects %}
+				<tr>
+					<td><a href="{% url 'project' project.id %}">{{ project.name }}</a></td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
 	</div>
+</div>
 
 {% endblock %}

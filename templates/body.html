@@ -3,7 +3,7 @@
 {% block body %}
 
 	<!-- Navbar -->
-	<nav class="navbar navbar-inverse navbar-fixed-top">
+	<nav class="navbar navbar-default navbar-fixed-top">
 		<div class="container">
 			<div class="navbar-header">
 				<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">
@@ -12,40 +12,46 @@
 					<span class="icon-bar"></span>
 					<span class="icon-bar"></span>
 				</button>
-				<a class="navbar-brand" href="/">CS Capstone Marketplace</a>
+				<a class="navbar-brand" href="{% url 'home' %}">CS Capstone Marketplace</a>
 			</div>
 			<div id="navbar" class="navbar-collapse collapse">
 				<ul class="nav navbar-nav">
 				{% if user.is_authenticated == False %}
-					<li><a href="/login">Login</a></li>
-					<li><a href="/register">Register</a></li>
+					<li><a href="{% url 'login' %}">Login</a></li>
+					<li><a href="{% url 'register' %}">Register</a></li>
 				{% else %}
-					<li><a href="/update">Update Profile</a></li>
-					<li role="presentation" class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-						  Groups/Organizations <span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="/company/all">Companies</a></li>
-							<li><a href="{% url 'universities' %}">Universities</a></li>
-							<li><a href="/group/all">Groups</a></li>
-							<li><a href="{% url 'projects' %}">Projects</a></li>
-						</ul>
-					</li>
-					<li role="presentation" class="dropdown">
-						<a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
-						  Create new Group/Organization <span class="caret"></span>
-						</a>
-						<ul class="dropdown-menu">
-							<li><a href="/company/form">Create Company</a></li>
-							<li><a href="{% url 'university-create' %}">Create University</a></li>
-							<li><a href="/group/form">Create Group</a></li>
-							<li><a href="{% url 'projects-create' %}">Create Project</a></li>
-						</ul>
-					</li>
-					<li><a href="/logout">Logout</a></li>
+					{% if user.is_admin %}
+					<li><a href="{% url 'companies' %}">Companies</a></li>
+					<li><a href="{% url 'universities' %}">Universities</a></li>
+					{% endif %}
+					{% if user.is_admin or user.is_student or user.is_teacher %}
+					<li><a href="{% url 'groups' %}">Groups</a></li>
+					{% endif %}
+					<li><a href="{% url 'projects' %}">Projects</a></li>
 				{% endif %}
 				</ul>
+
+				{% if user.is_authenticated %}
+				<ul class="nav navbar-nav navbar-right">
+					<li class="dropdown">
+						<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+							<i class="fa fa-user fa-fw"></i> <i class="fa fa-caret-down"></i>
+						</a>
+						<ul class="dropdown-menu dropdown-user">
+							<li><a href="{% url 'update_profile' %}"><i class="fa fa-user fa-fw"></i> User Profile</a></li>
+							{% if user.is_student %}
+							<li><a href="{% url 'update_student' %}"><i class="fa fa-gear fa-fw"></i> Student Settings</a></li>
+							{% elif user.is_teacher %}
+							<li><a href="{% url 'update_teacher' %}"><i class="fa fa-gear fa-fw"></i> Teacher Settings</a></li>
+							{% elif user.is_engineer %}
+							<li><a href="{% url 'update_engineer' %}"><i class="fa fa-gear fa-fw"></i> Engineer Settings</a></li>
+							{% endif %}
+							<li class="divider"></li>
+							<li><a href="{% url 'logout' %}"><i class="fa fa-sign-out fa-fw"></i> Logout</a></li>
+						</ul>
+					</li>
+				</ul>
+				{% endif %}
 			</div>
 		</div>
 	</nav>
