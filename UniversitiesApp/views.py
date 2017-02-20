@@ -123,30 +123,23 @@ def unjoinUniversity(request, slug=''):
 
 @login_required
 def getCourses(request):    
-    universities_list = models.University.objects.all()
-    #search_results = watson.search("Purdue")
-    search_results = watson.filter(models.University, "purdue")
-    for result in search_results:
-        print result.slug
-    context = {
-        'universities' : universities_list,
-    }
-    return render(request, 'universities.html', context)
+    pass
 
 @login_required
 def getCourse(request, slug=''):
-    try:
-        in_university = models.University.objects.get(slug=slug)
-        return renderUniversity(request, in_university)
-    except models.University.DoesNotExist:
-        in_university = watson.filter(models.University, slug)   
-        context = {
-        'universities' : in_university,
-        }  
-        print slug
-        print in_university
-        return render(request, 'universities.html', context)  
+    pass
 
+@login_required
+def editCourses(request, slug=''):
+    pass
+
+@login_required
+def joinCourse(request, slug=''):
+    pass
+
+@login_required
+def unjoinCourse(request, slug=''):
+    pass
 # @login_required
 # def getCourse(request, slug=''):	  
 # 	in_course = models.Course.objects.get(slug=slug)
