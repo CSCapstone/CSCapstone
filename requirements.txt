@@ -1,2 +1,4 @@
 Django==1.10.2
 Pillow==4.0.0
+Watson
+django-watson

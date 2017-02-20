@@ -7,7 +7,7 @@
 			<h3 style="margin: 0px; padding: 0px;">Create Company</h3>
 		</div>
 		<div class="panel panel-default">
-			<form method="post" enctype="multipart/form-data" action="/company/formsuccess" class="panel-body validate">
+			<form method="post" enctype="multipart/form-data" action="{% url 'company_form' %}" class="panel-body validate">
                 {% csrf_token %}
 				<label for="name">Name</label>
                 <h6 style="color:red">{{ error }}</h6>
@@ -20,9 +20,9 @@
 				<input type="text" name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
 				<br>
                 <label for="website">Website</label>
-				<input type="text" name="website" id="website" placeholder="Website" class="form-control">
+				<input type="text" name="website" id="website" placeholder="Website" class="form-control" data-bvalidator="url" data-bvalidator-msg="Please enter a valid website URL">
 				<br>
-				<input type="submit" value="Submit" class="btn btn-primary">
+				<input type="submit" value="Save Company" class="btn btn-primary">
 			</form>
 		</div>
     </div>

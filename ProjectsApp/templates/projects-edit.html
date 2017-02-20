@@ -6,18 +6,14 @@
 	<div class="container" role="main">
 		<div class="jumbotron">
 			<h3 style="margin: 0px; padding: 0px;">
-				{% if project.name %}
-				Edit {{ project.name }}
-				{% else %}
-				Create Project
-				{% endif %}
+				{{ project.name|default:"Create Project" }}
 			</h3>
 		</div>
 		<div class="panel panel-default">
 			{% if project.id %}
 			<form method="post" action="{% url 'project-edit' project.id %}" class="panel-body validate">
 			{% else %}
-			<form method="post" action="{% url 'projects-create' %}" class="panel-body validate">
+			<form method="post" action="{% url 'project-create' %}" class="panel-body validate">
 			{% endif %}
 				{% csrf_token %}
 				<label for="name">Name</label>
@@ -26,7 +22,7 @@
 				<label for="description">Project Description</label>
 				<textarea name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required" rows="4">{{ project.description }}</textarea>
 				<br>
-				<input type="submit" value="Create Project" class="btn btn-primary">
+				<input type="submit" value="Save Project" class="btn btn-primary">
 			</form>
 		</div>
 	</div>

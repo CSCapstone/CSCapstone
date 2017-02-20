@@ -1,0 +1,61 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+<!-- Content -->
+<div class="container theme-showcase" role="main">
+	<div class="jumbotron">
+		<h1>
+			{% if user.is_student %}
+			Student Dashboard
+			{% elif user.is_teacher %}
+			Teacher Dashboard
+			{% elif user.is_engineer %}
+			Engineer Dashboard
+			{% else %}
+			Dashboard
+			{% endif %}
+		</h1>
+		<p>Welcome, {{ user.get_full_name }}</p>
+	</div>
+	<div class="row">
+		{% if user.is_admin %}
+
+		<!-- ========== All Universities ========== -->
+		{% url 'universities' as panel_url %}
+		{% include 'color-panel.html' with panel_title="Total Universities" panel_color="panel-primary" panel_icon="fa-university" panel_count=num_universities panel_action=panel_url panel_action_title="All Universities" %}
+
+		<!-- ========== All Companies ========== -->
+		{% url 'companies' as panel_url %}
+		{% include 'color-panel.html' with panel_title="Total Companies" panel_color="panel-green" panel_icon="fa-fax" panel_count=num_companies panel_action=panel_url panel_action_title="All Companies" %}
+
+		<!-- ========== All Projects ========== -->
+		{% url 'projects' as panel_url %}
+		{% include 'color-panel.html' with panel_title="Total Projects" panel_color="panel-yellow" panel_icon="fa-wrench" panel_count=num_projects panel_action=panel_url panel_action_title="All Projects" %}
+
+		<!-- ========== All Groups ========== -->
+		{% url 'groups' as panel_url %}
+		{% include 'color-panel.html' with panel_title="Total Groups" panel_color="panel-red" panel_icon="fa-group" panel_count=num_groups panel_action=panel_url panel_action_title="All Groups" %}
+
+		{% endif %}
+
+		{% if user.is_student %}
+
+		<!-- ========== My Groups ========== -->
+		{% url 'groups' as panel_url %}
+		{% include 'color-panel.html' with panel_title="Groups" panel_color="panel-primary" panel_icon="fa-group" panel_count=user.members.count panel_action=panel_url panel_action_title="My Groups" %}
+
+		<!-- ========== Search Projects ========== -->
+		{% url 'projects' as panel_url %}
+		{% include 'color-panel.html' with panel_title="Projects" panel_color="panel-green" panel_icon="fa-wpexlorer" panel_count="Search" panel_action=panel_url panel_action_title="Search Projects" %}
+
+		{% elif user.is_engineer %}
+
+		<!-- ========== My Projects ========== -->
+		{% url 'projects' as panel_url %}
+		{% include 'color-panel.html' with panel_title="Projects" panel_color="panel-primary" panel_icon="fa-wrench" panel_count=user.engineer.company.project_set.count panel_action=panel_url panel_action_title="My Projects" %}
+
+		{% endif %}
+</div>
+
+{% endblock %}

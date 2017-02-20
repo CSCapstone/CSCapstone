@@ -6,11 +6,7 @@
 	<div class="container" role="main">
 		<div class="jumbotron">
 			<h3 style="margin: 0px; padding: 0px;">
-				{% if university.name %}
-				Edit {{ university.name }}
-				{% else %}
-				Create University
-				{% endif %}
+				{{ university.name|default:"Create University" }}
 			</h3>
 		</div>
 		<div class="panel panel-default">
@@ -21,24 +17,21 @@
 			{% endif %}
 				{% csrf_token %}
 				<label for="name">Name</label>
-				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required" value="{{ university.name }}">
+				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" value="{{ university.name }}">
 				<br>
 				<label for="photo">Upload a Photo</label>
-                <input type="file" name="photo" id="photo" placeholder="Photo" class="form-control"
-                value="{{ university.photo }}" />
+                <input type="file" name="photo" id="photo" placeholder="Photo" class="form-control" value="{{ university.photo }}">
                 <br>
 				<label for="description">University Description</label>
-				<textarea name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required" rows="4">{{ university.description }}</textarea>
+				<textarea name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" rows="4">{{ university.description }}</textarea>
 				<br>
 				<label for="website">Website</label>
-				<input type="text" name="website" id="website" placeholder="Website" class="form-control"
-				value="{{ university.website }}">
+				<input type="text" name="website" id="website" placeholder="Website" class="form-control" value="{{ university.website }}" data-bvalidator="url" data-bvalidator-msg="Please enter a valid website URL">
 				<br>
 				<label for="slug">Slug</label>
 				<input type="text" name="slug" id="slug" placeholder="Slug" class="form-control"
 				value="{{ university.slug }}">
 				<br>
-				<!-- {{ form.as_p }} -->
 				<input type="submit" value="Create University" class="btn btn-primary">
 			</form>
 		</div>

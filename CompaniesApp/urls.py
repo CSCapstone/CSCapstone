@@ -7,10 +7,9 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-    url(r'^company/all$', views.getCompanies, name='Companies'),
-	url(r'^company/form$', views.getCompanyForm, name='CompanyForm'),
-    url(r'^company/formsuccess$', views.getCompanyFormSuccess, name='CompanyFormSuccess'),
-    url(r'^company/join$', views.joinCompany, name='JoinCompany'),
-    url(r'^company/unjoin$', views.unjoinCompany, name='UnjoinCompany'),
-    url(r'^company', views.getCompany, name='Company'),
+    url(r'^company/all$', views.getCompanies, name='companies'),
+	url(r'^company/form$', views.getCompanyForm, name='company_form'),
+    url(r'^company/join$', views.joinCompany, name='company_join'),
+    url(r'^company/unjoin$', views.unjoinCompany, name='company_unjoin'),
+    url(r'^company', views.getCompany, name='company'),
 ]

@@ -12,20 +12,6 @@ from . import models
 
 from watson import search as watson
 
-
-def renderUniversity(request, in_university):
-    # Check if user is a member
-    is_member = False;
-    if (request.user.is_student and request.user.student.university == in_university):
-        is_member = True
-    elif (request.user.is_teacher and request.user.teacher.university == in_university):
-        is_member = True
-    context = {
-		'university' : in_university,
-		'userIsMember' : is_member,
-	}
-    return render(request, 'university.html', context)
-
 def renderCourse(request, in_course, in_university):
     # Check if user is a member
     is_member = False;
@@ -43,20 +29,26 @@ def renderCourse(request, in_course, in_university):
 @login_required
 def getUniversities(request):    
     universities_list = models.University.objects.all()
-    context = {
-        'universities' : universities_list,
-    }
-    return render(request, 'universities.html', context)
+    return render(request, 'universities.html', {'universities': universities_list})
 
 @login_required
 def getUniversity(request, slug=''):
     try:
         in_university = models.University.objects.get(slug=slug)
-        return renderUniversity(request, in_university)
+        is_member = False;
+        if (request.user.is_student and request.user.student.university == in_university):
+            is_member = True
+        elif (request.user.is_teacher and request.user.teacher.university == in_university):
+            is_member = True
+        context = {
+            'university' : in_university,
+            'userIsMember' : is_member,
+        }
+        return render(request, 'university.html', context)
     except models.University.DoesNotExist:
         in_university = watson.filter(models.University, slug)   
         context = {
-        'universities' : in_university,
+            'universities' : in_university,
         }  
         print slug
         print in_university
@@ -72,8 +64,9 @@ def editUniversity(request, slug=''):
     form = forms.UniversityForm(data=request.POST or None, files=request.FILES or None, instance=university)    
     if request.method == 'POST':
         if form.is_valid():
-            university.save()          
-            return render(request, 'universityformsuccess.html', {'name' : form.cleaned_data['name']})
+            university.save()
+            messages.success(request, 'Success! Saved university: '+university.name)
+            return redirect('university', slug)
 
     return render(request, 'universityform.html', { 'university':university, 'form':form })    
 
@@ -101,7 +94,9 @@ def joinUniversity(request, slug=''):
 
     request.user.save()
     in_university.save()
-    return renderUniversity(request, in_university)
+
+    messages.success(request, 'Success: Joined University!')
+    return redirect("university", slug)
  
 @login_required   
 def unjoinUniversity(request, slug=''):
@@ -118,7 +113,8 @@ def unjoinUniversity(request, slug=''):
     request.user.save()
     in_university.save()
     
-    return renderUniversity(request, in_university)
+    messages.success(request, 'Success: Unjoined University!')
+    return redirect("university", slug)
 
 
 @login_required

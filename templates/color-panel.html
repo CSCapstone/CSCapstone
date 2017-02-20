@@ -1,0 +1,22 @@
+<div class="col-lg-3 col-md-4 col-sm-6">
+	<div class="panel {{ panel_color|default:'panel-primary' }}">
+		<div class="panel-heading">
+			<div class="row">
+				<div class="col-xs-3">
+					<i class="fa {{ panel_icon }} }} fa-3x"></i>
+				</div>
+				<div class="col-xs-9 text-right">
+					<div class="huge_txt">{{ panel_count }}</div>
+					<div>{{ panel_title }}</div>
+				</div>
+			</div>
+		</div>
+		<a href="{{ panel_action }}">
+			<div class="panel-footer">
+				<span class="pull-left">{{ panel_action_title }}</span>
+				<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+				<div class="clearfix"></div>
+			</div>
+		</a>
+	</div>
+</div>

@@ -1,29 +1,33 @@
 {% extends "body.html" %}
 
 {% block content %}
-
-    <!-- Content -->
-    <div class="container" role="main">
-		<div class="table-responsive">
-			<table class="table table-striped sortable">
-				<thead>
-					<tr>
-                        <th></th>
-						<th>University</th>
-						<th>Description</th>
-					</tr>
-				</thead>
-				<tbody>
-                    {% for university in universities %}
-                    <tr>
-                        <td><a href="{% url 'university' slug=university.slug %}"><img src="/{{ university.photo }}" alt="University Image" width=50/></a></td>
-                        <td><a href="{% url 'university' slug=university.slug %}">{{ university.name }}</a></td>
-                        <td>{{ university.description }}</td>
-                    </tr>
-                    {% endfor %}
-				</tbody>
-			</table>
-		</div>
-    </div>
+<!-- Content -->
+<div class="container" role="main">
+	<h1>All Universities
+		{% if user.is_admin %}
+		<a href="{% url 'university-create' %}" type="button" class="btn btn-primary pull-right">Create University</a>
+		{% endif %}
+	</h1>
+	<div class="table-responsive">
+		<table class="table table-striped sortable">
+			<thead>
+				<tr>
+                    <th></th>
+					<th>University</th>
+					<th>Description</th>
+				</tr>
+			</thead>
+			<tbody>
+                {% for university in universities %}
+                <tr>
+                    <td><a href="{% url 'university' slug=university.slug %}"><img src="/{{ university.photo }}" alt="University Image" width=50/></a></td>
+                    <td><a href="{% url 'university' slug=university.slug %}">{{ university.name }}</a></td>
+                    <td>{{ university.description }}</td>
+                </tr>
+                {% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
 
 {% endblock %}

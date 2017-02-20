@@ -13,9 +13,9 @@ from . import models
 @login_required
 def getProjects(request):
 	projects_list = models.Project.objects.all()
-	return render(request, 'projects.html', {
-        'projects': projects_list,
-    })
+	if request.user.is_engineer: # Restrict to only engineer's company's projects
+		projects_list = request.user.engineer.company.project_set.all()
+	return render(request, 'projects.html', {'projects': projects_list,})
 
 @login_required
 def getProject(request, id):
@@ -32,7 +32,8 @@ def editProject(request, id=-1):
 	form = forms.ProjectForm(request.POST or None, instance=project) # Validate and update project
 	if request.method == 'POST':
 		if form.is_valid():
-			project.company = request.user.engineer.company
+			if (not project.company and request.user.is_engineer):
+				project.company = request.user.engineer.company
 			project.save()
 			messages.success(request, "Success: Project Saved")
 			return redirect('project', project.id)

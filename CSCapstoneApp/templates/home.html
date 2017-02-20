@@ -1,0 +1,102 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+<!-- Content -->
+<div class="container theme-showcase" role="main">
+	<div class="jumbotron">
+		<h1>CS Capstone Marketplace</h1>
+		<p>Welcome to the CS Capstone Marketplace.</p>
+		<a href="{% url 'login' %}" class="btn btn-primary">Login</a>
+		<a href="{% url 'register' %}" class="btn btn-primary">Register</a>
+	</div>
+
+	<div class="row">
+		<div class="col-lg-3 col-md-4 col-sm-6">
+			<div class="panel panel-primary">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-free-code-camp }} fa-3x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div>Companies post exciting computer science projects for student groups.</div>
+						</div>
+					</div>
+				</div>
+				<a href="{% url 'register' %}">
+					<div class="panel-footer">
+						<span class="pull-left">Join Now</span>
+						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+						<div class="clearfix"></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-4 col-sm-6">
+			<div class="panel panel-green">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-briefcase }} fa-3x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div>Students develop a project and post updates to their teacher and classmates.</div>
+						</div>
+					</div>
+				</div>
+				<a href="{% url 'register' %}">
+					<div class="panel-footer">
+						<span class="pull-left">Join Now</span>
+						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+						<div class="clearfix"></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-4 col-sm-6">
+			<div class="panel panel-yellow">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-handshake-o }} fa-3x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div>Students connect and exchange ideas + feedback with industry experts.</div>
+						</div>
+					</div>
+				</div>
+				<a href="{% url 'register' %}">
+					<div class="panel-footer">
+						<span class="pull-left">Join Now</span>
+						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+						<div class="clearfix"></div>
+					</div>
+				</a>
+			</div>
+		</div>
+		<div class="col-lg-3 col-md-4 col-sm-6">
+			<div class="panel panel-red">
+				<div class="panel-heading">
+					<div class="row">
+						<div class="col-xs-3">
+							<i class="fa fa-wpexplorer }} fa-3x"></i>
+						</div>
+						<div class="col-xs-9 text-right">
+							<div>Artificial Intelligence assists students and groups in finding a project.</div>
+						</div>
+					</div>
+				</div>
+				<a href="{% url 'register' %}">
+					<div class="panel-footer">
+						<span class="pull-left">Join Now</span>
+						<span class="pull-right"><i class="fa fa-arrow-circle-right"></i></span>
+						<div class="clearfix"></div>
+					</div>
+				</a>
+			</div>
+		</div>
+	</div>
+</div>
+
+{% endblock %}

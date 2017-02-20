@@ -12,15 +12,15 @@
                 {% csrf_token %}
 				<label for="tag">Tag (ex. CS490)</label>
 				<h6 style="color:red">{{ error }}</h6>
-				<input type="text" name="tag" id="tag" placeholder="Tag" class="form-control" data-bvalidator="required" data-bvalidator-msg="Tag Required">
+				<input type="text" name="tag" id="tag" placeholder="Tag" class="form-control" data-bvalidator="required">
 				<br>
 				<label for="name">Name (ex. Senior Design)</label>
-				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required">
+				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required">
 				<br>
 				<label for="description">Course Description</label>
-				<input type="text" name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required">
+				<input type="text" name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required">
 				<br>
-				<input type="submit" value="Submit" class="btn btn-primary">
+				<input type="submit" value="Save Course" class="btn btn-primary">
 			</form>
 		</div>
     </div>
