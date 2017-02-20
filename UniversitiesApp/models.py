@@ -18,19 +18,19 @@ class University(models.Model):
     def __str__(self):
         return self.name
 
-    def save(self, *args, **kwargs):
-    	if not self.id:
-    		# Newly created object, so set slug            
-	    	original = slugify(self.name)	    	
-	    	#Checking if slug is unique
-	    	if University.objects.filter(slug=original).exists():	 
-	    		in_university = University.objects.get(slug=original)
-	    		#Make new slug by combining name and id of previous instance
-	        	self.slug = slugify('%s-%d' % (original, in_university.id))
-	        else:
-	        	self.slug = original
+    # def save(self, *args, **kwargs):
+    # 	if not self.id:
+    # 		# Newly created object, so set slug            
+	   #  	original = slugify(self.name)	    	
+	   #  	#Checking if slug is unique
+	   #  	if University.objects.filter(slug=original).exists():	 
+	   #  		in_university = University.objects.get(slug=original)
+	   #  		#Make new slug by combining name and id of previous instance
+	   #      	self.slug = slugify('%s-%d' % (original, in_university.id))
+	   #      else:
+	   #      	self.slug = original
 
-        super(University, self).save(*args, **kwargs)
+    #     super(University, self).save(*args, **kwargs)
 	
 class Course(models.Model):
 	tag = models.CharField(max_length=10)
@@ -40,7 +40,7 @@ class Course(models.Model):
 	university = models.ForeignKey(University, related_name='course_set', 
 		on_delete=models.CASCADE)
 
-	# slug = models.SlugField(unique=True)
+	slug = models.SlugField(unique=True)
 
 	def __str__(self):
 		return self.name	

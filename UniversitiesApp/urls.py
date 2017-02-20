@@ -8,13 +8,21 @@ from django.conf.urls import url
 from . import views
 
 urlpatterns = [
-	url(r'^$', views.getUniversities, name='universities'),
-	url(r'^create/$', views.editUniversity, name='university-create'),
-	url(r'^(?P<slug>[-\w\d]+)/$', views.getUniversity, name='university'),
-	url(r'^(?P<slug>[-\w\d]+)/edit$', views.editUniversity, name='university-edit'),
+	url(r'^university/$', views.getUniversities, name='universities'),
+	url(r'^university/create/$', views.editUniversity, name='university-create'),
+	url(r'^university/(?P<slug>[-\w\d]+)/$', views.getUniversity, name='university'),
+	url(r'^university/(?P<slug>[-\w\d]+)/edit$', views.editUniversity, name='university-edit'),
 
-    url(r'^(?P<slug>[-\w\d]+)/join$', views.joinUniversity, name='university-join'),
-    url(r'^(?P<slug>[-\w\d]+)/unjoin$', views.unjoinUniversity, name='university-unjoin'),
+    url(r'^university/(?P<slug>[-\w\d]+)/join$', views.joinUniversity, name='university-join'),
+    url(r'^university/(?P<slug>[-\w\d]+)/unjoin$', views.unjoinUniversity, name='university-unjoin'),
+
+    url(r'^course/$', views.getCourses, name='courses'),
+	url(r'^course/create/$', views.editUniversity, name='university-create'),
+	url(r'^course/(?P<slug>[-\w\d]+)/$', views.getCourse, name='course'),
+	url(r'^course/(?P<slug>[-\w\d]+)/edit$', views.editUniversity, name='university-edit'),
+
+    url(r'^course/(?P<slug>[-\w\d]+)/join$', views.joinUniversity, name='university-join'),
+    url(r'^course/(?P<slug>[-\w\d]+)/unjoin$', views.unjoinUniversity, name='university-unjoin'),
 
 	# url(r'^(?P<slug>[-\w\d]+)/course$', views.getCourses, name="courses"),
 	# url(r'^(?P<slug>[-\w\d]+)/course/create$', views.createCourse, name="course-create"),

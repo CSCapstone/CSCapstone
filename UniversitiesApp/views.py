@@ -10,6 +10,8 @@ from django.shortcuts import render, redirect
 from . import forms
 from . import models
 
+from watson import search as watson
+
 
 def renderUniversity(request, in_university):
     # Check if user is a member
@@ -41,16 +43,28 @@ def renderCourse(request, in_course, in_university):
 @login_required
 def getUniversities(request):    
     universities_list = models.University.objects.all()
+    #search_results = watson.search("Purdue")
+    search_results = watson.filter(models.University, "purdue")
+    for result in search_results:
+        print result.slug
     context = {
         'universities' : universities_list,
     }
     return render(request, 'universities.html', context)
 
 @login_required
-def getUniversity(request, slug=''):    
-    in_university = models.University.objects.get(slug=slug)
-    #TODO: ERROR Checking
-    return renderUniversity(request, in_university)
+def getUniversity(request, slug=''):
+    try:
+        in_university = models.University.objects.get(slug=slug)
+        return renderUniversity(request, in_university)
+    except models.University.DoesNotExist:
+        in_university = watson.filter(models.University, slug)   
+        context = {
+        'universities' : in_university,
+        }  
+        print slug
+        print in_university
+        return render(request, 'universities.html', context)           
 
 @login_required
 def editUniversity(request, slug=''):
@@ -110,6 +124,33 @@ def unjoinUniversity(request, slug=''):
     in_university.save()
     
     return renderUniversity(request, in_university)
+
+
+@login_required
+def getCourses(request):    
+    universities_list = models.University.objects.all()
+    #search_results = watson.search("Purdue")
+    search_results = watson.filter(models.University, "purdue")
+    for result in search_results:
+        print result.slug
+    context = {
+        'universities' : universities_list,
+    }
+    return render(request, 'universities.html', context)
+
+@login_required
+def getCourse(request, slug=''):
+    try:
+        in_university = models.University.objects.get(slug=slug)
+        return renderUniversity(request, in_university)
+    except models.University.DoesNotExist:
+        in_university = watson.filter(models.University, slug)   
+        context = {
+        'universities' : in_university,
+        }  
+        print slug
+        print in_university
+        return render(request, 'universities.html', context)  
 
 # @login_required
 # def getCourse(request, slug=''):	  

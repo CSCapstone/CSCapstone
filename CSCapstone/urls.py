@@ -10,10 +10,11 @@ from django.contrib import admin
 
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
+	url(r"^search/", include("watson.urls", namespace="watson")),	
 	url(r'^', include('AuthenticationApp.urls')),
+	url(r'^', include('UniversitiesApp.urls')),
 	url(r'^', include('CSCapstoneApp.urls')),
 	url(r'^projects/', include('ProjectsApp.urls')),
     url(r'^', include('CompaniesApp.urls')),
-    url(r'^', include('GroupsApp.urls')),
-	url(r'^university/', include('UniversitiesApp.urls')),
+    url(r'^', include('GroupsApp.urls')),	
 ]
