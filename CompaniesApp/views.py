@@ -6,6 +6,7 @@ Created by Jacob Dunbar on 10/2/2016.
 from django.contrib import messages
 from django.contrib.auth.decorators import login_required
 from django.shortcuts import redirect, render
+from CSCapstone.helpers import redirect_with_param
 
 from . import models
 from . import forms
@@ -19,7 +20,9 @@ def getCompanies(request):
 def getCompany(request):
     in_name = request.GET.get('name', 'None')
     in_company = models.Company.objects.get(name__exact=in_name)
-    is_member = in_company.members.filter(email__exact=request.user.email)
+    is_member = False
+    if request.user.is_engineer:
+        is_member = request.user.engineer.company == in_company
     context = {
         'company' : in_company,
         'userIsMember': is_member,
@@ -42,10 +45,7 @@ def getCompanyForm(request):
                                          website=form.cleaned_data['website'])
             new_company.save()
 
-            messages.success(request, 'Success! Created company: '+company_name)
-            response = redirect('company')
-            response['Location'] += "?name="+company_name
-            return response
+            return redirect_with_param(request, "company", company_name, 'Success! Created company: '+company_name)
 
         return render(request, 'companyform.html', {'error' : 'Error: Photo upload failed!'})
 
@@ -57,11 +57,8 @@ def joinCompany(request):
         in_company.save();
         request.user.company_set.add(in_company)
         request.user.save()
-        context = {
-            'company' : in_company,
-            'userIsMember': True,
-        }
-        return render(request, 'company.html', context)
+
+        return redirect_with_param(request, "company", in_company.name, 'Success! Joined company: '+in_company.name)
     return render(request, 'autherror.html')
     
 def unjoinCompany(request):
@@ -72,10 +69,7 @@ def unjoinCompany(request):
         in_company.save();
         request.user.company_set.remove(in_company)
         request.user.save()
-        context = {
-            'company' : in_company,
-            'userIsMember': False,
-        }
-        return render(request, 'company.html', context)
+        
+        return redirect_with_param(request, "company", in_company.name, 'Success! Left company: '+in_company.name)
     return render(request, 'autherror.html')
     

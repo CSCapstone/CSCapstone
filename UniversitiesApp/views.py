@@ -6,6 +6,7 @@ Created by Jacob Dunbar on 11/5/2016.
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
+from django.urls import reverse
 
 from . import forms
 from . import models
@@ -66,7 +67,7 @@ def editUniversity(request, slug=''):
         if form.is_valid():
             university.save()
             messages.success(request, 'Success! Saved university: '+university.name)
-            return redirect('university', slug)
+            return redirect(reverse('university',kwargs={'slug':university.slug}))
 
     return render(request, 'universityform.html', { 'university':university, 'form':form })    
 
@@ -96,7 +97,7 @@ def joinUniversity(request, slug=''):
     in_university.save()
 
     messages.success(request, 'Success: Joined University!')
-    return redirect("university", slug)
+    return redirect(reverse('university',kwargs={'slug':in_university.slug}))
  
 @login_required   
 def unjoinUniversity(request, slug=''):
@@ -114,7 +115,7 @@ def unjoinUniversity(request, slug=''):
     in_university.save()
     
     messages.success(request, 'Success: Unjoined University!')
-    return redirect("university", slug)
+    return redirect(reverse('university',kwargs={'slug':in_university.slug}))
 
 
 @login_required
