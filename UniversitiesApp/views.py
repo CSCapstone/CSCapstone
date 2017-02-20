@@ -9,8 +9,11 @@ from django.shortcuts import render, redirect
 
 from . import forms
 from . import models
+<<<<<<< HEAD
 
 from watson import search as watson
+=======
+>>>>>>> CSCapstone/master
 
 
 def renderUniversity(request, in_university):
@@ -40,6 +43,7 @@ def renderCourse(request, in_course, in_university):
 	}
     return render(request, 'course.html', context)
 
+<<<<<<< HEAD
 @login_required
 def getUniversities(request):    
     universities_list = models.University.objects.all()
@@ -47,12 +51,26 @@ def getUniversities(request):
     search_results = watson.filter(models.University, "purdue")
     for result in search_results:
         print result.slug
+=======
+def createSlug(in_university):
+    original = slugify(in_university.name)
+    if University.objects.filter(slug=original).exists():
+        if University.objects.filter(slug=original) == in_university:
+            return original
+    return slugify('%s-%d' % (original, in_university.id))
+
+
+@login_required
+def getUniversities(request):    
+    universities_list = models.University.objects.all()
+>>>>>>> CSCapstone/master
     context = {
         'universities' : universities_list,
     }
     return render(request, 'universities.html', context)
 
 @login_required
+<<<<<<< HEAD
 def getUniversity(request, slug=''):
     try:
         in_university = models.University.objects.get(slug=slug)
@@ -65,6 +83,12 @@ def getUniversity(request, slug=''):
         print slug
         print in_university
         return render(request, 'universities.html', context)           
+=======
+def getUniversity(request, slug=''):    
+    in_university = models.University.objects.get(slug=slug)
+    #TODO: ERROR Checking
+    return renderUniversity(request, in_university)
+>>>>>>> CSCapstone/master
 
 @login_required
 def editUniversity(request, slug=''):
@@ -105,6 +129,28 @@ def joinUniversity(request, slug=''):
 
     request.user.save()
     in_university.save()
+<<<<<<< HEAD
+=======
+    
+    return renderUniversity(request, in_university)
+ 
+@login_required   
+def unjoinUniversity(request, slug=''):
+    in_university = models.University.objects.get(slug=slug)
+
+    if (request.user.is_student and request.user.student.university == in_university):
+        in_university.student_set.remove(request.user.student)
+        request.user.student.university = None
+
+    if (request.user.is_teacher and request.user.teacher.university == in_university):
+        in_university.teacher_set.remove(request.user.teacher)
+        request.user.teacher.university = None
+
+    request.user.save()
+    in_university.save()
+    
+    return renderUniversity(request, in_university)
+>>>>>>> CSCapstone/master
     
     return renderUniversity(request, in_university)
  
