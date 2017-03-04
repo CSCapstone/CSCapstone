@@ -16,12 +16,17 @@
 			<form method="post" action="{% url 'project-create' %}" class="panel-body validate">
 			{% endif %}
 				{% csrf_token %}
-				<label for="name">Name</label>
+				{{ form.as_p }}
+				<br>
+				<!--- <label for="name">Name</label>
 				<input type="text" name="name" id="name" placeholder="Name" class="form-control" data-bvalidator="required" data-bvalidator-msg="Name Required" value="{{ project.name }}">
 				<br>
 				<label for="description">Project Description</label>
 				<textarea name="description" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required" rows="4">{{ project.description }}</textarea>
 				<br>
+				<label for="description">Programming Languages</label>
+				<textarea name="languages" id="description" placeholder="Description" class="form-control" data-bvalidator="required" data-bvalidator-msg="Description Required" rows="4">{{ project.description }}</textarea>
+				<br> -->
 				<input type="submit" value="Save Project" class="btn btn-primary">
 			</form>
 		</div>

@@ -7,6 +7,7 @@
 		<div class="jumbotron">
 			<h1>Project: {{ project.name }}</h1>
 			<p>{{ project.description }}</p>
+			<p><b>Languages:</b> {{ project.languages.all|join:", " }}</p>
 			<a href="{% url 'project-edit' project.id %}" type="button" class="btn btn-primary">Edit Project</a>
 		</div>
 	</div>
