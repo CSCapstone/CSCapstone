@@ -1,14 +1,36 @@
 """ProjectsApp Forms
 
-Created by Harris Christiansen on Feb 4, 2017.
+File created by Harris Christiansen on Feb 4, 2017.
 """
 
 from django import forms
 
-from .models import Project
+from .models import Project, ProgrammingLanguage
 
 class ProjectForm(forms.ModelForm):
-	name = forms.CharField(min_length=2)
+	name = forms.CharField(label="Project Name", min_length=2)
+	description = forms.CharField(label="Project Description", min_length=10)
+
 	class Meta:
 		model = Project
-		fields = ('name', 'description')
+		fields = ('name', 'description', 'languages')
+
+	def __init__(self, *args, **kwargs):
+		super(ProjectForm, self).__init__(*args, **kwargs)
+		self.fields['name'].widget.attrs.update({
+			'placeholder': 'Project Name',
+			'class': 'form-control',
+			'data-bvalidator': 'required',
+			'data-bvalidator-msg': 'Project Name Required'
+		})
+		self.fields['description'].widget.attrs.update({
+			'placeholder': 'Project Description',
+			'class': 'form-control',
+			'data-bvalidator': 'required',
+			'data-bvalidator-msg': 'Project Description Required'
+		})
+		self.fields['languages'].widget.attrs.update({
+			'class': 'form-control',
+			'data-bvalidator': 'required',
+			'data-bvalidator-msg': 'Please select at least 1 programming language.'
+		})

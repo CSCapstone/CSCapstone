@@ -34,7 +34,7 @@ def editProject(request, id=-1):
 		if form.is_valid():
 			if (not project.company and request.user.is_engineer):
 				project.company = request.user.engineer.company
-			project.save()
+			form.save()
 			messages.success(request, "Success: Project Saved")
 			return redirect('project', project.id)
 
