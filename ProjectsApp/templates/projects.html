@@ -10,13 +10,32 @@
 		{% endif %}
 	</h1>
 	<form id="searchform" method="get" action="{% url 'project-search'%}" class="panel-body validate" accept-charset="utf-8">	
-	<!--<form id="searchform" action="/projects/testSearch/" method="get" accept-charset="utf-8">-->
 			<button class="searchbutton" type="submit">
 			<i class="fa fa-search"></i>
 			</button>
 		<input class="searchfield" id="searchbox" name="term" type="text" placeholder="Search">
 	</form>	
-	<div class="table-responsive">
+	<div class="table-responsive">		
+		{% if Recommendation %}
+		{% if user.is_student or user.is_admin %}
+		<table class="table table-striped sortable">
+			<thead>
+				<tr>
+					<th>Recommended Project</th>
+					<th>Company</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for project in project_recommended %}
+				<tr>
+					<td><a href="{% url 'project' project.id %}">{{ project.name }}</a></td>
+					<td>{{ project.company.name }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>	
+		{% endif %}	
+		{% endif %}		
 		<table class="table table-striped sortable">
 			<thead>
 				<tr>
