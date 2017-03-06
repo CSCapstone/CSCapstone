@@ -21,8 +21,12 @@ def getProjects(request):
 
 @login_required
 def searchProject(request):
-	query = request.GET.get('term')
-	projects_list = in_university = watson.filter(models.Project, query)
+	query = request.GET.get('term')	
+	if request.user.is_engineer: # Restrict to only engineer's company's projects
+		#queryset = YourModel.objects.filter(title="foo")
+		projects_list = in_university = watson.filter(models.Project.objects.filter(company=request.user.engineer.company), query)		
+	else:
+		projects_list = in_university = watson.filter(models.Project, query)
 	return render(request, 'projects.html', {'projects': projects_list,})	
 
 
