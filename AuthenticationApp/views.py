@@ -12,6 +12,7 @@ from django.contrib import messages
 from .forms import LoginForm, RegisterForm, UpdateForm, UpdateStudent, UpdateTeacher, UpdateEngineer
 from .models import MyUser, Student, Teacher, Engineer
 
+
 # Auth Views
 
 def auth_login(request):
@@ -97,10 +98,9 @@ def update_profile(request):
 @login_required
 def update_student(request):
 	print request.user.is_teacher
-	form = UpdateStudent(request.POST or None, instance=request.user)	
-	if form.is_valid():		
-		request.user.student.university = form.cleaned_data['university']
-		request.user.student.save()
+	form = UpdateStudent(request.POST or None, instance=request.user.student)	
+	if form.is_valid():				
+		form.save()
 		return redirect("home")
 	context = {
 		"form": form,
@@ -112,10 +112,9 @@ def update_student(request):
 
 @login_required
 def update_teacher(request):
-	form = UpdateTeacher(request.POST or None, instance=request.user)
+	form = UpdateTeacher(request.POST or None, instance=request.user.teacher)
 	if form.is_valid():
-		request.user.teacher.university = form.cleaned_data['university']
-		request.user.teacher.save()
+		form.save()
 		return redirect("home")
 	context = {
 		"form": form,
@@ -127,10 +126,9 @@ def update_teacher(request):
 
 @login_required
 def update_engineer(request):
-	form = UpdateEngineer(request.POST or None, instance=request.user)
+	form = UpdateEngineer(request.POST or None, instance=request.user.engineer)
 	if form.is_valid():
-		request.user.engineer.company = form.cleaned_data['company']		
-		request.user.engineer.save()
+		form.save()
 		return redirect("home")
 	context = {
 		"form": form,

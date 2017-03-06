@@ -87,7 +87,7 @@ class UpdateStudent(forms.ModelForm):
     """
     class Meta:
         model = Student        
-        fields = ('university',)   
+        fields = ('university', 'languages')   
 
 class UpdateTeacher(forms.ModelForm):
     """A form for updating users. Includes all the fields on
