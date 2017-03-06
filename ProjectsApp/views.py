@@ -10,6 +10,8 @@ from django.shortcuts import render, redirect
 from . import forms
 from . import models
 
+from watson import search as watson
+
 @login_required
 def getProjects(request):
 	projects_list = models.Project.objects.all()
@@ -18,8 +20,17 @@ def getProjects(request):
 	return render(request, 'projects.html', {'projects': projects_list,})
 
 @login_required
+def searchProject(request):
+	query = request.GET.get('term')
+	projects_list = in_university = watson.filter(models.Project, query)
+	if request.user.is_engineer: # Restrict to only engineer's company's projects
+		projects_list = request.user.engineer.company.project_set.all()
+	return render(request, 'projects.html', {'projects': projects_list,})	
+
+
+@login_required
 def getProject(request, id):
-	project = models.Project.objects.get(id=id)
+	project = models.Project.objects.get(id=id)	
 	return render(request, 'project.html', { 'project': project })
 
 @login_required
