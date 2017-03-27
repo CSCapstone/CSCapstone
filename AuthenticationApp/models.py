@@ -125,9 +125,14 @@ class Student(models.Model):
 
     def get_short_name(self):        
         return self.user.first_name
-    
+
     def get_skills(self):
-        return ", ".join(self.languages.values('name'))
+        skillsQuery = list(self.languages.values('name'))
+        return [skill.get('name') for skill in skillsQuery]
+    
+    def get_skills_csv(self):
+        skills = self.get_skills()
+        return ", ".join(skills)
 
     def __str__(self):              #Python 3
         return self.user.email
