@@ -10,16 +10,36 @@ from django.shortcuts import render, redirect
 from . import forms
 from . import models
 
+from watson import search as watson
+import itertools
+
 @login_required
 def getProjects(request):
 	projects_list = models.Project.objects.all()
+	project_recomm = models.Project.objects.none()
 	if request.user.is_engineer: # Restrict to only engineer's company's projects
 		projects_list = request.user.engineer.company.project_set.all()
-	return render(request, 'projects.html', {'projects': projects_list,})
+	elif request.user.is_student: # Recommend projects if Student		
+		print request.user.student.languages.all()			
+		for lang in request.user.student.languages.all():			
+			project_recomm = itertools.chain(watson.filter(models.Project, lang.name),project_recomm)
+		project_recomm = set(project_recomm)		
+	return render(request, 'projects.html', {'projects': projects_list, 'project_recommended': project_recomm, 'Recommendation':True})
+
+@login_required
+def searchProject(request):
+	query = request.GET.get('term')	
+	if request.user.is_engineer: # Restrict to only engineer's company's projects
+		#queryset = YourModel.objects.filter(title="foo")
+		projects_list = in_university = watson.filter(models.Project.objects.filter(company=request.user.engineer.company), query)		
+	else:
+		projects_list = in_university = watson.filter(models.Project, query)
+	return render(request, 'projects.html', {'projects': projects_list,})	
+
 
 @login_required
 def getProject(request, id):
-	project = models.Project.objects.get(id=id)
+	project = models.Project.objects.get(id=id)	
 	return render(request, 'project.html', { 'project': project })
 
 @login_required

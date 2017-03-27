@@ -27,6 +27,8 @@
 			{% else %}
 			<h3>None</h3>
 			{% endif %}
+            <br>
+            <h4>Group Skills: {{ group.aggregate_skills }}</h4>
 		</div>
 	</div>
 	<br>
@@ -39,6 +41,7 @@
 					<tr>
 						<th>Users</th>
 						<th>Email</th>
+                        <th>Skills</th>
 					</tr>
 				</thead>
 				<tbody>
@@ -46,6 +49,7 @@
 					<tr>
 						<td>{{ item.get_full_name }}</td>
 						<td>{{ item.email }}</td>
+                        <td>{{ item.student.get_skills }}</td>
 					</tr>
 					{% endfor %}
 				</tbody>

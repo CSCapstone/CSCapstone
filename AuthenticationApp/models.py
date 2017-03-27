@@ -11,6 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from CompaniesApp.models import Company
 from UniversitiesApp.models import University, Course
+from ProjectsApp.models import ProgrammingLanguage
 
 
 # Create your models here.
@@ -117,11 +118,16 @@ class Student(models.Model):
         null=True, on_delete=models.SET_NULL)
     courses = models.ManyToManyField(Course, related_name='student_set', blank=True)
 
+    languages = models.ManyToManyField(ProgrammingLanguage, related_name="student_set")
+
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
 
     def get_short_name(self):        
         return self.user.first_name
+    
+    def get_skills(self):
+        return ", ".join(self.languages.values('name'))
 
     def __str__(self):              #Python 3
         return self.user.email
