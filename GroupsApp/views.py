@@ -180,7 +180,7 @@ def addMemberSuccess(request):
 				in_group.save()
 				new_member.members.add(in_group)
 				new_member.save()
-				return redirect_with_param(request, "group", in_group.name, 'Success! Added '+new_member.name+' to group '+in_group.name)
+				return redirect_with_param(request, "group", in_group.name, 'Success! Added ' + new_member.get_full_name() +' to group '+ in_group.name)
 		else:
 			form = forms.GroupForm()
 		return render(request, 'groupform.html')
