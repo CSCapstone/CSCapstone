@@ -19,4 +19,5 @@ urlpatterns = [
 	url(r'^group/addmember$', views.addMember, name='group_add'),
 	url(r'^group/addcomment$', views.addComment, name='group_comment'),
 	url(r'^group/deletecomment$', views.deleteComment, name='group_comment_delete'),
+    url(r'^group/addmembersuccess$', views.addMemberSuccess, name='add_member_success'),
 ]

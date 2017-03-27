@@ -9,14 +9,30 @@ from uuid import uuid4
 
 # Create your models here.
 class Group(models.Model):
-	name = models.CharField(max_length=30)
-	description = models.CharField(max_length=300)
-	members = models.ManyToManyField(MyUser, related_name="members")
-	requests = models.ManyToManyField(MyUser, related_name="requests")
-	project = models.OneToOneField(Project, on_delete=models.CASCADE, default="", primary_key=False, null=True)
+    name = models.CharField(max_length=30)
+    description = models.CharField(max_length=300)
+    members = models.ManyToManyField(MyUser, related_name="members")
+    requests = models.ManyToManyField(MyUser, related_name="requests")
+    project = models.OneToOneField(Project, on_delete=models.CASCADE, default="", primary_key=False, null=True)
+
+    def __str__(self):
+    	return self.name
     
-	def __str__(self):
-		return self.name
+    def aggregate_skills(self):
+        list = [];
+        for member in self.members.all():
+            if (member.is_student):
+                for lang in member.student.languages.all():
+                    if not lang.name in list:
+                        list.append(lang.name)
+        phrase = "";
+        val = 0;
+        for item in list:
+            val += 1
+            phrase += item
+            if (val < len(list)):
+                phrase += ", " 
+        return phrase
 	
 class Comment(models.Model):
 	group = models.ForeignKey(Group, on_delete=models.CASCADE)
