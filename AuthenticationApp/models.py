@@ -127,14 +127,7 @@ class Student(models.Model):
         return self.user.first_name
     
     def get_skills(self):
-        phrase = ""
-        val = 0;
-        for lang in self.languages.all():
-            val += 1
-            phrase += lang.name
-            if (val < self.languages.all().count()):
-                phrase += ", "
-        return phrase
+        return ", ".join(self.languages.values('name'))
 
     def __str__(self):              #Python 3
         return self.user.email
