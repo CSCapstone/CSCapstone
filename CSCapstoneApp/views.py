@@ -26,3 +26,6 @@ def getIndex(request):
 	return render(request, 'home.html', {
 		'foo': 'bar',
 	})
+
+def getAbout(request):
+	return render(request, 'about.html')
