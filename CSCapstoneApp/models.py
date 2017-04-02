@@ -1,7 +1,11 @@
-"""CSCapstone Models
+"""CSCapstone Project - Universal Models
 
-Created by Harris Christiansen on 9/18/16.
+File created by Harris Christiansen on April 2, 2017.
 """
 from django.db import models
 
-# Create your models here.
+class SkillTag(models.Model):
+	name = models.CharField(max_length=200, default='')
+
+	def __str__(self):
+		return self.name

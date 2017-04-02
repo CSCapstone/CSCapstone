@@ -54,6 +54,7 @@ def editProject(request, id=-1):
 
 	form = forms.ProjectForm(request.POST or None, instance=project) # Validate and update project
 	if request.method == 'POST':
+		print(request.POST['tags'])
 		if form.is_valid():
 			if (not project.company and request.user.is_engineer):
 				project.company = request.user.engineer.company
