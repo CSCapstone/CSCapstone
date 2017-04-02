@@ -11,7 +11,7 @@ from django.core.exceptions import ObjectDoesNotExist
 
 from CompaniesApp.models import Company
 from UniversitiesApp.models import University, Course
-from ProjectsApp.models import ProgrammingLanguage
+from CSCapstoneApp.models import SkillTag
 
 
 # Create your models here.
@@ -118,7 +118,7 @@ class Student(models.Model):
         null=True, on_delete=models.SET_NULL)
     courses = models.ManyToManyField(Course, related_name='student_set', blank=True)
 
-    languages = models.ManyToManyField(ProgrammingLanguage, related_name="student_set")
+    tags = models.ManyToManyField(SkillTag, related_name="student_set")
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)
@@ -127,12 +127,11 @@ class Student(models.Model):
         return self.user.first_name
 
     def get_skills(self):
-        skillsQuery = list(self.languages.values('name'))
+        skillsQuery = list(self.tags.values('name'))
         return [skill.get('name') for skill in skillsQuery]
     
     def get_skills_csv(self):
-        skills = self.get_skills()
-        return ", ".join(skills)
+        return ", ".join(self.get_skills())
 
     def __str__(self):              #Python 3
         return self.user.email

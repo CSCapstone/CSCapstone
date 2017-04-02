@@ -1,7 +1,9 @@
 """CSCapstone Admin
 
-Created by Harris Christiansen on 9/18/16.
+File created by Harris Christiansen on September 18, 2016.
 """
 from django.contrib import admin
 
-# Register your models here.
+from . import models
+
+admin.site.register(models.SkillTag)

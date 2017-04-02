@@ -20,9 +20,8 @@ def getProjects(request):
 	if request.user.is_engineer: # Restrict to only engineer's company's projects
 		projects_list = request.user.engineer.company.project_set.all()
 	elif request.user.is_student: # Recommend projects if Student		
-		print request.user.student.languages.all()			
-		for lang in request.user.student.languages.all():			
-			project_recomm = itertools.chain(watson.filter(models.Project, lang.name),project_recomm)
+		for tag in request.user.student.tags.all():			
+			project_recomm = itertools.chain(watson.filter(models.Project, tag.name),project_recomm)
 		project_recomm = set(project_recomm)		
 	return render(request, 'projects.html', {'projects': projects_list, 'project_recommended': project_recomm, 'Recommendation':True})
 
@@ -50,6 +49,7 @@ def editProject(request, id=-1):
 
 	form = forms.ProjectForm(request.POST or None, instance=project) # Validate and update project
 	if request.method == 'POST':
+		print(request.POST['tags'])
 		if form.is_valid():
 			if (not project.company and request.user.is_engineer):
 				project.company = request.user.engineer.company

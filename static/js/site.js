@@ -1,6 +1,6 @@
 /*
 	@ Harris Christiansen (Harris@HarrisChristiansen.com)
-	2016-09-18
+	File Created: September 18, 2016
 	Project: CSCapstone Marketplace
 */
 
@@ -11,5 +11,10 @@ $(document).ready(function() {
 
 	$(".datepicker").datepicker({
 		dateFormat: 'yy-mm-dd',
+	});
+
+	$(".tagSelect").select2({
+		tags: true,
+		tokenSeparators: [',', ' ']
 	});
 });
