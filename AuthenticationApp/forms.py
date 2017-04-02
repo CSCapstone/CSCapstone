@@ -87,7 +87,17 @@ class UpdateStudent(forms.ModelForm):
     """
     class Meta:
         model = Student        
-        fields = ('university', 'languages')   
+        fields = ('university', 'tags')
+
+    def __init__(self, *args, **kwargs):
+        super(UpdateStudent, self).__init__(*args, **kwargs)
+        self.fields['tags'].widget.attrs.update({
+            'class': 'tagSelect',
+            'style': 'width: 100%;',
+            'data-bvalidator': 'required',
+            'data-bvalidator-msg': 'Please select at least 1 tag.'
+        })
+
 
 class UpdateTeacher(forms.ModelForm):
     """A form for updating users. Includes all the fields on
@@ -96,7 +106,7 @@ class UpdateTeacher(forms.ModelForm):
     """
     class Meta:
         model = Teacher        
-        fields = ('university',) 
+        fields = ('university',)
 
 class UpdateEngineer(forms.ModelForm):
     """A form for updating users. Includes all the fields on

@@ -5,7 +5,7 @@ File created by Harris Christiansen on Feb 4, 2017.
 
 from django import forms
 
-from .models import Project, ProgrammingLanguage
+from .models import Project
 
 class ProjectForm(forms.ModelForm):
 	name = forms.CharField(label="Project Name", min_length=2)
@@ -13,7 +13,7 @@ class ProjectForm(forms.ModelForm):
 
 	class Meta:
 		model = Project
-		fields = ('name', 'description', 'languages')
+		fields = ('name', 'description', 'tags')
 
 	def __init__(self, *args, **kwargs):
 		super(ProjectForm, self).__init__(*args, **kwargs)
@@ -29,8 +29,15 @@ class ProjectForm(forms.ModelForm):
 			'data-bvalidator': 'required',
 			'data-bvalidator-msg': 'Project Description Required'
 		})
-		self.fields['languages'].widget.attrs.update({
-			'class': 'form-control',
+		self.fields['tags'].widget.attrs.update({
+			'class': 'tagSelect',
+			'style': 'width: 100%;',
 			'data-bvalidator': 'required',
-			'data-bvalidator-msg': 'Please select at least 1 programming language.'
+			'data-bvalidator-msg': 'Please select at least 1 tag.'
 		})
+
+	def clean_tags(self):
+		print(" !!!!! HERE !!!!! ")
+		tags = self.cleaned_data.get("tags")
+		print tags
+		return tags
