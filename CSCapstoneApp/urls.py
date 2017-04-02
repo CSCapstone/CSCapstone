@@ -9,4 +9,5 @@ from . import views
 
 urlpatterns = [
     url(r'^$', views.getIndex, name='home'),
+    url(r'^about$', views.getAbout, name='about'),
 ]
