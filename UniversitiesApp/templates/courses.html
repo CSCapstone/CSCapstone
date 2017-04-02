@@ -4,26 +4,36 @@
 
     <!-- Content -->
     <div class="container" role="main">
+        <h2>My Courses
+            {% if user.is_teacher or user.is_admin %}
+            <a href="{% url 'course-create' %}" type="button" class="btn btn-primary pull-right">Create Course</a>
+            {% endif %}
+        </h2>
+        
+        {% if courses %}
 		<div class="table-responsive">
 			<table class="table table-striped sortable">
 				<thead>
 					<tr>
-                        <th></th>
-						<th>University</th>
+						<th>Course</th>
 						<th>Description</th>
 					</tr>
 				</thead>
 				<tbody>
-                    {% for university in universities %}
+                    {% for course in courses %}
                     <tr>
-                        <td><a href="{% url 'university' slug=university.slug %}"><img src="/{{ university.photo }}" alt="University Image" width=50/></a></td>
-                        <td><a href="{% url 'university' slug=university.slug %}">{{ university.name }}</a></td>
-                        <td>{{ university.description }}</td>
+                        <td><a href="{% url 'course' slug=course.slug %}">{{ course.name }}</a></td>
+                        <td>{{ course.description }}</td>
                     </tr>
                     {% endfor %}
 				</tbody>
 			</table>
 		</div>
+        {% elif user.is_student %}
+        <h4>You have not been enrolled in any courses.</h4>
+        {% elif user.is_teacher %}
+        <h4>You have not created any courses.</h4>
+        {% endif %}
     </div>
 
 {% endblock %}
