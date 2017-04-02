@@ -25,10 +25,10 @@
 			{% if group.project %}
 			<h3><a href="/project?name={{ group.project.name }}">{{ group.project }}</a></h3>
 			{% else %}
-			<h3>None</h3>
+			<a href="/group/suggest?name={{ group.name }}" class="btn btn-default">Suggest projects!</a>
 			{% endif %}
             <br>
-            <h4>Group Skills: {{ group.aggregate_skills }}</h4>
+            <h4>Group Skills: {{ group.displayGroupSkills }}</h4>
 		</div>
 	</div>
 	<br>

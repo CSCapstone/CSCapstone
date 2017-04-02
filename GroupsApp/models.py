@@ -13,6 +13,7 @@ class Group(models.Model):
     members = models.ManyToManyField(MyUser, related_name="members")
     requests = models.ManyToManyField(MyUser, related_name="requests")
     project = models.OneToOneField(Project, on_delete=models.CASCADE, default="", primary_key=False, null=True)
+    group_skills = models.TextField(null=True)
 
     def __str__(self):
     	return self.name
@@ -26,8 +27,13 @@ class Group(models.Model):
                         allSkills[skill] += 1
                     else:
                         allSkills[skill] = 1
-            
-        return ", ".join(allSkills.keys())
+        # return ", ".join(allSkills.keys())
+        self.group_skills = ", ".join(allSkills.keys())
+
+    def displayGroupSkills(self):
+        #This functions gives us room for improvement in the future
+        self.aggregate_skills()  
+        return self.group_skills
 	
 class Comment(models.Model):
 	group = models.ForeignKey(Group, on_delete=models.CASCADE)

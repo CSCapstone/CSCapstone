@@ -9,6 +9,9 @@ from CSCapstone.helpers import redirect_with_param
 from . import models
 from . import forms
 
+from watson import search as watson
+import itertools
+
 @login_required
 def getGroups(request):
     groups_list = models.Group.objects.all()
@@ -40,6 +43,7 @@ def getGroupForm(request):
 			if models.Group.objects.filter(name__exact=form.cleaned_data['name']).exists():
 				return render(request, 'groupform.html', {'error' : 'Error: That Group name already exists!'})
 			new_group = models.Group(name=form.cleaned_data['name'], description=form.cleaned_data['description'])
+			print new_group.name, new_group.description
 			new_group.save()
 			new_group.members.add(request.user)
 			new_group.save()
@@ -48,6 +52,20 @@ def getGroupForm(request):
 
 			return redirect_with_param(request, "group", new_group.name, 'Success! Created group: '+new_group.name)
 	return render(request, 'groupform.html')
+
+def suggestProject(request):
+	in_name = request.GET.get('name', 'None')
+	in_group = models.Group.objects.get(name__exact=in_name)
+	#Updating group agg_skills
+	in_group.aggregate_skills()
+	project_recomm = models.Project.objects.none()
+	for lang in in_group.group_skills.split(", "):			
+		project_recomm = itertools.chain(watson.filter(models.Project, lang),project_recomm)
+	
+	project_recomm = set(project_recomm)
+	projects_list = models.Project.objects.all()
+	return render(request, 'project_suggestion.html', {'projects': projects_list, 'project_recommended': project_recomm, 'Recommendation':True})
+
 
 @login_required
 def getRequests(request):
