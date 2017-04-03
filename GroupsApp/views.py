@@ -55,11 +55,9 @@ def getGroupForm(request):
 
 def suggestProject(request):
 	in_name = request.GET.get('name', 'None')
-	in_group = models.Group.objects.get(name__exact=in_name)
-	#Updating group agg_skills
-	in_group.aggregate_skills()
+	in_group = models.Group.objects.get(name__exact=in_name)	
 	project_recomm = models.Project.objects.none()
-	for lang in in_group.group_skills.split(", "):			
+	for lang in in_group.aggregate_skills().split(", "):			
 		project_recomm = itertools.chain(watson.filter(models.Project, lang),project_recomm)
 	
 	project_recomm = set(project_recomm)
