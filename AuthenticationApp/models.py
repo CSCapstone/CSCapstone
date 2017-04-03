@@ -10,9 +10,8 @@ from django.db.models.signals import post_save
 from django.core.exceptions import ObjectDoesNotExist
 
 from CompaniesApp.models import Company
-from UniversitiesApp.models import University, Course
+#from UniversitiesApp.models import University, Course
 from CSCapstoneApp.models import SkillTag
-
 
 # Create your models here.
 class MyUserManager(BaseUserManager):
@@ -114,9 +113,9 @@ class Student(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    university = models.ForeignKey(University, related_name='student_set',
+    university = models.ForeignKey('UniversitiesApp.University', related_name='student_set',
         null=True, on_delete=models.SET_NULL)
-    courses = models.ManyToManyField(Course, related_name='student_set', blank=True)
+    courses = models.ManyToManyField('UniversitiesApp.Course', related_name='student_set', blank=True)
 
     tags = models.ManyToManyField(SkillTag, related_name="student_set")
 
@@ -155,9 +154,9 @@ class Teacher(models.Model):
         on_delete=models.CASCADE,
         primary_key=True)
 
-    university = models.ForeignKey(University, related_name='teacher_set',
+    university = models.ForeignKey('UniversitiesApp.University', related_name='teacher_set',
         null=True, on_delete=models.SET_NULL)
-    courses = models.ManyToManyField(Course, related_name='teacher_set', blank=True)
+    courses = models.ManyToManyField('UniversitiesApp.Course', related_name='teacher_set', blank=True)
 
     def get_full_name(self):        
         return "%s %s" %(self.user.first_name, self.user.last_name)

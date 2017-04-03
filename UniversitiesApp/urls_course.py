@@ -15,7 +15,7 @@ urlpatterns = [
 	url(r'^([0-9]+)$', views.getCourse, name='course'),
 	url(r'^([0-9]+)/edit$', views.editCourses, name='course-edit'),
     url(r'^([0-9]+)/delete$', views.deleteCourse, name='course-delete'),
-    url(r'^([0-9]+)/addcoursemember$', views.addCourseMember, name='course-addmember'),
+    url(r'^([0-9]+)/addcoursemember$', views.addCourseMember, name='course-addcoursemember'),
     url(r'^([0-9]+)/add$', views.addMemberSuccess, name='course-add'),
 
 	# url(r'^(?P<slug>[-\w\d]+)/course$', views.getCourses, name="courses"),

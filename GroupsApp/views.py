@@ -9,6 +9,8 @@ from CSCapstone.helpers import redirect_with_param
 from . import models
 from . import forms
 
+from ProjectsApp.models import Project
+
 from watson import search as watson
 import itertools
 
@@ -53,6 +55,7 @@ def getGroupForm(request):
 			return redirect_with_param(request, "group", new_group.name, 'Success! Created group: '+new_group.name)
 	return render(request, 'groupform.html')
 
+@login_required
 def suggestProject(request):
 	in_name = request.GET.get('name', 'None')
 	in_group = models.Group.objects.get(name__exact=in_name)	
@@ -64,6 +67,26 @@ def suggestProject(request):
 	projects_list = models.Project.objects.all()
 	return render(request, 'project_suggestion.html', {'projects': projects_list, 'project_recommended': project_recomm, 'Recommendation':True})
 
+@login_required
+def addGroupProject(request, id):
+    project = Project.objects.get(id=id)
+    if request.method == 'POST':
+        form = forms.GroupProjectForm(request.POST)
+        if form.is_valid():
+            group = models.Group.objects.filter(name__exact=form.cleaned_data['Group']).first()
+            group.project = project
+            group.save()
+            is_member = group.members.filter(email__exact=request.user.email)
+            comments = group.comment_set.all()
+            num_requests = group.requests.all().count()
+            context = {
+                'group' : group,
+                'userIsMember' : is_member,
+                'numRequests' : num_requests,
+                'comments' : comments,
+            }
+            return render(request, 'group.html', context)
+    return
 
 @login_required
 def getRequests(request):

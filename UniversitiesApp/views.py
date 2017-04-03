@@ -7,6 +7,7 @@ from django.contrib.auth.decorators import login_required
 from django.contrib import messages
 from django.shortcuts import render, redirect
 from django.urls import reverse
+from CSCapstone.helpers import redirect_with_param
 
 from . import forms
 from . import models
@@ -184,7 +185,7 @@ def unjoinCourse(request, id):
     course = models.Course.objects.get(id=id)
     courses = None
     if (request.user.is_student):
-        request.user.is_student.courses.remove(course)
+        request.user.student.courses.remove(course)
         courses = request.user.student.courses.all()
     elif (request.user.is_teacher):
         request.user.teacher.courses.remove(course)
@@ -214,7 +215,7 @@ def addMemberSuccess(request, id):
     if request.method == 'POST':
         form = forms.CourseMemberForm(request.POST)
         if form.is_valid():
-            in_user = models.Student.objects.filter(email__exact=form.cleaned_data['email'].first())
+            in_user = models.MyUser.objects.filter(email__exact=form.cleaned_data['email']).first()
             if not in_user:
                 context = {
                     'course' : course,
@@ -226,7 +227,12 @@ def addMemberSuccess(request, id):
             elif (in_user.is_teacher):
                 in_user.teacher.courses.add(course)
             request.user.save()
-            return render(request, 'addcoursemember.html', { 'course' : course, })
+            alert = 'Success! Added ' + in_user.get_full_name() + ' to course ' + course.tag
+            messages.success(request, alert)
+            context = {
+                'course' : course,
+            }
+            return render(request, 'addcoursemember.html', context)
         else:
             form = forms.CourseMemberForm()
         return render(request, 'addcoursemember.html')

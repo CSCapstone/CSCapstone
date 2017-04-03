@@ -21,14 +21,16 @@
 		<table class="table table-striped sortable">
 			<thead>
 				<tr>
-					<th>Recommended Project</th>
-					<th>Company</th>
+					<th width=30%>Recommended Project</th>
+                    <th width=45%>Skills</th>
+					<th width=25%>Company</th>
 				</tr>
 			</thead>
 			<tbody>
 				{% for project in project_recommended %}
 				<tr>
 					<td><a href="{% url 'project' project.id %}">{{ project.name }}</a></td>
+                    <td>{{ project.getSkillsList }}</td>
 					<td>{{ project.company.name }}</td>
 				</tr>
 				{% endfor %}
@@ -39,7 +41,7 @@
 		<table class="table table-striped sortable">
 			<thead>
 				<tr>
-					<th>Project Name</th>
+					<th width=75%>Project Name</th>
 					<th>Company</th>
 				</tr>
 			</thead>

@@ -8,9 +8,10 @@
 			<h3>{{ course.name }}</h3>
 			<p>{{ course.description }}</p>
             {% if userIsMember %}
-            <a href="{% url 'course-unjoin' course.id %}" class="btn btn-default">Unjoin this Course</a>
-            <a href="{% url 'course-delete' course.id %}" class="btn btn-default">Delete this Course</a>
-                {% if user.is_teacher %}
+                {% if user.is_student %}
+                <a href="{% url 'course-unjoin' course.id %}" class="btn btn-default">Unjoin this Course</a>
+                {% elif user.is_teacher %}
+                <a href="{% url 'course-delete' course.id %}" class="btn btn-default">Delete this Course</a>
                 <a href="{% url 'course-addcoursemember' course.id %}" class="btn btn-default">Add a student</a>
                 {% endif %}
             {% else %}

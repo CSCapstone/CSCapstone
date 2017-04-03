@@ -5,6 +5,7 @@ Created by Jacob Dunbar on 11/5/2016.
 """
 from django.db import models
 from django.utils.text import slugify
+from AuthenticationApp.models import MyUser
 
 # Create your models here.
 class University(models.Model):
@@ -39,30 +40,6 @@ class Course(models.Model):
 	website = models.CharField(max_length=300, default="")
 	university = models.ForeignKey(University, related_name='course_set', 
 		on_delete=models.CASCADE)
-    
-
-	#slug = models.SlugField(unique=True)
 
 	def __str__(self):
-		return self.name	
-
-	# def save(self, *args, **kwargs):			
-	# 	if not self.id:
-	# 		# Newly created object, so set slug            
-	# 		original = slugify('%s-%s' % (self.university.name, self.name))	    	
-	#     	#Checking if slug is unique
-	#     	if Course.objects.filter(slug=original).exists():	 
-	#     		in_course = Course.objects.get(slug=original)
-	#     		#Make new slug by combining name and id of previous instance
-	#         	self.slug = slugify('%s-%d' % (original, in_course.id))
-	#         else:
-	#         	self.slug = original
- #    	super(Course, self).save(*args, **kwargs)		
-
-        
-
-
-
-
-
-
+		return self.name			

@@ -21,4 +21,5 @@ urlpatterns = [
 	url(r'^group/addcomment$', views.addComment, name='group_comment'),
 	url(r'^group/deletecomment$', views.deleteComment, name='group_comment_delete'),
     url(r'^group/addmembersuccess$', views.addMemberSuccess, name='add_member_success'),
+    url(r'^group/addProject/([0-9]+)$', views.addGroupProject, name='group-addproject')
 ]

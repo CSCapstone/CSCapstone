@@ -7,8 +7,12 @@
 		<div class="jumbotron">
 			<h2>{{ project.name }}</h2>
 			<p>{{ project.description }}</p>
-			<p><b>Languages:</b> {{ project.languages.all|join:", " }}</p>
+			<p><b>Skills Used:</b> {{ project.tags.all|join:", " }}</p>
+            {% if user.is_student %}
+            <a href="{% url 'project-choosegroup' project.id %}" type="button" class="btn btn-primary">Choose Project</a>
+            {% elif user.is_engineer %}
 			<a href="{% url 'project-edit' project.id %}" type="button" class="btn btn-primary">Edit Project</a>
+            {% endif %}
 		</div>
 	</div>
 
