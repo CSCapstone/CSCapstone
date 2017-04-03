@@ -170,7 +170,6 @@ def editCourses(request, id=-1):
     return render(request, 'courseform.html', { 'course':course, 'form':form })  
 
 @login_required
-<<<<<<< HEAD
 def joinCourse(request, id):
     course = models.Course.objects.get(id=id)
     if (request.user.is_student):
@@ -237,14 +236,6 @@ def addMemberSuccess(request, id):
             form = forms.CourseMemberForm()
         return render(request, 'addcoursemember.html')
     return render(request, 'accessdenied.html')
-=======
-def joinCourse(request, id=''):
-    pass
-
-@login_required
-def unjoinCourse(request, id=''):
-    pass
->>>>>>> 35f09a11b32d6bf7c1e4b6dd7389febc30a1a9cf
 
 # @login_required
 # def getCourse(request, slug=''):	  
