@@ -27,13 +27,7 @@ class Group(models.Model):
                         allSkills[skill] += 1
                     else:
                         allSkills[skill] = 1
-        # return ", ".join(allSkills.keys())
-        self.group_skills = ", ".join(allSkills.keys())
-
-    def displayGroupSkills(self):
-        #This functions gives us room for improvement in the future
-        self.aggregate_skills()  
-        return self.group_skills
+        return ", ".join(allSkills.keys())
 	
 class Comment(models.Model):
 	group = models.ForeignKey(Group, on_delete=models.CASCADE)
