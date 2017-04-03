@@ -11,7 +11,7 @@ from django.contrib import admin
 urlpatterns = [
 	url(r'^admin/', admin.site.urls),
 	url(r'^', include('AuthenticationApp.urls')),
-	url(r"^search/", include("watson.urls", namespace="watson")),	
+	url(r"^search/", include("watson.urls", namespace="watson"), {'template_name': 'search_results.html'}),	
 	url(r'^university/', include('UniversitiesApp.urls_uni')),
 	url(r'^course/', include('UniversitiesApp.urls_course')),
 	url(r'^', include('CSCapstoneApp.urls')),
