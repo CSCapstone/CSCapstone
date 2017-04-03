@@ -28,8 +28,7 @@ def getProjects(request):
 @login_required
 def searchProject(request):
 	query = request.GET.get('term')	
-	if request.user.is_engineer: # Restrict to only engineer's company's projects
-		#queryset = YourModel.objects.filter(title="foo")
+	if request.user.is_engineer: # Restrict to only engineer's company's projects		
 		projects_list = in_university = watson.filter(models.Project.objects.filter(company=request.user.engineer.company), query)		
 	else:
 		projects_list = in_university = watson.filter(models.Project, query)
@@ -42,6 +41,7 @@ def getProject(request, id):
 	return render(request, 'project.html', { 'project': project })
 
 @login_required
+@watson.update_index()
 def editProject(request, id=-1):
 	if (id == -1): # Create New Project
 		project = models.Project(name='')

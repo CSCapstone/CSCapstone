@@ -1,0 +1,50 @@
+{% extends "body.html" %}
+
+{% block content %}
+	
+<!-- Content -->
+<div class="container" role="main">
+	<h1>Projects</h1>
+	<form id="searchform" method="get" action="{% url 'project-search'%}" class="panel-body validate" accept-charset="utf-8">	
+			<button class="searchbutton" type="submit">
+			<i class="fa fa-search"></i>
+			</button>
+		<input class="searchfield" id="searchbox" name="term" type="text" placeholder="Search">
+	</form>	
+	<div class="table-responsive">		
+		<table class="table table-striped sortable">
+			<thead>
+				<tr>
+					<th>Recommended Project</th>
+					<th>Company</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for project in project_recommended %}
+				<tr>
+					<td><a href="{% url 'project' project.id %}">{{ project.name }}</a></td>
+					<td>{{ project.company.name }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>		
+		<table class="table table-striped sortable">
+			<thead>
+				<tr>
+					<th>Project Name</th>
+					<th>Company</th>
+				</tr>
+			</thead>
+			<tbody>
+				{% for project in projects %}
+				<tr>
+					<td><a href="{% url 'project' project.id %}">{{ project.name }}</a></td>
+					<td>{{ project.company.name }}</td>
+				</tr>
+				{% endfor %}
+			</tbody>
+		</table>
+	</div>
+</div>
+
+{% endblock %}
