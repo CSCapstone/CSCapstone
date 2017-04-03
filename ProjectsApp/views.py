@@ -41,6 +41,7 @@ def getProject(request, id):
 	return render(request, 'project.html', { 'project': project })
 
 @login_required
+@watson.update_index()
 def editProject(request, id=-1):
 	if (id == -1): # Create New Project
 		project = models.Project(name='')

@@ -36,14 +36,14 @@ def getGroup(request):
 	return render(request, 'group.html', context)
 
 @login_required
+@watson.update_index()
 def getGroupForm(request):
 	if request.method == 'POST':
 		form = forms.GroupForm(request.POST)
 		if form.is_valid():
 			if models.Group.objects.filter(name__exact=form.cleaned_data['name']).exists():
 				return render(request, 'groupform.html', {'error' : 'Error: That Group name already exists!'})
-			new_group = models.Group(name=form.cleaned_data['name'], description=form.cleaned_data['description'])
-			print new_group.name, new_group.description
+			new_group = models.Group(name=form.cleaned_data['name'], description=form.cleaned_data['description'])			
 			new_group.save()
 			new_group.members.add(request.user)
 			new_group.save()
