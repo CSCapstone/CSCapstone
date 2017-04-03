@@ -157,20 +157,20 @@ def editCourses(request, id=None):
     form = forms.CourseForm(data=request.POST or None)
     if request.method == 'POST':
         if form.is_valid():
-            course.university = request.user.teacher.university
+            if request.user.is_teacher:
+                course.university = request.user.teacher.university
             course.save()
             messages.success(request, 'Success! Saved course: '+course.name)
-            return render (request, 'course', { 'course':course, 'form':form })
-            #return redirect(reverse('course',kwargs={'id':course.id}))
+            return redirect('course', course.id)
 
     return render(request, 'courseform.html', { 'course':course, 'form':form })  
 
 @login_required
-def joinCourse(request, slug=''):
+def joinCourse(request, id=''):
     pass
 
 @login_required
-def unjoinCourse(request, slug=''):
+def unjoinCourse(request, id=''):
     pass
 
 # @login_required

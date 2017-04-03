@@ -37,8 +37,7 @@ class Course(models.Model):
 	name = models.CharField(max_length=50)
 	description = models.CharField(max_length=300)
 	website = models.CharField(max_length=300, default="")
-	university = models.ForeignKey(University, related_name='course_set', 
-		on_delete=models.CASCADE)
+	university = models.ForeignKey(University, related_name='course_set', on_delete=models.CASCADE, null=True)
     
 
 	#slug = models.SlugField(unique=True)

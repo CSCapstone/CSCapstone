@@ -10,11 +10,11 @@ from . import views
 urlpatterns = [
     url(r'^$', views.getCourses, name='courses'),
 	url(r'^create$', views.editCourses, name='course-create'),
-	url(r'^id$', views.getCourse, name='course'),
-	url(r'^edit$', views.editCourses, name='course-edit'),
+	url(r'^([0-9]+)$', views.getCourse, name='course'),
+	url(r'^([0-9]+)/edit$', views.editCourses, name='course-edit'),
 
-    url(r'^join$', views.joinCourse, name='course-join'),
-    url(r'^unjoin$', views.unjoinCourse, name='course-unjoin'),
+    url(r'^([0-9]+)/join$', views.joinCourse, name='course-join'),
+    url(r'^([0-9]+)/unjoin$', views.unjoinCourse, name='course-unjoin'),
 
 	# url(r'^(?P<slug>[-\w\d]+)/course$', views.getCourses, name="courses"),
 	# url(r'^(?P<slug>[-\w\d]+)/course/create$', views.createCourse, name="course-create"),
