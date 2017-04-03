@@ -12,7 +12,7 @@ class Group(models.Model):
     description = models.CharField(max_length=300)
     members = models.ManyToManyField(MyUser, related_name="members")
     requests = models.ManyToManyField(MyUser, related_name="requests")
-    project = models.OneToOneField(Project, on_delete=models.CASCADE, default="", primary_key=False, null=True)
+    project = models.OneToOneField(Project, on_delete=models.CASCADE, default="", primary_key=False, null=True)    
 
     def __str__(self):
     	return self.name
@@ -26,7 +26,6 @@ class Group(models.Model):
                         allSkills[skill] += 1
                     else:
                         allSkills[skill] = 1
-            
         return ", ".join(allSkills.keys())
 	
 class Comment(models.Model):
