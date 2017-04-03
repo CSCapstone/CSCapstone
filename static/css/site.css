@@ -18,6 +18,13 @@ body {
 	color: blue !important;
 }
 
+/* ------------------------ User Images ------------------------- */
+
+.user-image {
+	max-width: 150px;
+	max-height: 150px;
+}
+
 /* ------------------------ Tables ------------------------- */
 
 .table-clickable tbody tr:hover {
