@@ -1,0 +1,26 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+	<!-- Content -->
+	<div class="container" role="main">
+		<div class="jumbotron">
+			<h3 style="margin: 0px; padding: 0px;">{{ project.name }} - Choose this project for your group</h3>
+			<br>
+			<a href="{% url 'project' project.id %}" class="btn btn-default">Back to Project</a>
+		</div>
+		<div class="panel panel-default">
+			<form method="post" action="{% url 'group-addproject' project.id %}" class="panel-body validate">
+				{% csrf_token %}
+				<label for="email">Select a Group</label>
+                <select name="Group">
+                    {% for group in groups %}
+                    <option value="{{ group.name }}">{{ group.name }}</option>
+                    {% endfor %}
+                </select>
+				<input type="submit" value="Submit" class="btn btn-primary">
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}
