@@ -8,10 +8,10 @@
 			<h3 style="margin: 0px; padding: 0px;">Create New Course</h3>
 		</div>
 		<div class="panel panel-default">
-            {% if course %}
+            {% if course.id %}
 			<form method="post" enctype="multipart/form-data" action="{% url 'course-edit' course.id %}" class="panel-body validate">
             {% else %}
-            <form method="post" enctype="multipart/form-data" action="{% url 'course-edit' %}" class="panel-body validate">
+            <form method="post" enctype="multipart/form-data" action="{% url 'course-create' %}" class="panel-body validate">
             {% endif %}
                 {% csrf_token %}
 				<label for="tag">Tag (ex. CS490)</label>

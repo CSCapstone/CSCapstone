@@ -147,31 +147,89 @@ def getCourse(request, id):
     return render(request, 'course.html', context)
 
 @login_required
-def editCourses(request, id=None):
-    course = None
-    if id == None: # Create New Course
+def editCourses(request, id=-1):
+    if (id == -1): # Create New Course
         course = models.Course(name='')
     else: # Edit Existing Course
         course = models.Course.objects.get(id=id)
 
-    form = forms.CourseForm(data=request.POST or None)
+    form = forms.CourseForm(request.POST or None, instance=course)
     if request.method == 'POST':
         if form.is_valid():
             course.university = request.user.teacher.university
-            course.save()
+            #course.teacher_s.add(request.user)
+            form.save()
+            #if course == None:
+            request.user.teacher.courses.add(course)
+            request.user.teacher.save()
             messages.success(request, 'Success! Saved course: '+course.name)
-            return render (request, 'course', { 'course':course, 'form':form })
+            return render (request, 'course.html', { 'course':course, 'form':form, 'userIsMember':True })
             #return redirect(reverse('course',kwargs={'id':course.id}))
 
     return render(request, 'courseform.html', { 'course':course, 'form':form })  
 
 @login_required
-def joinCourse(request, slug=''):
-    pass
+def joinCourse(request, id):
+    course = models.Course.objects.get(id=id)
+    if (request.user.is_student):
+        request.user.student.courses.add(course)
+    elif (request.user.is_teacher):
+        request.user.teacher.courses.add(course)
+    request.user.save()
+    return render(request, 'course.html', { 'course':course, 'userIsMember':True })
 
 @login_required
-def unjoinCourse(request, slug=''):
-    pass
+def unjoinCourse(request, id):
+    course = models.Course.objects.get(id=id)
+    courses = None
+    if (request.user.is_student):
+        request.user.is_student.courses.remove(course)
+        courses = request.user.student.courses.all()
+    elif (request.user.is_teacher):
+        request.user.teacher.courses.remove(course)
+        courses = request.user.teacher.courses.all()
+    request.user.save()
+    return render(request, 'courses.html', { 'courses':courses})
+
+@login_required
+def deleteCourse(request, id):
+    course = models.Course.objects.get(id=id)
+    course.delete()
+    courses = None
+    if (request.user.is_student):
+        courses = request.user.student.courses.all()
+    elif (request.user.is_teacher):
+        courses = request.user.teacher.courses.all()
+    return render(request, 'courses.html', { 'courses':courses})
+
+@login_required
+def addCourseMember(request, id):
+    course = models.Course.objects.get(id=id)
+    return render(request, 'addcoursemember.html', { 'course' : course, })
+
+@login_required
+def addMemberSuccess(request, id):
+    course = models.Course.objects.get(id=id)
+    if request.method == 'POST':
+        form = forms.CourseMemberForm(request.POST)
+        if form.is_valid():
+            in_user = models.Student.objects.filter(email__exact=form.cleaned_data['email'].first())
+            if not in_user:
+                context = {
+                    'course' : course,
+                    'error' : 'Error, user does not exist!',
+                }
+                return render(request, 'addcoursemember.html', context)
+            if (in_user.is_student):
+                in_user.student.courses.add(course)
+            elif (in_user.is_teacher):
+                in_user.teacher.courses.add(course)
+            request.user.save()
+            return render(request, 'addcoursemember.html', { 'course' : course, })
+        else:
+            form = forms.CourseMemberForm()
+        return render(request, 'addcoursemember.html')
+    return render(request, 'accessdenied.html')
 
 # @login_required
 # def getCourse(request, slug=''):	  

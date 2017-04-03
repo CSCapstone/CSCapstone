@@ -20,10 +20,10 @@
 					</tr>
 				</thead>
 				<tbody>
-                    {% for course in courses %}
+                    {% for item in courses %}
                     <tr>
-                        <td><a href="{% url 'course' slug=course.slug %}">{{ course.name }}</a></td>
-                        <td>{{ course.description }}</td>
+                        <td><a href="{% url 'course' item.id %}">{{ item.name }}</a></td>
+                        <td>{{ item.description }}</td>
                     </tr>
                     {% endfor %}
 				</tbody>
