@@ -11,6 +11,8 @@ from CSCapstone.helpers import redirect_with_param
 from . import models
 from . import forms
 
+from watson import search as watson
+
 @login_required
 def getCompanies(request):
     companies_list = models.Company.objects.all()
@@ -29,6 +31,7 @@ def getCompany(request):
     }
     return render(request, 'company.html', context)
 
+@watson.update_index()
 def getCompanyForm(request):
     if request.method == 'GET':
         return render(request, 'companyform.html')
@@ -60,7 +63,7 @@ def joinCompany(request):
 
         return redirect_with_param(request, "company", in_company.name, 'Success! Joined company: '+in_company.name)
     return render(request, 'autherror.html')
-    
+
 def unjoinCompany(request):
     if request.user.is_authenticated():
         in_name = request.GET.get('name', 'None')

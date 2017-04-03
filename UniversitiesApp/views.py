@@ -55,6 +55,7 @@ def getUniversity(request, slug=''):
         print in_university
         return render(request, 'universities.html', context)
 
+@watson.update_index()
 @login_required
 def editUniversity(request, slug=''):
     if (slug == ''): # Create New University

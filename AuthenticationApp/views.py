@@ -12,6 +12,7 @@ from django.contrib import messages
 from .forms import LoginForm, RegisterForm, UpdateForm, UpdateStudent, UpdateTeacher, UpdateEngineer
 from .models import MyUser, Student, Teacher, Engineer
 
+from watson import search as watson
 
 # Auth Views
 
@@ -44,6 +45,7 @@ def auth_logout(request):
 	messages.success(request, 'Success, you are now logged out')
 	return redirect('home')
 
+@watson.update_index()
 def auth_register(request):
 	if request.user.is_authenticated():
 		return redirect("home")
@@ -81,6 +83,7 @@ def auth_register(request):
 	return render(request, 'auth_form.html', context)
 
 @login_required
+@watson.update_index()
 def update_profile(request):
 	form = UpdateForm(request.POST or None, instance=request.user)
 	if form.is_valid():
@@ -96,6 +99,7 @@ def update_profile(request):
 	return render(request, 'auth_form.html', context)
 
 @login_required
+@watson.update_index()
 def update_student(request):
 	print request.user.is_teacher
 	form = UpdateStudent(request.POST or None, instance=request.user.student)	
@@ -111,6 +115,7 @@ def update_student(request):
 	return render(request, 'auth_form.html', context)
 
 @login_required
+@watson.update_index()
 def update_teacher(request):
 	form = UpdateTeacher(request.POST or None, instance=request.user.teacher)
 	if form.is_valid():
@@ -125,6 +130,7 @@ def update_teacher(request):
 	return render(request, 'auth_form.html', context)
 
 @login_required
+@watson.update_index()
 def update_engineer(request):
 	form = UpdateEngineer(request.POST or None, instance=request.user.engineer)
 	if form.is_valid():
