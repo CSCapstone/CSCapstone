@@ -1,15 +1,15 @@
 {% extends "body.html" %}
 
 {% block content %}
-	
-<!-- Content -->
-<div class="container theme-showcase" role="main">
-	<div class="jumbotron">
-		<h1>Project: {{ project.name }}</h1>
-		<p>{{ project.description }}</p>
-		<p><b>Languages:</b> {{ project.tags.all|join:", " }}</p>
-		<a href="{% url 'project-edit' project.id %}" type="button" class="btn btn-primary">Edit Project</a>
+
+	<!-- Content -->
+	<div class="container theme-showcase" role="main">
+		<div class="jumbotron">
+			<h2>{{ project.name }}</h2>
+			<p>{{ project.description }}</p>
+			<p><b>Languages:</b> {{ project.languages.all|join:", " }}</p>
+			<a href="{% url 'project-edit' project.id %}" type="button" class="btn btn-primary">Edit Project</a>
+		</div>
 	</div>
-</div>
 
 {% endblock %}

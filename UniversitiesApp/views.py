@@ -57,7 +57,7 @@ def getUniversity(request, slug=''):
 
 @login_required
 def editUniversity(request, slug=''):
-    if (slug == ''): # Create New Project
+    if (slug == ''): # Create New University
         university = models.University(name='')
     else: # Edit Existing Project
         university = models.University.objects.get(slug=slug)
@@ -119,16 +119,51 @@ def unjoinUniversity(request, slug=''):
 
 
 @login_required
-def getCourses(request):    
-    pass
+def getCourses(request):
+    courses = None
+    if request.user.is_teacher:
+        courses = request.user.teacher.courses.all()
+    elif request.user.is_student:
+        courses = request.user.student.courses.all()
+    context = {
+        'courses' : courses,
+	}
+    return render(request, 'courses.html', context)
 
 @login_required
-def getCourse(request, slug=''):
-    pass
+def getCourse(request, id):
+    print "GETTING COURSE"
+    in_course = models.Course.objects.get(id=id)
+    is_member = False
+    if (request.user.is_student and in_course.student_set.filter(user=request.user.student).exists()):
+        is_member = True
+    elif (request.user.is_teacher and in_course.teacher_set.filter(user=request.user.teacher).exists()):
+        is_member = True
+    context = {
+		'university' : in_course.university,
+        'course' : in_course,
+		'userIsMember' : is_member,
+	}
+    return render(request, 'course.html', context)
 
 @login_required
-def editCourses(request, slug=''):
-    pass
+def editCourses(request, id=None):
+    course = None
+    if id == None: # Create New Course
+        course = models.Course(name='')
+    else: # Edit Existing Course
+        course = models.Course.objects.get(id=id)
+
+    form = forms.CourseForm(data=request.POST or None)
+    if request.method == 'POST':
+        if form.is_valid():
+            course.university = request.user.teacher.university
+            course.save()
+            messages.success(request, 'Success! Saved course: '+course.name)
+            return render (request, 'course', { 'course':course, 'form':form })
+            #return redirect(reverse('course',kwargs={'id':course.id}))
+
+    return render(request, 'courseform.html', { 'course':course, 'form':form })  
 
 @login_required
 def joinCourse(request, slug=''):
@@ -137,6 +172,7 @@ def joinCourse(request, slug=''):
 @login_required
 def unjoinCourse(request, slug=''):
     pass
+
 # @login_required
 # def getCourse(request, slug=''):	  
 # 	in_course = models.Course.objects.get(slug=slug)
