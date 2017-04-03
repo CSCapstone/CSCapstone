@@ -23,7 +23,7 @@
 		<div class="jumbotron">
 			<h2>Project</h2>
 			{% if group.project %}
-			<h3><a href="/project?name={{ group.project.name }}">{{ group.project }}</a></h3>
+			<h3><a href="{% url 'project' group.project.id %}">{{ group.project }}</a></h3>
 			{% else %}
 			<a href="/group/suggest?name={{ group.name }}" class="btn btn-default">Suggest projects!</a>
 			{% endif %}
