@@ -4,15 +4,18 @@
 	<!-- Content -->
     <div class="container theme-showcase" role="main">
 		<div class="jumbotron">
-            <img src="/{{ university.photo }}" alt="University Image" width=150/>
 			<h2>{{ course.tag }}</h2>
 			<h3>{{ course.name }}</h3>
 			<p>{{ course.description }}</p>
             {% if userIsMember %}
-            <a href="/university/course/unjoin?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Unjoin this Course</a>
-            <a href="/university/course/remove?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Delete this Course</a>
+                {% if user.is_student %}
+                <a href="{% url 'course-unjoin' course.id %}" class="btn btn-default">Unjoin this Course</a>
+                {% elif user.is_teacher %}
+                <a href="{% url 'course-delete' course.id %}" class="btn btn-default">Delete this Course</a>
+                <a href="{% url 'course-addcoursemember' course.id %}" class="btn btn-default">Add a student</a>
+                {% endif %}
             {% else %}
-            <a href="/university/course/join?name={{ university.name }}&course={{ course.tag }}" class="btn btn-default">Join this Course</a>
+            <a href="{% url 'course-join' course.id %}" class="btn btn-default">Join this Course</a>
             {% endif %}
 		</div>
     </div>

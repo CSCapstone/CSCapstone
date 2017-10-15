@@ -25,7 +25,8 @@
 					<li><a href="{% url 'universities' %}">Universities</a></li>
 					{% endif %}
 					{% if user.is_admin or user.is_student or user.is_teacher %}
-					<li><a href="{% url 'groups' %}">Groups</a></li>
+                    <li><a href="{% url 'groups' %}">Groups</a></li>
+                    <li><a href="{% url 'courses' %}">Courses</a></li>
 					{% endif %}
 					<li><a href="{% url 'projects' %}">Projects</a></li>
 				{% endif %}

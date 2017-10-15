@@ -1,0 +1,24 @@
+{% extends "body.html" %}
+
+{% block content %}
+
+	<!-- Content -->
+	<div class="container" role="main">
+		<div class="jumbotron">
+			<h3 style="margin: 0px; padding: 0px;">{{ course.tag }} - Add new course member</h3>
+			<br>
+			<a href="{% url 'course' course.id %}" class="btn btn-default">Back to Course</a>
+		</div>
+		<div class="panel panel-default">
+			<form method="post" action="{% url 'course-add' course.id %}" class="panel-body validate">
+				{% csrf_token %}
+				<label for="email">New Member's Email</label>
+				<h6 style="color:red">{{ error }}</h6>
+				<input type="text" name="email" id="email" placeholder="Email" class="form-control" data-bvalidator="required" data-bvalidator-msg="Email Required">
+				<br>
+				<input type="submit" value="Submit" class="btn btn-primary">
+			</form>
+		</div>
+	</div>
+	
+{% endblock %}

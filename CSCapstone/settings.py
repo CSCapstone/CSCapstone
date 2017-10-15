@@ -40,10 +40,10 @@ INSTALLED_APPS = [
     'watson',
     'CSCapstoneApp',
     'ProjectsApp',
-    'CompaniesApp',
-    'AuthenticationApp',
-    'GroupsApp',
 	'UniversitiesApp',
+    'AuthenticationApp',
+    'CompaniesApp',
+    'GroupsApp',
 ]
 
 MIDDLEWARE = [

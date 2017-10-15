@@ -9,21 +9,25 @@ from django.shortcuts import render, redirect
 
 from . import forms
 from . import models
+from GroupsApp.models import Group
 
 from watson import search as watson
 import itertools
 
 @login_required
 def getProjects(request):
-	projects_list = models.Project.objects.all()
-	project_recomm = models.Project.objects.none()
-	if request.user.is_engineer: # Restrict to only engineer's company's projects
-		projects_list = request.user.engineer.company.project_set.all()
-	elif request.user.is_student: # Recommend projects if Student		
-		for tag in request.user.student.tags.all():			
-			project_recomm = itertools.chain(watson.filter(models.Project, tag.name),project_recomm)
+    projects_list = models.Project.objects.all()
+    project_recomm = models.Project.objects.none()
+    if request.user.is_engineer: # Restrict to only engineer's company's projects
+        if request.user.engineer.company == None:
+            projects_list = None
+        else:
+            projects_list = request.user.engineer.company.project_set.all()
+    elif request.user.is_student: # Recommend projects if Student		
+		for lang in request.user.student.tags.all():			
+			project_recomm = itertools.chain(watson.filter(models.Project, lang.name),project_recomm)
 		project_recomm = set(project_recomm)		
-	return render(request, 'projects.html', {'projects': projects_list, 'project_recommended': project_recomm, 'Recommendation':True})
+    return render(request, 'projects.html', {'projects': projects_list, 'project_recommended': project_recomm, 'Recommendation':True})
 
 @login_required
 def searchProject(request):
@@ -59,3 +63,9 @@ def editProject(request, id=-1):
 			return redirect('project', project.id)
 
 	return render(request, 'projects-edit.html', { 'project':project, 'form':form })
+
+@login_required
+def chooseGroup(request, id):
+    project = models.Project.objects.get(id=id)
+    groups = Group.objects.filter(members=request.user)
+    return render(request, 'project-choose.html', { 'project' : project, 'groups' : groups, })
